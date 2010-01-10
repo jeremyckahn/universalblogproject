@@ -88,30 +88,6 @@ class UBP extends Controller {
 		$this->load->view("templateEnd");
 	}
 	
-	// Hands off control to UBP_DAL, returning only TRUE or FALSE.
-	function userIsValid()
-	{
-		if ($this->UBP_DAL->getUserDataArray($this->input->post("username", TRUE), $this->input->post("password", TRUE)))
-			return true;
-		else
-		{
-			$this->form_validation->set_message("userIsValid", "This is not a valid username/password combination.");
-			return false;
-		}
-	}
-	
-	// Hands off control to UBP_DAL, returning only TRUE or FALSE.
-	function canCreateUser()
-	{
-		if (!$this->UBP_DAL->userExists($this->input->post("username", TRUE)))
-			return TRUE;
-		else
-		{
-			$this->form_validation->set_message("canCreateUser", "Uh oh, this user already exists.  Please try a different username.");
-			return FALSE;
-		}
-	}
-	
 	function logout()
 	{
 		$this->session->unset_userdata('username');
@@ -127,25 +103,61 @@ class UBP extends Controller {
 	*	User management functions - END
 	****************************************/
 	
+	/***************************************
+	*	Post management functions - BEGIN
+	****************************************/
+	
 	function post()
 	{
+		$postSubmittedSuccessfully = FALSE;
+		
 		if ($this->session->userdata("username"))
 		{	
 			$this->form_validation->set_rules('title', 'title', 'required|max_length[' . $this->MAX_TITLE_LENGTH . ']');
 			$this->form_validation->set_rules('post', 'post', 'required|max_length[' . $this->MAX_POST_LENGTH . ']');
 			
-			if ($this->form_validation->run() == FALSE)
+			if ($this->form_validation->run())
 			{
-				
-			}
-			else
-			{
-				
+				$postSubmittedSuccessfully = $this->UBP_DAL->createPost($this->input->post("title", TRUE), $this->input->post("post", TRUE), $this->session->userdata("userID"));
 			}
 		}
 		
 		$this->load->view('templateBegin');
-		$this->load->view('postForm');
+		$this->load->view($postSubmittedSuccessfully ? 'postSubmitted' : 'postForm');
 		$this->load->view('templateEnd');	
 	}
+	
+	/***************************************
+	*	Post management functions - END
+	****************************************/
+	
+	/***************************************
+	*	Validation callbacks - BEGIN
+	****************************************/
+	
+	function userIsValid()
+	{
+		if ($this->UBP_DAL->getUserDataArray($this->input->post("username", TRUE), $this->input->post("password", TRUE)))
+			return true;
+		else
+		{
+			$this->form_validation->set_message("userIsValid", "This is not a valid username/password combination.");
+			return false;
+		}
+	}
+	
+	function canCreateUser()
+	{
+		if (!$this->UBP_DAL->userExists($this->input->post("username", TRUE)))
+			return TRUE;
+		else
+		{
+			$this->form_validation->set_message("canCreateUser", "Uh oh, this user already exists.  Please try a different username.");
+			return FALSE;
+		}
+	}
+	
+	/***************************************
+	*	Validation callbacks - END
+	****************************************/
 }?>
