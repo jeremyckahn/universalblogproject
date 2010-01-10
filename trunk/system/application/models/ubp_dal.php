@@ -30,9 +30,48 @@
 		return $this->db->affected_rows() ? TRUE : FALSE;
     }
     
-    function getBlogs($userID, $numberOfPosts) // ARRAY
+    function getPosts($userID, $requestSize, $startFrom) // ARRAY
     {
-    	
+    	if ($userID)
+		{	        
+			if ($startFrom == 0)
+			{        
+		        $query = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
+			   . ' LEFT JOIN '
+			   . ' (SELECT innerBlogs.blogID FROM blogs AS innerBlogs'
+			   . ' RIGHT JOIN blacklists ON innerBlogs.blogID = blacklists.blogID'
+			   . ' WHERE blacklists.userID = ' . $userID . ') AS blacklistedBlogs'
+			   . ' ON bigList.blogID = blacklistedBlogs.blogID'
+			   . ' WHERE blacklistedBlogs.blogID IS NULL'
+			   . ' AND bigList.isBlacklisted = 0'
+			   . ' ORDER BY bigList.blogID DESC LIMIT ' . ($requestSize + 1) . ')';
+			}
+			else
+			{
+			    $query = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
+			   . ' LEFT JOIN '
+			   . ' (SELECT innerBlogs.blogID FROM blogs AS innerBlogs'
+			   . ' RIGHT JOIN blacklists ON innerBlogs.blogID = blacklists.blogID'
+			   . ' WHERE blacklists.userID = ' . $userID . ') AS blacklistedBlogs'
+			   . ' ON bigList.blogID = blacklistedBlogs.blogID'
+			   . ' WHERE blacklistedBlogs.blogID IS NULL'
+			   . ' AND bigList.blogID < ' . $startFrom
+			   . ' AND bigList.isBlacklisted = 0'
+			   . ' ORDER BY bigList.blogID DESC LIMIT ' . ($requestSize + 1) . ')';
+			}
+		}
+		else
+		{
+			if ($startFrom == 0)
+				$query = "SELECT * FROM blogs WHERE isBlacklisted = 0 ORDER BY blogID DESC LIMIT " . ($requestSize + 1);	
+			else
+				$query = "SELECT * FROM blogs WHERE (blogID < " . $startFrom . ") AND isBlacklisted = 0 ORDER BY `blogID` DESC LIMIT ". ($requestSize + 1);
+		}
+		
+		$query = $this->db->query($query);
+		$results = $query->result_array();
+			
+		return $results ? $results : FALSE;
     }
     
     function getUserDataArray($username, $password) // ARRAY

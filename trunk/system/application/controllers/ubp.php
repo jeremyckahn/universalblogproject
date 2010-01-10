@@ -23,9 +23,18 @@ class UBP extends Controller {
 	
 	function index()
 	{
-		$this->load->view('templateBegin');
-		$this->load->view('blogView');
-		$this->load->view('templateEnd');
+		if($this->session->userdata("loggedIn"))
+		{
+			$postArray = $this->UBP_DAL->getPosts($this->session->userdata("userID"), 5, 0); // LAST TWO VARIABLES ARE STUB VALUES
+		}
+		else
+		{
+			$postArray = $this->UBP_DAL->getPosts(FALSE, 5, 0); // LAST TWO VARIABLES ARE STUB VALUES
+		}
+	
+		$this->load->view("templateBegin");
+		$this->load->view('blogView', Array("postArray" => $postArray));
+		$this->load->view("templateEnd");
 	}
 	
 	/***************************************
