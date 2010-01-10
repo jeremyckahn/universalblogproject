@@ -15,6 +15,7 @@
 		{
 			$sessionData = array(
 				'username' => $user["username"],
+				'userID'   => $user["userID"],
 				'loggedIn' => TRUE
 			);
 

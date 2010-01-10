@@ -10,10 +10,34 @@
         parent::Model();
     }
     
-    function getUserDataArray($username, $password)
+    function createUser($username, $password, $email) // BOOLEAN
+    {
+    	if ($this->userExists($username))
+    		return FALSE;
+    	
+    	$sql = "INSERT INTO users(username, password, email) VALUES(\"" . $username . "\",\"" . md5($password) . "\",\"" . $email . "\")";
+		$this->db->query($sql);
+		
+		return $this->db->affected_rows() ? TRUE : FALSE;
+    }
+    
+    function createPost($title, $post, $userID) // BOOLEAN
+    {
+    	// Construct the mySQL query.
+		$sql = "INSERT INTO blogs(title, post, userID) VALUES(\"". $this->sanitizeString($title) ."\", \"" . $this->sanitizeString($post) . "\"," . $userID .")";
+		$this->db->query($sql);
+		
+		return $this->db->affected_rows() ? TRUE : FALSE;
+    }
+    
+    function getBlogs($userID, $numberOfPosts) // ARRAY
+    {
+    	
+    }
+    
+    function getUserDataArray($username, $password) // ARRAY
     {    	
-    	$query = $this->db->query("SELECT DISTINCT * FROM users WHERE username = \"" . 
-		$username . "\" AND password = \"" . 
+    	$query = $this->db->query("SELECT DISTINCT * FROM users WHERE username = \"" . $username . "\" AND password = \"" . 
 		md5($password) . "\"");
 		
 		$results = $query->result_array();
@@ -21,7 +45,7 @@
 		return $results ? $results[0] : FALSE;
     }
     
-    function userExists($username)
+    function userExists($username) // BOOLEAN
     {
 		$query = $this->db->query("SELECT DISTINCT * FROM users WHERE username = \"" . $username . "\"");
 		
@@ -29,16 +53,8 @@
 		return $query->result_array() ? TRUE : FALSE;
     }
     
-    function createUser($username, $password, $email)
+    function sanitizeString($string) // STRING
     {
-    	if ($this->userExists($username))
-    		return FALSE;
-    	
-    	$sql = "INSERT INTO users(username, password, email) VALUES('" 
-		. $username . "','" . md5($password) . "','" . $email . "')";
-		$this->db->query($sql);
-		
-		return $this->db->affected_rows() ? TRUE : FALSE;
+    	return urlencode($string);
     }
-
 }?>
