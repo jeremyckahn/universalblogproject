@@ -5,17 +5,17 @@
     	<title></title>
     </head>
     <body>
-    <?= anchor("ubp/index", "home", "class=\"navLink\"") . "\n"; ?>
+    <?= "\t" . anchor("ubp/index", "home", "class=\"navLink\"") . "\n"; ?>
     <?php
     	if ($this->session->userdata("loggedIn"))
     	{
-    		echo anchor("ubp/post", "post") . "\n";
-    		echo anchor("ubp/logout", "log out") . "\n";
-    		echo "logged in as: " . $this->session->userdata("username") . "\n";
+    		echo "\t" . anchor("ubp/post", "post") . "\n    ";
+    		echo "\t" . anchor("ubp/logout", "log out") . "\n    ";
+    		echo "\t" . "logged in as: " . $this->session->userdata("username") . "\n";
     	}
     	else
     	{
-    		echo anchor("ubp/login", "log in") . "\n    ";
-    		echo anchor("ubp/signup", "sign up") . "\n";
+    		echo "\t" . anchor("ubp/login", "log in") . "\n    ";
+    		echo "\t" . anchor("ubp/signup", "sign up") . "\n";
     	} 
     ?>

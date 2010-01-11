@@ -12,6 +12,7 @@ class UBP extends Controller {
 		$this->MAX_TITLE_LENGTH = 150;
 		$this->MAX_POST_LENGTH = 5000;
 		$this->MAX_BLACKLIST_LIMIT = 20;
+		$this->MAX_DEFAULT_FEED_PAGE_SIZE = 5;
 		
 		$this->load->helper('url');
 		$this->load->helper(array('form', 'url'));
@@ -26,16 +27,14 @@ class UBP extends Controller {
 	{
 		if($this->session->userdata("loggedIn"))
 		{
-			$postArray = $this->UBP_DAL->getPosts($this->session->userdata("userID"), 5, 0); // LAST TWO VARIABLES ARE STUB VALUES
-			
 			if ($this->input->post("blacklistButton"))
-			{
 				$this->UBP_DAL->createBlacklist($this->session->userdata("userID"), $this->input->post("blacklistButton"), $this->MAX_BLACKLIST_LIMIT = 20);
-			}
+			
+			$postArray = $this->UBP_DAL->getPosts($this->session->userdata("userID"), $this->session->userdata("feedPageSize"), 0); // LAST VARIABLE IS STUB
 		}
 		else
 		{
-			$postArray = $this->UBP_DAL->getPosts(FALSE, 5, 0); // LAST TWO VARIABLES ARE STUB VALUES
+			$postArray = $this->UBP_DAL->getPosts(FALSE, $this->MAX_DEFAULT_FEED_PAGE_SIZE, 0); // LAST VARIABLE IS STUB
 		}
 	
 		$this->load->view("templateBegin");

@@ -14,9 +14,10 @@
     	if ($user)
 		{
 			$sessionData = array(
-				'username' => $user["username"],
-				'userID'   => $user["userID"],
-				'loggedIn' => TRUE
+				'username' 		=> $user["username"],
+				'userID'   		=> $user["userID"],
+				'feedPageSize'  => $user["feedPageSize"],
+				'loggedIn' 		=> TRUE
 			);
 
 			$this->session->set_userdata($sessionData);

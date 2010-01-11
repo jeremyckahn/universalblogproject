@@ -11,7 +11,9 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://localhost:8888/ubp2/"; // local dev URL
+
+//$config['base_url']	= "http://localhost:8888/ubp/"; // local dev URL - MAMP
+$config['base_url']	= "http://xps:3000/ubp/"; // local dev URL - PC
 
 /*
 |--------------------------------------------------------------------------
