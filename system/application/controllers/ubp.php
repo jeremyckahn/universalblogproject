@@ -118,8 +118,35 @@ class UBP extends Controller {
 	****************************************/
 	
 	/***************************************
-	*	Post management functions - BEGIN
+	*	Blog management functions - BEGIN
 	****************************************/
+	
+	// Not done yet.
+	function blogLoader()
+	{	
+		//echo ($this->input->post("userID"));
+	
+		if($this->session->userdata("loggedIn"))
+		{
+			if ($this->input->post("blacklistButton"))
+				$this->UBP_DAL->createBlacklist($this->session->userdata("userID"), $this->input->post("blacklistButton"), $this->MAX_BLACKLIST_LIMIT = 20);
+			
+			$postArray = $this->UBP_DAL->getPosts($this->session->userdata("userID"), $this->session->userdata("feedPageSize"), 0); // LAST VARIABLE IS STUB
+		}
+		else
+		{
+			$postArray = $this->UBP_DAL->getPosts(FALSE, $this->MAX_DEFAULT_FEED_PAGE_SIZE, 0); // LAST VARIABLE IS STUB
+		}
+		
+		if (isset($postArray)) 
+		{
+			foreach ($postArray as $post)
+			{
+				echo "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>";
+				echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>";
+			}
+		}
+	}
 	
 	function post()
 	{
@@ -142,7 +169,7 @@ class UBP extends Controller {
 	}
 	
 	/***************************************
-	*	Post management functions - END
+	*	Blog management functions - END
 	****************************************/
 	
 	/***************************************
