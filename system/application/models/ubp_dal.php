@@ -10,6 +10,32 @@
         parent::Model();
     }
     
+    function createBlacklist($userID, $postID, $blacklistLimit) // BOOLEAN
+    {
+    	// Creat the blacklist entry
+    	$sql = "INSERT INTO blacklists(userID, blogID) VALUES(" . $userID . ", " . $postID . ")";
+    	$this->db->query($sql);
+    	
+    	// Get and update the post's blacklistCount
+		$sql = "SELECT * FROM blogs WHERE blogs.blogID = " . $postID;
+		$query = $this->db->query($sql);
+		$postArray = $query->result_array();
+		$postArray = $postArray[0];
+		$blacklistCount = $postArray['blacklistCount'];
+		$blacklistCount += 1;
+		
+		// if the post has been blacklisted enough times, super-blacklist it so that nobody can see it.
+		if ($blacklistCount >= $blacklistLimit)
+		{
+			$sql = "UPDATE blogs SET blacklistCount = " . $blacklistCount . ", isBlacklisted = 1 WHERE blogs.blogID = " . $postID;
+		}
+		else
+			$sql = "UPDATE blogs SET blacklistCount = " . $blacklistCount . " WHERE blogs.blogID = " . $postID;
+			
+		$this->db->query($sql);
+		return $this->db->affected_rows() ? TRUE : FALSE;
+    }
+    
     function createUser($username, $password, $email) // BOOLEAN
     {
     	if ($this->userExists($username))
@@ -23,10 +49,8 @@
     
     function createPost($title, $post, $userID) // BOOLEAN
     {
-    	// Construct the mySQL query.
 		$sql = "INSERT INTO blogs(title, post, userID) VALUES(\"". $this->sanitizeString($title) ."\", \"" . $this->sanitizeString($post) . "\"," . $userID .")";
 		$this->db->query($sql);
-		
 		return $this->db->affected_rows() ? TRUE : FALSE;
     }
     
@@ -36,7 +60,7 @@
 		{	        
 			if ($startFrom == 0)
 			{        
-		        $query = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
+		        $sql = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
 			   . ' LEFT JOIN '
 			   . ' (SELECT innerBlogs.blogID FROM blogs AS innerBlogs'
 			   . ' RIGHT JOIN blacklists ON innerBlogs.blogID = blacklists.blogID'
@@ -48,7 +72,7 @@
 			}
 			else
 			{
-			    $query = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
+			    $sql = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
 			   . ' LEFT JOIN '
 			   . ' (SELECT innerBlogs.blogID FROM blogs AS innerBlogs'
 			   . ' RIGHT JOIN blacklists ON innerBlogs.blogID = blacklists.blogID'
@@ -63,14 +87,13 @@
 		else
 		{
 			if ($startFrom == 0)
-				$query = "SELECT * FROM blogs WHERE isBlacklisted = 0 ORDER BY blogID DESC LIMIT " . ($requestSize + 1);	
+				$sql = "SELECT * FROM blogs WHERE isBlacklisted = 0 ORDER BY blogID DESC LIMIT " . ($requestSize + 1);	
 			else
-				$query = "SELECT * FROM blogs WHERE (blogID < " . $startFrom . ") AND isBlacklisted = 0 ORDER BY `blogID` DESC LIMIT ". ($requestSize + 1);
+				$sql = "SELECT * FROM blogs WHERE (blogID < " . $startFrom . ") AND isBlacklisted = 0 ORDER BY `blogID` DESC LIMIT ". ($requestSize + 1);
 		}
 		
-		$query = $this->db->query($query);
+		$query = $this->db->query($sql);
 		$results = $query->result_array();
-			
 		return $results ? $results : FALSE;
     }
     
@@ -80,7 +103,6 @@
 		md5($password) . "\"");
 		
 		$results = $query->result_array();
-			
 		return $results ? $results[0] : FALSE;
     }
     
