@@ -1,10 +1,4 @@
 <?php class Ubp_dal extends Model {
-
-	var $username = "";
-	var $password = "";
-	var $email = "";
-	var $feedPageSize = "";
-
     function Ubp_dal()
     {
         parent::Model();
@@ -24,7 +18,7 @@
 		$blacklistCount = $postArray['blacklistCount'];
 		$blacklistCount += 1;
 		
-		// if the post has been blacklisted enough times, super-blacklist it so that nobody can see it.
+		// if the post has been blacklisted enough times, completely blacklist it so that nobody can see it.
 		if ($blacklistCount >= $blacklistLimit)
 		{
 			$sql = "UPDATE blogs SET blacklistCount = " . $blacklistCount . ", isBlacklisted = 1 WHERE blogs.blogID = " . $postID;
@@ -68,7 +62,7 @@
 			   . ' ON bigList.blogID = blacklistedBlogs.blogID'
 			   . ' WHERE blacklistedBlogs.blogID IS NULL'
 			   . ' AND bigList.isBlacklisted = 0'
-			   . ' ORDER BY bigList.blogID DESC LIMIT ' . ($requestSize + 1) . ')';
+			   . ' ORDER BY bigList.blogID DESC LIMIT ' . ($requestSize) . ')';
 			}
 			else
 			{
@@ -81,17 +75,16 @@
 			   . ' WHERE blacklistedBlogs.blogID IS NULL'
 			   . ' AND bigList.blogID < ' . $startFrom
 			   . ' AND bigList.isBlacklisted = 0'
-			   . ' ORDER BY bigList.blogID DESC LIMIT ' . ($requestSize + 1) . ')';
+			   . ' ORDER BY bigList.blogID DESC LIMIT ' . ($requestSize) . ')';
 			}
 		}
 		else
 		{
 			if ($startFrom == 0)
-				$sql = "SELECT * FROM blogs WHERE isBlacklisted = 0 ORDER BY blogID DESC LIMIT " . ($requestSize + 1);	
+				$sql = "SELECT * FROM blogs WHERE isBlacklisted = 0 ORDER BY blogID DESC LIMIT " . ($requestSize);	
 			else
-				$sql = "SELECT * FROM blogs WHERE (blogID < " . $startFrom . ") AND isBlacklisted = 0 ORDER BY `blogID` DESC LIMIT ". ($requestSize + 1);
+				$sql = "SELECT * FROM blogs WHERE (blogID < " . $startFrom . ") AND isBlacklisted = 0 ORDER BY `blogID` DESC LIMIT ". ($requestSize);
 		}
-		
 		$query = $this->db->query($sql);
 		$results = $query->result_array();
 		return $results ? $results : FALSE;
