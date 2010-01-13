@@ -28,9 +28,8 @@
 			return;	
 		}
 		
-		//var url = "scripts/php/feed/feedFormatter.php";
 		var url = "<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>";
-		var parameters = "requestSize=" + 5;
+		var parameters = "requestSize=" + <?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "\"5\"" ?>;
 		parameters += "&startFrom=" + 1;
 		parameters += "&userID=" + <?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "\"-1\"" ?>;
 		parameters += "&sid=" + Math.random();
