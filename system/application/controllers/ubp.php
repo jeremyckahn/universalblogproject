@@ -124,9 +124,37 @@ class UBP extends Controller {
 	// Not done yet.
 	function blogLoader()
 	{	
-		echo ($this->input->post("userID"));
+		//echo ($this->input->post("userID"));
+		$userID = $this->input->post("userID");
+		$requestSize = $this->input->post("requestSize");
+		$startFrom = $this->input->post("startFrom");
+		$blogList = "";
+		
+		// Get user-specific blogs
+		$postArray = $this->UBP_DAL->getPosts($userID, $requestSize, $startFrom);
+		
+		// Construct and echo out the formatted blog data.  If user is logged in, create a blacklist button
+		foreach($postArray as $post)
+		{
+			echo "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
+			echo "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
+			echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
+			
+			if ($userID != "0")
+				echo "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\">Blacklist this post</button>\n";
+			
+			echo "</div>\n";
+				
+			$blogList = $blogList . $post['blogID'] . "_";
+		}
+		
+		echo "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"></input>";
+		
+		// Construct blog list string
+		
 	
-		/*if($this->session->userdata("loggedIn"))
+		# This code really doesn't belong here.  I will find a home for it shortly.
+		/*if($userID != "-1")
 		{
 			if ($this->input->post("blacklistButton"))
 				$this->UBP_DAL->createBlacklist($this->session->userdata("userID"), $this->input->post("blacklistButton"), $this->MAX_BLACKLIST_LIMIT = 20);
@@ -136,16 +164,9 @@ class UBP extends Controller {
 		else
 		{
 			$postArray = $this->UBP_DAL->getPosts(FALSE, $this->MAX_DEFAULT_FEED_PAGE_SIZE, 0); // LAST VARIABLE IS STUB
-		}
-		
-		if (isset($postArray)) 
-		{
-			foreach ($postArray as $post)
-			{
-				echo "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>";
-				echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>";
-			}
 		}*/
+		
+		
 	}
 	
 	function post()

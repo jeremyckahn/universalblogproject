@@ -51,7 +51,7 @@
     function getPosts($userID, $requestSize, $startFrom) // ARRAY
     {
     	if ($userID)
-		{	        
+		{
 			if ($startFrom == 0)
 			{        
 		        $sql = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
