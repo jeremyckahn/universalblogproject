@@ -124,9 +124,9 @@ class UBP extends Controller {
 	// Not done yet.
 	function blogLoader()
 	{	
-		//echo ($this->input->post("userID"));
+		echo ($this->input->post("userID"));
 	
-		if($this->session->userdata("loggedIn"))
+		/*if($this->session->userdata("loggedIn"))
 		{
 			if ($this->input->post("blacklistButton"))
 				$this->UBP_DAL->createBlacklist($this->session->userdata("userID"), $this->input->post("blacklistButton"), $this->MAX_BLACKLIST_LIMIT = 20);
@@ -145,7 +145,7 @@ class UBP extends Controller {
 				echo "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>";
 				echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>";
 			}
-		}
+		}*/
 	}
 	
 	function post()

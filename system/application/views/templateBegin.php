@@ -3,6 +3,7 @@
     <head>
     	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     	<title></title>
+    	<script type="text/javascript" src="<?= base_url() . "js/ajaxHelper.js" ?>"></script>
     </head>
     <body>
     <?= anchor("ubp/index", "home") . "\n"; ?>
