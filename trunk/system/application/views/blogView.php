@@ -1,6 +1,6 @@
 	<?= form_open('ubp/index'); ?>
 
-<? if (isset($postArray)) { ?>
+<!--<? if (isset($postArray)) { ?>
 	<? foreach ($postArray as $post){ ?>
     <div id="postID_<?= $post['blogID'] ?>" class="postContainer">
 		<?= htmlentities(urldecode($post['title'])) . "\n" ?>
@@ -11,7 +11,11 @@
 	<? } ?>
     </div>
 	<? } ?>
-<? } ?>
+<? } ?>-->
+
+<div id="content" class="content">
+
+</div>
 
 <button type="button" name="loadButton" onclick="loadMorePosts()">Load more posts!</button>
 </form>
@@ -20,24 +24,32 @@
 	// Some experimental code I'm not done with.  Never you mind this.
 	
 	var blogXHR = getXmlHttpRequestObject();
+	var content = document.getElementById("content");
+	var blogArray = new Array();
+	
 	function loadMorePosts()
 	{	
 		if (blogXHR == null)
 		{
-			alert("Hmmm... either you are using a very old browser, or you have incredibly strict security settings.  Your browser won't let you load posts.");
+			alert("Uh oh!  Unable to access the server.");
 			return;	
 		}
 		
 		var url = "<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>";
 		var parameters = "requestSize=" + <?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "\"5\"" ?>;
-		parameters += "&startFrom=" + 1;
-		parameters += "&userID=" + <?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "\"-1\"" ?>;
+		parameters += "&startFrom=" + 0; // THIS NEEDS TO CHANGE
+		parameters += "&userID=" + <?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "\"0\"" ?>;
 		parameters += "&sid=" + Math.random();
 		
 		blogXHR.onreadystatechange = function(){
 			if (blogXHR.readyState == 4)
 			{
-				alert(blogXHR.responseText);
+				content.innerHTML = (blogXHR.responseText);
+				var blogList = document.getElementById("blogList");
+				
+				blogArray = blogList.value.split("_");
+				blogArray.pop();
+				content.removeChild(blogList);
 			}
 		};
 		
