@@ -25,20 +25,8 @@ class UBP extends Controller {
 	
 	function index()
 	{
-		if($this->session->userdata("loggedIn"))
-		{
-			if ($this->input->post("blacklistButton"))
-				$this->UBP_DAL->createBlacklist($this->session->userdata("userID"), $this->input->post("blacklistButton"), $this->MAX_BLACKLIST_LIMIT = 20);
-			
-			$postArray = $this->UBP_DAL->getPosts($this->session->userdata("userID"), $this->session->userdata("feedPageSize"), 0); // LAST VARIABLE IS STUB
-		}
-		else
-		{
-			$postArray = $this->UBP_DAL->getPosts(FALSE, $this->MAX_DEFAULT_FEED_PAGE_SIZE, 0); // LAST VARIABLE IS STUB
-		}
-	
 		$this->load->view("templateBegin");
-		$this->load->view('blogView', Array("postArray" => $postArray));
+		$this->load->view("blogView");
 		$this->load->view("templateEnd");
 	}
 	
@@ -128,8 +116,7 @@ class UBP extends Controller {
 		
 		echo $this->UBP_DAL->createBlacklist($userID, $postID, $this->MAX_BLACKLIST_LIMIT);
 	}
-	
-	// Not done yet.
+
 	function blogLoader()
 	{	
 		//echo ($this->input->post("userID"));
@@ -160,22 +147,6 @@ class UBP extends Controller {
 		}
 		
 		echo "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"></input>";
-		
-		// Construct blog list string
-		
-	
-		# This code really doesn't belong here.  I will find a home for it shortly.
-		/*if($userID != "-1")
-		{
-			if ($this->input->post("blacklistButton"))
-				$this->UBP_DAL->createBlacklist($this->session->userdata("userID"), $this->input->post("blacklistButton"), $this->MAX_BLACKLIST_LIMIT = 20);
-			
-			$postArray = $this->UBP_DAL->getPosts($this->session->userdata("userID"), $this->session->userdata("feedPageSize"), 0); // LAST VARIABLE IS STUB
-		}
-		else
-		{
-			$postArray = $this->UBP_DAL->getPosts(FALSE, $this->MAX_DEFAULT_FEED_PAGE_SIZE, 0); // LAST VARIABLE IS STUB
-		}*/
 	}
 	
 	function post()

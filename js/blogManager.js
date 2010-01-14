@@ -46,7 +46,6 @@ function blogManager(){
 		this.eventHandler = function(managerObj){
 			if (managerObj.adapter.xhr.readyState == 4)
 			{
-				//managerObj.content.innerHTML += (managerObj.adapter.xhr.responseText);
 				var idToCut = parseInt(managerObj.adapter.xhr.responseText);
 				var indexToCut;
 				
