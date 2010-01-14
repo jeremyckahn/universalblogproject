@@ -14,6 +14,10 @@
 	
 	function loadMorePosts()
 	{
+		manager.setLoadEventHandler(manager, function(){
+			//alert(manager.blogArray)
+		});
+		
 		manager.loadMorePosts(
 			"<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>",
 			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5" ?>,
@@ -22,6 +26,5 @@
 			document.getElementById("content")
 		);
 		
-		//alert(manager.getBlogIDArray());
 	}
 </script>

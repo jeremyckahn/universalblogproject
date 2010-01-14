@@ -17,6 +17,7 @@ function getXmlHttpRequestObject()
 function ajaxAdapter(url, parameters, objectParam)
 {
 	this.xhr = getXmlHttpRequestObject();
+	var callingObject = objectParam;
 	
 	if (this.xhr == null)
 	{
@@ -25,7 +26,7 @@ function ajaxAdapter(url, parameters, objectParam)
 	}
 	
 	this.send = function(xhr, stateChangeHandlerFunc){
-		xhr.onreadystatechange = stateChangeHandlerFunc;
+		xhr.onreadystatechange = function(){stateChangeHandlerFunc(callingObject)};
 		xhr.open("POST", url, true);
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.send(parameters);

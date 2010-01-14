@@ -1,5 +1,5 @@
 function blogManager(){
-	var blogArray = new Array();
+	this.blogArray = new Array();
 	
 	this.loadMorePosts = function(serverScriptURL, requestSize, startFrom, userID, blogContainer){
 		var content = blogContainer;
@@ -8,26 +8,32 @@ function blogManager(){
 		parameters += "&startFrom=" + startFrom.toString();
 		parameters += "&userID=" + userID.toString();
 		parameters += "&sid=" + Math.random();
+		this.loadEventHandler;
 		
 		var adapter = new ajaxAdapter(url, parameters, this);
 		
-		this.eventHandler = function(){
+		this.eventHandler = function(managerObj){
 			if (adapter.xhr.readyState == 4)
 			{
-				//alert(arguments[0]);
 				content.innerHTML = (adapter.xhr.responseText);
 				var blogList = document.getElementById("blogList");
 				
-				blogArray = blogList.value.split("_");
-				blogArray.pop();
+				managerObj.blogArray = blogList.value.split("_");
+				managerObj.blogArray.pop();
 				content.removeChild(blogList);
+				
+				
+				if (managerObj.loadEventHandler != null)
+				{
+					managerObj.loadEventHandler();
+				}
 			}
 		};
 		
-		this.getBlogIDArray = function(){
-			return blogArray;
-		};
-		
 		adapter.send(adapter.xhr, this.eventHandler);
+	};
+	
+	this.setLoadEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.loadEventHandler = eventHandlerFunc;
 	};
 }
