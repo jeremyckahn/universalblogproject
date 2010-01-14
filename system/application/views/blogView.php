@@ -20,41 +20,20 @@
 <button type="button" name="loadButton" onclick="loadMorePosts()">Load more posts!</button>
 </form>
 
+<script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
+
 <script type="text/javascript">
 	// Some experimental code I'm not done with.  Never you mind this.
 	
-	var blogXHR = getXmlHttpRequestObject();
-	var content = document.getElementById("content");
-	var blogArray = new Array();
+	var manager = new blogManager(document.getElementById("content"), getXmlHttpRequestObject());
 	
 	function loadMorePosts()
-	{	
-		if (blogXHR == null)
-		{
-			alert("Uh oh!  Unable to access the server.");
-			return;	
-		}
-		
-		var url = "<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>";
-		var parameters = "requestSize=" + <?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "\"5\"" ?>;
-		parameters += "&startFrom=" + 0; // THIS NEEDS TO CHANGE
-		parameters += "&userID=" + <?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "\"0\"" ?>;
-		parameters += "&sid=" + Math.random();
-		
-		blogXHR.onreadystatechange = function(){
-			if (blogXHR.readyState == 4)
-			{
-				content.innerHTML = (blogXHR.responseText);
-				var blogList = document.getElementById("blogList");
-				
-				blogArray = blogList.value.split("_");
-				blogArray.pop();
-				content.removeChild(blogList);
-			}
-		};
-		
-		blogXHR.open("POST", url, true);
-		blogXHR.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		blogXHR.send(parameters);
+	{
+		manager.loadMorePosts(
+			"<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>",
+			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5" ?>,
+			0, // THIS IS TEMPORARY CHANGE IT
+			<?= ($this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0") . "\n" ?>
+		);
 	}
 </script>
