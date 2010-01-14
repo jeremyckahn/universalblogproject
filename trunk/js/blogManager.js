@@ -36,7 +36,15 @@ function blogManager(){
 		managerObj.loadEventHandler = eventHandlerFunc;
 	};
 	
-	this.getLastPost = function(managerObj){
-		return (managerObj.blogArray ? managerObj.blogArray[managerObj.blogArray.length - 1] : 0);
+	this.getLastPost = function(managerObj){		
+		if (managerObj.blogArray)
+		{
+			if (managerObj.blogArray.length > 0)
+				return managerObj.blogArray[managerObj.blogArray.length - 1];
+			else
+				return -1;
+		}
+		else
+			return 0;
 	};
 }

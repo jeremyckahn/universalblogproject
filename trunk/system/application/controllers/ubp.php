@@ -134,18 +134,21 @@ class UBP extends Controller {
 		$postArray = $this->UBP_DAL->getPosts($userID, $requestSize, $startFrom);
 		
 		// Construct and echo out the formatted blog data.  If user is logged in, create a blacklist button
-		foreach($postArray as $post)
+		if ($postArray)
 		{
-			echo "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
-			echo "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
-			echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
-			
-			if ($userID != "0")
-				echo "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\">Blacklist this post</button>\n";
-			
-			echo "</div>\n";
+			foreach($postArray as $post)
+			{
+				echo "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
+				echo "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
+				echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
 				
-			$blogList = $blogList . $post['blogID'] . "_";
+				if ($userID != "0")
+					echo "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\">Blacklist this post</button>\n";
+				
+				echo "</div>\n";
+					
+				$blogList = $blogList . $post['blogID'] . "_";
+			}
 		}
 		
 		echo "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"></input>";
