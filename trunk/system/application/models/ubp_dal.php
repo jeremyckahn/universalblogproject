@@ -4,7 +4,7 @@
         parent::Model();
     }
     
-    function createBlacklist($userID, $postID, $blacklistLimit) // BOOLEAN
+    function createBlacklist($userID, $postID, $blacklistLimit) // INTEGER
     {
     	// Creat the blacklist entry
     	$sql = "INSERT INTO blacklists(userID, blogID) VALUES(" . $userID . ", " . $postID . ")";
@@ -27,7 +27,7 @@
 			$sql = "UPDATE blogs SET blacklistCount = " . $blacklistCount . " WHERE blogs.blogID = " . $postID;
 			
 		$this->db->query($sql);
-		return $this->db->affected_rows() ? TRUE : FALSE;
+		return $this->db->affected_rows() ? $postID : -1;
     }
     
     function createUser($username, $password, $email) // BOOLEAN
