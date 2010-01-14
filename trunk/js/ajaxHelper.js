@@ -14,7 +14,7 @@ function getXmlHttpRequestObject()
 	return null;
 }
 
-function ajaxAdapter(url, parameters)
+function ajaxAdapter(url, parameters, objectParam)
 {
 	this.xhr = getXmlHttpRequestObject();
 	

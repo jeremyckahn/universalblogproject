@@ -21,5 +21,7 @@
 			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?>,
 			document.getElementById("content")
 		);
+		
+		//alert(manager.getBlogIDArray());
 	}
 </script>

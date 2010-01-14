@@ -9,11 +9,12 @@ function blogManager(){
 		parameters += "&userID=" + userID.toString();
 		parameters += "&sid=" + Math.random();
 		
-		var adapter = new ajaxAdapter(url, parameters);
+		var adapter = new ajaxAdapter(url, parameters, this);
 		
 		this.eventHandler = function(){
 			if (adapter.xhr.readyState == 4)
 			{
+				//alert(arguments[0]);
 				content.innerHTML = (adapter.xhr.responseText);
 				var blogList = document.getElementById("blogList");
 				
@@ -21,6 +22,10 @@ function blogManager(){
 				blogArray.pop();
 				content.removeChild(blogList);
 			}
+		};
+		
+		this.getBlogIDArray = function(){
+			return blogArray;
 		};
 		
 		adapter.send(adapter.xhr, this.eventHandler);
