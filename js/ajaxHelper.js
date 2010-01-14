@@ -13,3 +13,21 @@ function getXmlHttpRequestObject()
 	}
 	return null;
 }
+
+function ajaxAdapter(url, parameters)
+{
+	this.xhr = getXmlHttpRequestObject();
+	
+	if (this.xhr == null)
+	{
+		alert("Uh oh!  Unable to access the server.");
+		return;	
+	}
+	
+	this.send = function(xhr, stateChangeHandlerFunc){
+		xhr.onreadystatechange = stateChangeHandlerFunc;
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.send(parameters);
+	};
+}
