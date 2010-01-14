@@ -1,5 +1,5 @@
 function blogManager(){
-	this.blogArray = new Array();
+	this.blogArray;
 	
 	this.loadMorePosts = function(serverScriptURL, requestSize, startFrom, userID, blogContainer){
 		this.content = blogContainer;
@@ -15,7 +15,7 @@ function blogManager(){
 		this.eventHandler = function(managerObj){
 			if (managerObj.adapter.xhr.readyState == 4)
 			{
-				managerObj.content.innerHTML = (managerObj.adapter.xhr.responseText);
+				managerObj.content.innerHTML += (managerObj.adapter.xhr.responseText);
 				var blogList = document.getElementById("blogList");
 				
 				managerObj.blogArray = blogList.value.split("_");
@@ -34,5 +34,9 @@ function blogManager(){
 	
 	this.setLoadEventHandler = function(managerObj, eventHandlerFunc){
 		managerObj.loadEventHandler = eventHandlerFunc;
+	};
+	
+	this.getLastPost = function(managerObj){
+		return (managerObj.blogArray ? managerObj.blogArray[managerObj.blogArray.length - 1] : 0);
 	};
 }
