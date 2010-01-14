@@ -19,12 +19,13 @@
 		});
 		
 		manager.loadMorePosts(
-			"<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>",
-			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5" ?>,
-			0, // THIS IS TEMPORARY CHANGE IT
-			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?>,
-			document.getElementById("content")
+			"<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>", // serverScriptURL
+			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5" ?>, // requestSize
+			manager.getLastPost(manager), // startFrom
+			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?>, // userID
+			document.getElementById("content") // blogContainer
 		);
-		
 	}
+	
+	loadMorePosts();
 </script>
