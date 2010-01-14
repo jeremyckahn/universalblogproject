@@ -2,7 +2,7 @@
 
 </div>
 
-<button type="button" name="loadButton" onclick="loadMorePosts()">Load more posts!</button>
+<button type="button" id="loadButton" name="loadButton" onclick="loadMorePosts()">Load more posts!</button>
 
 <script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
 
@@ -14,7 +14,8 @@
 	function loadMorePosts(requestSize)
 	{
 		manager.setloadCompleteEventHandler(manager, function(){
-			
+			if (manager.getLastPost(manager) < 0)
+				document.getElementById("loadButton").style.display = "none";
 		});
 		
 		manager.loadMorePosts(
