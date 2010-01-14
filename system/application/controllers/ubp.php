@@ -121,6 +121,14 @@ class UBP extends Controller {
 	*	Blog management functions - BEGIN
 	****************************************/
 	
+	function blacklistManager()
+	{
+		$userID = $this->input->post("userID");
+		$postID = $this->input->post("postID");
+		
+		echo $this->UBP_DAL->createBlacklist($userID, $postID, $this->MAX_BLACKLIST_LIMIT);
+	}
+	
 	// Not done yet.
 	function blogLoader()
 	{	
@@ -143,7 +151,7 @@ class UBP extends Controller {
 				echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
 				
 				if ($userID != "0")
-					echo "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\">Blacklist this post</button>\n";
+					echo "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">Blacklist this post</button>\n";
 				
 				echo "</div>\n";
 					
@@ -168,8 +176,6 @@ class UBP extends Controller {
 		{
 			$postArray = $this->UBP_DAL->getPosts(FALSE, $this->MAX_DEFAULT_FEED_PAGE_SIZE, 0); // LAST VARIABLE IS STUB
 		}*/
-		
-		
 	}
 	
 	function post()
