@@ -14,7 +14,8 @@
 	function loadMorePosts(requestSize)
 	{
 		manager.setloadCompleteEventHandler(manager, function(){
-			if (manager.getLastPost(manager) < 0)
+			//if (manager.getLastPost(manager) < 0)
+			if (!manager.blogsRemain)
 				document.getElementById("loadButton").style.display = "none";
 		});
 		

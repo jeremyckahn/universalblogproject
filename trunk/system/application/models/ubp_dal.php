@@ -99,6 +99,13 @@
 		return $results ? $results[0] : FALSE;
     }
     
+    function postsRemain($lastPostIDLoaded) // BOOLEAN
+    {
+    	$query = $this->db->query("SELECT * FROM `blogs` WHERE blogs.blogID > " . $lastPostIDLoaded);
+    	$results = $query->result_array();
+		return count($results) > 0 ? TRUE : FALSE;
+    }
+    
     function userExists($username) // BOOLEAN
     {
 		$query = $this->db->query("SELECT DISTINCT * FROM users WHERE username = \"" . $username . "\"");

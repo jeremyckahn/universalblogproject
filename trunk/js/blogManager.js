@@ -2,6 +2,7 @@ function blogManager(){
 	this.blogArray;
 	this.loadCompleteEventHandler;
 	this.blacklistCompleteEventHandler;
+	this.blogsRemain;
 	
 	this.loadMorePosts = function(serverScriptURL, requestSize, startFrom, userID, blogContainer){
 		this.content = blogContainer;
@@ -16,11 +17,15 @@ function blogManager(){
 			if (managerObj.adapter.xhr.readyState == 4)
 			{
 				managerObj.content.innerHTML += (managerObj.adapter.xhr.responseText);
-				var blogList = document.getElementById("blogList");
 				
+				var blogList = document.getElementById("blogList");
 				managerObj.blogArray = blogList.value.split("_");
 				managerObj.blogArray.pop();
 				managerObj.content.removeChild(blogList);
+				
+				var blogsRemain = document.getElementById("blogsRemain");
+				managerObj.blogsRemain = (blogsRemain.value == "TRUE") ? true : false;
+				managerObj.content.removeChild(blogsRemain);
 				
 				if (managerObj.loadCompleteEventHandler != null)
 				{
