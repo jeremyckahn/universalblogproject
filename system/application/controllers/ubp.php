@@ -142,11 +142,25 @@ class UBP extends Controller {
 				
 				echo "</div>\n";
 					
-				$blogList = $blogList . $post['blogID'] . "_";
+				$blogList = $blogList . $post['blogID'] . "_";			
 			}
 		}
 		
 		echo "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"></input>";
+		
+		// Yikes!  This all doesn't work!
+		if ($blogList)
+		{
+			$lastPostIDLoaded = explode("_", $blogList);
+			$lastPostIDLoaded = $lastPostIDLoaded[count($lastPostIDLoaded) - 2];
+			
+			if ($this->UBP_DAL->postsRemain($lastPostIDLoaded))
+				echo "<input id=\"blogsRemain\" type=\"hidden\" value=\"TRUE\"></input>";
+			else
+				echo "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"></input>";
+		}
+		else
+			echo "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"></input>";
 	}
 	
 	function post()
