@@ -101,9 +101,9 @@
     
     function postsRemain($lastPostIDLoaded) // BOOLEAN
     {
-    	$query = $this->db->query("SELECT * FROM `blogs` WHERE blogs.blogID > " . $lastPostIDLoaded);
+    	$query = $this->db->query("SELECT * FROM `blogs` WHERE blogs.blogID < " . $lastPostIDLoaded . " LIMIT 1");
     	$results = $query->result_array();
-		return count($results) > 0 ? TRUE : FALSE;
+		return count($results) == 1 ? TRUE : FALSE;
     }
     
     function userExists($username) // BOOLEAN

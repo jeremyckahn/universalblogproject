@@ -119,7 +119,6 @@ class UBP extends Controller {
 
 	function blogLoader()
 	{	
-		//echo ($this->input->post("userID"));
 		$userID = $this->input->post("userID");
 		$requestSize = $this->input->post("requestSize");
 		$startFrom = $this->input->post("startFrom");
