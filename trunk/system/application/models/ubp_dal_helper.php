@@ -12,13 +12,23 @@
 		$returnString = "";
 		$blogList = "";
 		
-		// Construct and echo out the formatted blog data.  If user is logged in, create a blacklist button
+		// Gets any special directives from the function call (passed by the invisible 3rd parameter... Ooooh!)
+		$args = func_get_args();
+		$options = isset($args[2]) ? $args[2] : null;
+		
+		// Construct and output the formatted blog data.  If user is logged in, create a blacklist button
 		if ($postArray)
 		{
 			foreach($postArray as $post)
 			{
 				$returnString = $returnString . "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
-				$returnString = $returnString . "<h1 class=\"articleHeader\"><a href=\"" . base_url() . "index.php/ubp/index/blogID/" . $post['blogID'] . "\">" . htmlentities(urldecode($post['title'])) . "</a></h1>\n";
+				
+				// If a special directive is "linkify," make the post title a link to the single-post view
+				if (stripos($options, "LINKIFY") === FALSE)
+					$returnString = $returnString . "<h1 class=\"articleHeader\"><a href=\"" . base_url() . "index.php/ubp/index/blogID/" . $post['blogID'] . "\">" . htmlentities(urldecode($post['title'])) . "</a></h1>\n";
+				else
+					$returnString = $returnString . "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
+				
 				$returnString = $returnString . "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
 				
 				if ($userID != "0")
