@@ -14,6 +14,8 @@ class UBP extends Controller {
 		$this->MAX_BLACKLIST_LIMIT = 20;
 		$this->MAX_DEFAULT_FEED_PAGE_SIZE = 5;
 		
+		$this->GET_ARRAY = $this->uri->uri_to_assoc();
+		
 		$this->load->helper('url');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
@@ -26,7 +28,15 @@ class UBP extends Controller {
 	function index()
 	{
 		$this->load->view("templateBegin");
-		$this->load->view("blogView");
+		$data = array();
+		
+		if (isset($this->GET_ARRAY["blogID"]))
+		{
+			$postArray = $this->UBP_DAL->getPosts(0, 1, $this->GET_ARRAY["blogID"] + 1);
+			$data["singlePost"] = $this->UBP_DAL_HELPER->formatBlogs($postArray, 0);
+		}
+		$this->load->view("blogView", $data);
+			
 		$this->load->view("templateEnd");
 	}
 	
@@ -104,7 +114,7 @@ class UBP extends Controller {
 	/***************************************
 	*	User management functions - END
 	****************************************/
-	
+	//-------------------------------------------------------------------------------
 	/***************************************
 	*	Blog management functions - BEGIN
 	****************************************/
@@ -122,44 +132,12 @@ class UBP extends Controller {
 		$userID = $this->input->post("userID");
 		$requestSize = $this->input->post("requestSize");
 		$startFrom = $this->input->post("startFrom");
-		$blogList = "";
 		
 		// Get user-specific blogs
 		$postArray = $this->UBP_DAL->getPosts($userID, $requestSize, $startFrom);
 		
-		// Construct and echo out the formatted blog data.  If user is logged in, create a blacklist button
-		if ($postArray)
-		{
-			foreach($postArray as $post)
-			{
-				echo "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
-				echo "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
-				echo "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
-				
-				if ($userID != "0")
-					echo "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">Blacklist this post</button>\n";
-				
-				echo "</div>\n";
-					
-				$blogList = $blogList . $post['blogID'] . "_";			
-			}
-		}
-		
-		echo "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"></input>";
-		
-		// Yikes!  This all doesn't work!
-		if ($blogList)
-		{
-			$lastPostIDLoaded = explode("_", $blogList);
-			$lastPostIDLoaded = $lastPostIDLoaded[count($lastPostIDLoaded) - 2];
-			
-			if ($this->UBP_DAL->postsRemain($lastPostIDLoaded))
-				echo "<input id=\"blogsRemain\" type=\"hidden\" value=\"TRUE\"></input>";
-			else
-				echo "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"></input>";
-		}
-		else
-			echo "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"></input>";
+		// Output the blogs.
+		echo $this->UBP_DAL_HELPER->formatBlogs($postArray, $userID);
 	}
 	
 	function post()
@@ -173,19 +151,20 @@ class UBP extends Controller {
 			
 			if ($this->form_validation->run())
 			{
-				$postSubmittedSuccessfully = $this->UBP_DAL->createPost($this->input->post("title", TRUE), $this->input->post("post", TRUE), $this->session->userdata("userID"));
+				// strip_tags is called on the title and post to sanitize for DB entry.
+				$postSubmittedSuccessfully = $this->UBP_DAL->createPost(strip_tags($this->input->post("title", TRUE)), strip_tags($this->input->post("post", TRUE)), $this->session->userdata("userID"));
 			}
 		}
 		
 		$this->load->view('templateBegin');
 		$this->load->view($postSubmittedSuccessfully ? 'postSubmitted' : 'postForm');
-		$this->load->view('templateEnd');	
+		$this->load->view('templateEnd');
 	}
 	
 	/***************************************
 	*	Blog management functions - END
 	****************************************/
-	
+	//-------------------------------------------------------------------------------
 	/***************************************
 	*	Validation callbacks - BEGIN
 	****************************************/
