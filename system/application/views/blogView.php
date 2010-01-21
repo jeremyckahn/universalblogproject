@@ -1,3 +1,11 @@
+<? if(isset($singlePost)) { ?>
+
+<div id="content" class="content">
+	<?= $singlePost ?>
+</div>
+	
+<? } else { ?>
+
 <div id="content" class="content">
 
 </div>
@@ -14,13 +22,12 @@
 	function loadMorePosts(requestSize)
 	{
 		manager.setloadCompleteEventHandler(manager, function(){
-			//if (manager.getLastPost(manager) < 0)
 			if (!manager.blogsRemain)
 				document.getElementById("loadButton").style.display = "none";
 		});
 		
 		manager.loadMorePosts(
-			"<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blogLoader"; ?>", // serverScriptURL
+			"<?= base_url() . "index.php/ubp/blogLoader"; ?>", // serverScriptURL
 			(requestSize ? requestSize : <?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5" ?>), // requestSize
 			manager.getLastPost(manager), // startFrom
 			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?>, // userID
@@ -40,7 +47,7 @@
 	
 			manager.blacklist(
 				manager, // managerObj
-				"<?= base_url() . "index.php/" . $this->uri->segment(1) . "/blacklistManager"; ?>", // serverScriptURL
+				"<?= base_url() . "index.php/ubp/blacklistManager"; ?>", // serverScriptURL
 				postID, // postID
 				<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?> // userID
 			);
@@ -50,3 +57,4 @@
 	loadMorePosts();
 /* ]]> */
 </script>
+<? } ?>
