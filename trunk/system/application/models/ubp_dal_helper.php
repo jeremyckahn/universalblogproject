@@ -23,11 +23,17 @@
 			{
 				$returnString = $returnString . "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
 				
-				// If a special directive is "linkify," make the post title a link to the single-post view
-				if (stripos($options, "LINKIFY") === FALSE)
+				// If a special directive is "SINGLEVIEW," make the post title a link to the single-post view
+				if (stripos($options, "SINGLEVIEW") === FALSE)
 					$returnString = $returnString . "<h1 class=\"articleHeader\"><a href=\"" . base_url() . "index.php/ubp/index/blogID/" . $post['blogID'] . "\">" . htmlentities(urldecode($post['title'])) . "</a></h1>\n";
 				else
+				{
 					$returnString = $returnString . "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
+					
+					$postDate = explode(" ", $post['datePosted']);
+					$dateSegments = explode("-", $postDate[0]);
+					$returnString = $returnString . "<h3>" . $dateSegments[1] . "-" . $dateSegments[2] . "-" . $dateSegments[0] . "</h3>";
+				}
 				
 				$returnString = $returnString . "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
 				
@@ -35,12 +41,12 @@
 					$returnString = $returnString . "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">Blacklist this post</button>\n";
 				
 				$returnString = $returnString . "</div>\n";
-					
+				
 				$blogList = $blogList . $post['blogID'] . "_";			
 			}
 		}
 		
-		$returnString = $returnString . "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"></input>";
+		$returnString = $returnString . "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"/>\n";
 		
 		if ($blogList)
 		{
@@ -48,12 +54,12 @@
 			$lastPostIDLoaded = $lastPostIDLoaded[count($lastPostIDLoaded) - 2];
 			
 			if ($this->UBP_DAL->postsRemain($lastPostIDLoaded))
-				$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"TRUE\"></input>";
+				$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"TRUE\"/>\n";
 			else
-				$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"></input>";
+				$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"/>\n";
 		}
 		else
-			$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"></input>";
+			$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"\n>";
 		
 		return $returnString;
 	}
