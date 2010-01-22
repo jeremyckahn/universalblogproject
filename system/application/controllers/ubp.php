@@ -33,7 +33,7 @@ class UBP extends Controller {
 		if (isset($this->GET_ARRAY["blogID"]))
 		{
 			$postArray = $this->UBP_DAL->getPosts(0, 1, $this->GET_ARRAY["blogID"] + 1);
-			$data["singlePost"] = $this->UBP_DAL_HELPER->formatBlogs($postArray, 0, "LINKIFY");
+			$data["singlePost"] = $this->UBP_DAL_HELPER->formatBlogs($postArray, 0, "SINGLEVIEW");
 		}
 		$this->load->view("blogView", $data);
 			
