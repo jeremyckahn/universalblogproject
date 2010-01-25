@@ -1,0 +1,107 @@
+body{
+	
+}
+
+
+/* Links */
+a.navLink:link, a.navLink:visited, a.navLink:active {
+	color:				inherit;
+	text-decoration:	none;
+}
+
+a.userControlPanelLink:link, a.userControlPanelLink:visited, a.userControlPanelLink:active {
+	color:				#888;
+	font-weight:		normal;
+}
+
+a.forgotPassword:link, a.forgotPassword:visited, a.forgotPassword:active {
+	color:				#888;
+	font-weight:		normal;
+}
+
+a:link, a:visited, a:active{
+	color:           	#08b;
+	font-weight:     	bold;
+	text-decoration: 	none;
+}
+
+/*a:hover{
+	color:           	#09c;
+}*/
+
+
+/* Main - this is basically the body and all standard elements.
+Placed at the top of the file for convenience.*/
+.main{
+	background:			#fff;
+	color:	        	#333;
+	font-family:		helvetica, sans-serif;
+	font-size:			16pt;
+	margin:				0px;
+	word-wrap:			break-word;
+}
+
+.main .rollover:hover{
+	color:				#09c;	
+}
+
+.main .userNameDisplay{
+	color:				#888;
+	font-size:			24px;
+	font-weight:		normal;
+	margin:				15px 0px 0px 0px;	
+}
+
+
+
+
+/* Main title for the site */
+.mainTitleContainer{
+	color:				#888;
+	padding:			15px 0px 40px 0px;
+	text-align:			right;
+}
+
+.mainTitleContainer .title{
+	display:			block;
+	font-size:			40pt;
+	font-weight:		bold;
+	margin:				0px 30px 0px auto;
+}
+
+.mainTitleContainer .title:before{
+	content:			"[ ";	
+}
+
+.mainTitleContainer .title:after{
+	content:			" ]";	
+}
+
+
+
+.titleAndContentContainer{
+	margin: 			0px auto 0px auto;
+	max-width:			1200px;
+	min-width:			780px;
+}
+
+
+
+/* Navigation panel */
+.navPanel{
+	float:				right;
+	min-height:			100px;
+	width:				260px;	
+}
+
+/*.navPanel .navPanelElement{
+	display:			block;
+	font-size:			45pt;
+	font-weight:		bold;
+}*/
+
+.navPanel li{
+	display:			block;
+	font-size:			45pt;
+	font-weight:		bold;
+}
