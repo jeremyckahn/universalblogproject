@@ -41,6 +41,38 @@ Placed at the top of the file for convenience.*/
 	word-wrap:			break-word;
 }
 
+.main .articleDate{
+	color:				#888;
+	font-size:			16px;
+	margin:				6px 0px 0px 0px;
+}
+
+.main .articleDate:before{
+	content:			"[ ";
+}
+
+.main .articleDate:after{
+	content:			" ]";
+}
+
+.main .articleHeader a{
+	color:				#333;
+	font-size:			36pt;
+	font-weight:		bold;
+}
+
+.main .articleHeader a:hover{
+	text-decoration:	underline;
+}
+
+.main .content{
+	border-right:		2px solid #333;
+	margin:				0px 280px 0px auto;
+	min-height:			340px;
+	padding:			0px 30px 0px 15px;
+}
+
+
 .main .rollover:hover{
 	color:				#09c;	
 }
@@ -51,6 +83,30 @@ Placed at the top of the file for convenience.*/
 	font-weight:		normal;
 	margin:				15px 0px 0px 0px;	
 }
+
+
+
+/* The main feed (homepage) */
+.mainFeed .postContainer{
+	display:			block;
+	border-bottom:		2px solid #333333;
+	margin:				0px 0px 24px 0px;
+}
+
+.mainFeed .blacklistButton{
+	background:			inherit;
+	border:				none;
+	color:				#888;
+	font-size:			18px;
+	margin:				0px auto 20px 0px;
+}
+
+.mainFeed .controlPanel{
+	letter-spacing:		.75px;
+	margin:				0px 0px 14px 0px;
+	text-align:			right;
+}
+
 
 
 
@@ -103,5 +159,24 @@ Placed at the top of the file for convenience.*/
 .navPanel li{
 	display:			block;
 	font-size:			45pt;
+	font-weight:		bold;
+}
+
+/* Page-forward button */
+.paginationButton{
+	background:			inherit;
+	border:				none;
+	display:			block;
+	font-size:			72px;
+	height:				72px;
+	margin:				40px 0px 0px 0px;
+}
+
+.paginationButton .paginationButtonMore{
+	background:			inherit;
+	border:				inherit;
+	/*display:			none;*/
+	float:				right;
+	font-size:			inherit;
 	font-weight:		bold;
 }
