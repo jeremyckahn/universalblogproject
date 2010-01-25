@@ -30,27 +30,26 @@
 				<span class = "title">the universal blog project</span>
 			</div>
 	
-		    <div id ="navPanel" class="navPanel">
-		    	<ul>
-			    	<!--<span class = "navPanelElement">-->
-			    	<li>
-				    	<?= anchor("ubp/index", "home", "class=\"navLink rollover\"") . "\n"; ?>
-				    </li>
-				    <!--</span>-->
-				    <?php
-				    	if ($this->session->userdata("loggedIn"))
-				    	{
-				    		echo "<li>" . anchor("ubp/post", "post", "class=\"navLink rollover\"") . "</li>\n    ";
-				    		echo "<li>" . anchor("ubp/logout", "log out", "class=\"navLink rollover\"") . "</li>\n    ";
-				    		echo "<li class = \"userNameDisplay\">" . "logged in as: " . $this->session->userdata("username") . "</li>\n";
-				    	}
-				    	else
-				    	{
-				    		echo "<li>" . anchor("ubp/login", "log in", "class=\"navLink rollover\"") . "</li>\n    ";
-				    		echo "<li>" . anchor("ubp/signup", "sign up", "class=\"navLink rollover\"") . "</li>\n";
-				    	} 
-				    ?>
-				    
-			    </ul>
+	    	<ul id ="navPanel" class="navPanel">
+
+		    	<li>
+			    	<?= anchor("ubp/index", "home", "class=\"navLink rollover\"") . "\n"; ?>
+			    </li>
 			    
-			</div> <!-- /navPanel -->
+			    <?php
+			    	if ($this->session->userdata("loggedIn"))
+			    	{
+			    		echo "<li>" . anchor("ubp/post", "post", "class=\"navLink rollover\"") . "</li>\n    ";
+			    		echo "<li>" . anchor("ubp/logout", "log out", "class=\"navLink rollover\"") . "</li>\n    ";
+			    		echo "<li class = \"userNameDisplay\">" . "logged in as: " . $this->session->userdata("username") . "</li>\n";
+			    	}
+			    	else
+			    	{
+			    		echo "<li>" . anchor("ubp/login", "log in", "class=\"navLink rollover\"") . "</li>\n    ";
+			    		echo "<li>" . anchor("ubp/signup", "sign up", "class=\"navLink rollover\"") . "</li>\n";
+			    	} 
+			    ?>
+			    
+		    </ul> <!-- /navPanel -->
+			
+			<div id="content" class="content">

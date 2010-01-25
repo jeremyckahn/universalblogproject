@@ -1,4 +1,5 @@
 <?= "\n    " ?>
+			</div> <!-- /content -->
 		</div> <!-- /titleAndContentContainer -->
 	</body>
 </html>

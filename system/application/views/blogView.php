@@ -1,29 +1,31 @@
 <? if(isset($singlePost)) { ?>
 
-<div id="content" class="content">
+<div id="mainFeed" class="mainFeed">
 	<?= $singlePost ?>
 </div>
 	
 <? } else { ?>
 
-<div id="content" class="content">
+<div id="mainFeed" class="mainFeed">
 
 </div>
 
-<button type="button" id="loadButton" name="loadButton" onclick="loadMorePosts()">Load more posts!</button>
+<div id="paginationButton" class="paginationButton">
+	<span id="btnPageForward" class="paginationButtonMore rollover" onclick="loadMorePosts();">more</span>
+</div>
 
 <script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
 	var manager = new blogManager();
-	var blogContainer = document.getElementById("content");
+	var blogContainer = document.getElementById("mainFeed");
 	
 	function loadMorePosts(requestSize)
 	{
 		manager.setloadCompleteEventHandler(manager, function(){
 			if (!manager.blogsRemain)
-				document.getElementById("loadButton").style.display = "none";
+				document.getElementById("btnPageForward").style.display = "none";
 		});
 		
 		manager.loadMorePosts(
