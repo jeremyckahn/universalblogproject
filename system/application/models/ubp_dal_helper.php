@@ -38,7 +38,9 @@
 				$returnString = $returnString . "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
 				
 				if ($userID != "0")
+				{
 					$returnString = $returnString . "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">Blacklist this post</button>\n";
+				}
 				
 				$returnString = $returnString . "</div>\n";
 				
