@@ -25,10 +25,6 @@ a:link, a:visited, a:active{
 	text-decoration: 	none;
 }
 
-/*a:hover{
-	color:           	#09c;
-}*/
-
 
 /* Main - this is basically the body and all standard elements.
 Placed at the top of the file for convenience.*/
@@ -47,11 +43,11 @@ Placed at the top of the file for convenience.*/
 	margin:				6px 0px 0px 0px;
 }
 
-.main .articleDate:before{
+.main .bracketize:before{
 	content:			"[ ";
 }
 
-.main .articleDate:after{
+.main .bracketize:after{
 	content:			" ]";
 }
 
@@ -72,6 +68,11 @@ Placed at the top of the file for convenience.*/
 	padding:			0px 30px 0px 15px;
 }
 
+.main .pageSizeConstrain{
+	max-width:			1200px;
+	min-width:			780px;
+}
+
 
 .main .rollover:hover{
 	color:				#09c;	
@@ -81,7 +82,30 @@ Placed at the top of the file for convenience.*/
 	color:				#888;
 	font-size:			24px;
 	font-weight:		normal;
-	margin:				15px 0px 0px 0px;	
+	margin:				20px 0px 0px 20px;	
+}
+
+
+
+/* Footer */
+.footer{
+	/*border-top:			2px solid #333;*/
+	color:				#333;
+	/*margin:				20px 0px 0px 0px;*/
+	margin:				0px auto 0px auto;
+	padding:			7px 7px 7px 0px;
+}
+
+.footer p{
+	font-size:			20pt;
+	margin:				0px;
+	text-align:			right;
+}
+
+.footer .atomLink{
+	font-size:			20pt;
+	float:				left;
+	margin:				0px 0px 0px 7px;
 }
 
 
@@ -136,9 +160,11 @@ Placed at the top of the file for convenience.*/
 
 
 .titleAndContentContainer{
+	border-bottom:		solid 2px #333;
 	margin: 			0px auto 0px auto;
-	max-width:			1200px;
-	min-width:			780px;
+	/*max-width:			1200px;
+	min-width:			780px;*/
+	padding:			0px 0px 20px 0px;
 }
 
 

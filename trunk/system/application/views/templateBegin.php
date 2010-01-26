@@ -24,10 +24,10 @@
     
     <body class="main">
     
-	    <div id="titleAndContentContainer" class="titleAndContentContainer">
+	    <div id="titleAndContentContainer" class="titleAndContentContainer pageSizeConstrain">
 		    
 		    <div id ="mainTitleContainer" class="mainTitleContainer">
-				<span class = "title">the universal blog project</span>
+				<span class = "title bracketize">the universal blog project</span>
 			</div>
 	
 	    	<ul id ="navPanel" class="navPanel">
@@ -41,7 +41,7 @@
 			    	{
 			    		echo "<li>" . anchor("ubp/post", "post", "class=\"navLink rollover\"") . "</li>\n    ";
 			    		echo "<li>" . anchor("ubp/logout", "log out", "class=\"navLink rollover\"") . "</li>\n    ";
-			    		echo "<li class = \"userNameDisplay\">" . "logged in as: " . $this->session->userdata("username") . "</li>\n";
+			    		echo "<li class = \"userNameDisplay bracketize\">" . $this->session->userdata("username") . "</li>\n";
 			    	}
 			    	else
 			    	{
