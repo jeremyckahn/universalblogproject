@@ -32,7 +32,7 @@
 					
 					$postDate = explode(" ", $post['datePosted']);
 					$dateSegments = explode("-", $postDate[0]);
-					$returnString = $returnString . "<h3>" . $dateSegments[1] . "-" . $dateSegments[2] . "-" . $dateSegments[0] . "</h3>";
+					$returnString = $returnString . "<h3 class=\"articleDate bracketize\">" . $dateSegments[1] . "-" . $dateSegments[2] . "-" . $dateSegments[0] . "</h3>";
 				}
 				
 				$returnString = $returnString . "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
