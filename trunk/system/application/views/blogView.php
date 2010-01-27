@@ -25,7 +25,12 @@
 	{
 		manager.setloadCompleteEventHandler(manager, function(){
 			if (!manager.blogsRemain)
-				document.getElementById("btnPageForward").style.display = "none";
+			{
+				//document.getElementById("btnPageForward").style.display = "none";
+				var moreButton = document.getElementById("btnPageForward");
+				moreButton.className += " disabled";
+				moreButton.onclick = "";
+			}
 		});
 		
 		manager.loadMorePosts(
