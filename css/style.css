@@ -201,8 +201,11 @@ Placed at the top of the file for convenience.*/
 .paginationButton .paginationButtonMore{
 	background:			inherit;
 	border:				inherit;
-	/*display:			none;*/
 	float:				right;
 	font-size:			inherit;
 	font-weight:		bold;
+}
+
+.paginationButton .disabled, .paginationButton .disabled:link, .paginationButton .disabled:visited, .paginationButton .disabled:active, .paginationButton .disabled:hover{
+	color:				#777;	
 }
