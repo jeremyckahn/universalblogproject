@@ -40,7 +40,8 @@ Placed at the top of the file for convenience.*/
 .main .articleDate{
 	color:				#888;
 	font-size:			16px;
-	margin:				6px 0px 0px 0px;
+	font-weight:		normal;
+	margin:				0px 0px 0px 0px;
 }
 
 .main .bracketize:before{
@@ -51,7 +52,7 @@ Placed at the top of the file for convenience.*/
 	content:			" ]";
 }
 
-.main .articleHeader a{
+.main .articleHeader, .main .articleHeader a{
 	color:				#333;
 	font-size:			36pt;
 	font-weight:		bold;
