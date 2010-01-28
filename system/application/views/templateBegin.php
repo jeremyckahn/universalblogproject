@@ -33,7 +33,7 @@
 	    	<ul id ="navPanel" class="navPanel">
 
 		    	<li>
-			    	<?= anchor("ubp/index", "home", "class=\"navLink rollover\"") . "\n"; ?>
+			    	<?= anchor("ubp/index", "the blog", "class=\"navLink rollover\"") . "\n"; ?>
 			    </li>
 			    
 			    <?php
@@ -41,12 +41,22 @@
 			    	{
 			    		echo "<li>" . anchor("ubp/post", "post", "class=\"navLink rollover\"") . "</li>\n    ";
 			    		echo "<li>" . anchor("ubp/logout", "log out", "class=\"navLink rollover\"") . "</li>\n    ";
-			    		echo "<li class = \"userNameDisplay bracketize\">" . $this->session->userdata("username") . "</li>\n";
 			    	}
 			    	else
 			    	{
 			    		echo "<li>" . anchor("ubp/login", "log in", "class=\"navLink rollover\"") . "</li>\n    ";
 			    		echo "<li>" . anchor("ubp/signup", "sign up", "class=\"navLink rollover\"") . "</li>\n";
+			    	} 
+			    ?>
+			    
+			    <li>
+			    	<?= anchor("ubp/info", "info", "class=\"navLink rollover\"") . "\n"; ?>
+			    </li>
+			    
+			    <?php
+			    	if ($this->session->userdata("loggedIn"))
+			    	{
+			    		echo "<li class = \"userNameDisplay bracketize\">" . $this->session->userdata("username") . "</li>\n";
 			    	} 
 			    ?>
 			    

@@ -39,7 +39,7 @@
  * @param	mixed
  * @return	mixed	depends on what the array contains
  */	
-if ( ! function_exists('element'))
+/*if ( ! function_exists('element'))
 {
 	function element($item, $array, $default = FALSE)
 	{
@@ -50,7 +50,7 @@ if ( ! function_exists('element'))
 
 		return $array[$item];
 	}	
-}
+}*/
 
 // ------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ if ( ! function_exists('element'))
  * @param	array
  * @return	mixed	depends on what the array contains
  */	
-if ( ! function_exists('random_element'))
+/*if ( ! function_exists('random_element'))
 {
 	function random_element($array)
 	{
@@ -71,7 +71,7 @@ if ( ! function_exists('random_element'))
 		}
 		return $array[array_rand($array)];
 	}	
-}
+}*/
 
 
 /* End of file array_helper.php */

@@ -16,8 +16,7 @@ class UBP extends Controller {
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
-		$this->load->helper('url');
-		$this->load->helper(array('form', 'url'));
+		$this->load->helper(array('form', 'url', 'handyStringFuncs'));
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		
@@ -138,6 +137,13 @@ class UBP extends Controller {
 		
 		// Output the blogs.
 		echo $this->UBP_DAL_HELPER->formatBlogs($postArray, $userID);
+	}
+	
+	function info()
+	{
+		$this->load->view("templateBegin");
+		$this->load->view("info");
+		$this->load->view("templateEnd");	
 	}
 	
 	function post()
