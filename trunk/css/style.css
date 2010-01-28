@@ -41,7 +41,7 @@ Placed at the top of the file for convenience.*/
 	color:				#888;
 	font-size:			16px;
 	font-weight:		normal;
-	margin:				0px 0px 0px 0px;
+	margin:				0px 0px 0px px;
 }
 
 .main .bracketize:before{
@@ -52,10 +52,17 @@ Placed at the top of the file for convenience.*/
 	content:			" ]";
 }
 
+.main p{
+	font-size:			22px;
+	line-height:		30px;	
+}
+
+
 .main .articleHeader, .main .articleHeader a{
 	color:				#333;
 	font-size:			36pt;
 	font-weight:		bold;
+	margin:				0px 0px 10px 0px;
 }
 
 .main .articleHeader a:hover{
@@ -83,16 +90,38 @@ Placed at the top of the file for convenience.*/
 	color:				#888;
 	font-size:			24px;
 	font-weight:		normal;
-	margin:				20px 0px 0px 20px;	
+	margin:				20px 0px 0px 5px;	
 }
+
+
+/* Custom "button" styling */
+.customUIButtonFrame{
+	font-size:			72px;
+	font-weight:		bold;
+	margin:				16px 0px 20px 0px;
+	min-height:			72px;
+}
+
+.customUIButtonFrame .button{
+	margin:				0px 32px 0px 0px;
+}
+
+.customUIButtonFrame .left{
+	float:				left;
+	margin:				0px 32px 0px 0px;
+}
+
+.customUIButtonFrame .right{
+	float:				right;	
+	margin:				0px 0px 0px 32px;
+}
+
 
 
 
 /* Footer */
 .footer{
-	/*border-top:			2px solid #333;*/
 	color:				#333;
-	/*margin:				20px 0px 0px 0px;*/
 	margin:				0px auto 0px auto;
 	padding:			7px 7px 7px 0px;
 }
@@ -108,6 +137,97 @@ Placed at the top of the file for convenience.*/
 	float:				left;
 	margin:				0px 0px 0px 7px;
 }
+
+
+
+/* Form container and sub-classes */
+.formContainer{
+	margin:				0px auto 18px auto;
+}
+
+.formContainer .askToConfirm{
+	margin-top:			50px; 
+	text-align:			center;	
+}
+
+.formContainer .blogPreviewContainer{
+	display:			none;	
+}
+
+.formContainer .errorOutput{
+	color:				#f00;
+	display:			none;
+	margin:				0px 0px 16px 0px;
+}
+
+.formContainer .infoOutput{
+	color:				#000;
+	display:			none;
+	margin:				0px 0px 16px 0px;
+}
+
+.formContainer .label{
+	display:			block;
+	font-size:			18pt;
+	margin:				0px 0px 5px 0px;
+}
+
+.formContainer .postForm{
+	display:			block;
+}
+
+.formContainer .txtPost{
+	border:				1px solid #888;
+	color:	        	#333;
+	display:			block;
+	font-family:		helvetica, sans-serif;
+	font-size:			16pt;
+	height:				300px;
+	line-height:		28px;
+	margin:				0px 0px 18px 0px;
+	width:				100%;
+}
+
+.formContainer .txtTitle{
+	border:				1px solid #888;
+	color:	        	#333;
+	display:			block;
+	font-family:		helvetica, sans-serif;
+	font-size:			24pt;
+	margin:				0px 0px 18px 0px;
+	width:				80%;
+}
+
+.formContainer .txtPassword{
+	border:				1px solid #888;
+	color:	        	#333;
+	display:			block;
+	font-family:		helvetica, sans-serif;
+	font-size:			22pt;
+	margin-bottom:		inherit;
+	width:				300px;
+}
+
+.formContainer .txtUsername{
+	border:				1px solid #888;
+	color:	        	#333;
+	display:			block;
+	font-family:		helvetica, sans-serif;
+	font-size:			22pt;
+	margin-bottom:		inherit;
+	width:				300px;
+}
+
+.formContainer .txtStandard{
+	border:				1px solid #888;
+	color:	        	#333;
+	display:			block;
+	font-family:		helvetica, sans-serif;
+	font-size:			22pt;
+	margin-bottom:		inherit;
+	width:				300px;
+}
+
 
 
 

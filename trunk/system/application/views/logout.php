@@ -1,1 +1,2 @@
-<p>You have logged out!</p>
+<h2>Hope to see you back soon.</h2>
+<p>In the meantime, why don't you check out what's new on the <?= anchor("ubp/index", "blog"); ?>?</p>

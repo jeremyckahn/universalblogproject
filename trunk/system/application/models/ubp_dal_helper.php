@@ -24,7 +24,7 @@
 				$returnString = $returnString . "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
 				
 				// If a special directive is "SINGLEVIEW," make the post title a link to the single-post view
-				if (stripos($options, "SINGLEVIEW") === FALSE)
+				if (strContains($options, "SINGLEVIEW"))
 					$returnString = $returnString . "<h1 class=\"articleHeader\"><a href=\"" . base_url() . "index.php/ubp/index/blogID/" . $post['blogID'] . "\">" . htmlentities(urldecode($post['title'])) . "</a></h1>\n";
 				else
 				{
@@ -39,7 +39,7 @@
 				
 				if ($userID != "0")
 				{
-					$returnString = $returnString . "<button type=\"submit\" name=\"blacklistButton\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">Blacklist this post</button>\n";
+					$returnString = $returnString . "<div class=\"controlPanel\"><span class=\"blacklistButton bracketize rollover\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">blacklist this post</span></div>\n";
 				}
 				
 				$returnString = $returnString . "</div>\n";
