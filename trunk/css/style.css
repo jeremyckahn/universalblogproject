@@ -2,7 +2,6 @@ body{
 	
 }
 
-
 /* Links */
 a.navLink:link, a.navLink:visited, a.navLink:active {
 	color:				inherit;
@@ -185,7 +184,7 @@ Placed at the top of the file for convenience.*/
 	height:				300px;
 	line-height:		28px;
 	margin:				0px 0px 18px 0px;
-	width:				100%;
+	width:				98%;
 }
 
 .formContainer .txtTitle{
