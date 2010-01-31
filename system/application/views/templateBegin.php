@@ -20,6 +20,7 @@
     	<link rel = "stylesheet" type = "text/css" href = "<?= base_url() . "css/style.css" ?>" />
     	
     	<script type="text/javascript" src="<?= base_url() . "js/ajaxHelper.js" ?>"></script>
+    	
     </head>
     
     <body class="main">

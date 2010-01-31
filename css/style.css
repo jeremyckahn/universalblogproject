@@ -80,6 +80,12 @@ Placed at the top of the file for convenience.*/
 	min-width:			780px;
 }
 
+.main .postContainer{
+	display:			block;
+	border-bottom:		2px solid #333333;
+	margin:				0px 0px 24px 0px;
+}
+
 
 .main .rollover:hover{
 	color:				#09c;	
@@ -91,6 +97,26 @@ Placed at the top of the file for convenience.*/
 	font-weight:		normal;
 	margin:				20px 0px 0px 5px;	
 }
+
+
+
+
+/*  Used in the mainFeed on the main page.  Contains .blacklistButton */
+.controlPanel{
+	letter-spacing:		.75px;
+	margin:				0px 0px 14px 0px;
+	text-align:			right;
+}
+
+.controlPanel .blacklistButton{
+	background:			inherit;
+	border:				none;
+	color:				#888;
+	font-size:			18px;
+	margin:				0px auto 20px 0px;
+}
+
+
 
 
 /* Custom "button" styling */
@@ -226,31 +252,6 @@ Placed at the top of the file for convenience.*/
 	margin-bottom:		inherit;
 	width:				300px;
 }
-
-
-
-
-/* The main feed (homepage) */
-.mainFeed .postContainer{
-	display:			block;
-	border-bottom:		2px solid #333333;
-	margin:				0px 0px 24px 0px;
-}
-
-.mainFeed .blacklistButton{
-	background:			inherit;
-	border:				none;
-	color:				#888;
-	font-size:			18px;
-	margin:				0px auto 20px 0px;
-}
-
-.mainFeed .controlPanel{
-	letter-spacing:		.75px;
-	margin:				0px 0px 14px 0px;
-	text-align:			right;
-}
-
 
 
 
