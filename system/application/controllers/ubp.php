@@ -213,20 +213,20 @@ class UBP extends Controller {
 		
 		$validationJSON = array(
 			"isValid" => false,
-			"errors" => array()
+			"errorList" => array()
 		);
 		
 		if (strlen($title) >= $this->MAX_TITLE_LENGTH)
-			array_push($validationJSON["errors"], "The title is too long.");
+			array_push($validationJSON["errorList"], "The title is too long.");
 			
 		if (strlen($title) == 0)
-			array_push($validationJSON["errors"], "There is no title.");
+			array_push($validationJSON["errorList"], "There is no title.");
 			
 		if (strlen($post) >= $this->MAX_POST_LENGTH)
-			array_push($validationJSON["errors"], "The post is too long.");
+			array_push($validationJSON["errorList"], "The post is too long.");
 			
 		if (strlen($post) == 0)
-			array_push($validationJSON["errors"], "There is no body text.");
+			array_push($validationJSON["errorList"], "There is no post body text.");
 			
 		echo(JSONifyAssocArr($validationJSON));
 	}	
