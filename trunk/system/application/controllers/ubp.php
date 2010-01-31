@@ -16,7 +16,7 @@ class UBP extends Controller {
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
-		$this->load->helper(array('form', 'url', 'handyStringFuncs'));
+		$this->load->helper(array('form', 'url', 'handyStringFuncs', 'json'));
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		
@@ -200,4 +200,26 @@ class UBP extends Controller {
 	/***************************************
 	*	Validation callbacks - END
 	****************************************/
+	//-------------------------------------------------------------------------------
+	/***************************************
+	*	Data validators - BEGIN
+	****************************************/
+
+	// this is going to return a JSON object
+	function validatePost()
+	{
+		// test!
+		//echo "{ \"val1\" : \"This is the first JSON value\" }";
+		$json = array(
+			"val1" => "This is the first value",
+			"val2" => "This is the second value"
+			);
+			
+		echo(JSONifyAssocArr($json));
+	}	
+	
+	/***************************************
+	*	Data validators - END
+	****************************************/
+	
 }?>

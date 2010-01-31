@@ -4,6 +4,52 @@ function blogManager(){
 	this.blacklistCompleteEventHandler;
 	this.blogsRemain;
 	
+	this.blacklist = function(managerObj, serverScriptURL, postID, userID){
+		this.url = serverScriptURL.toString();
+		this.parameters = "postID=" + postID.toString();
+		this.parameters += "&userID=" + userID.toString();
+		this.parameters += "&sid=" + Math.random();
+		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
+		
+		this.eventHandler = function(managerObj){
+			if (managerObj.adapter.xhr.readyState == 4)
+			{
+				var idToCut = parseInt(managerObj.adapter.xhr.responseText);
+				var indexToCut;
+				
+				for (var i = 0; i < managerObj.blogArray.length; i++)
+				{
+					if (managerObj.blogArray[i] == idToCut)
+					{
+						indexToCut = managerObj.blogArray[i];
+						break;
+					}
+				}
+				
+				managerObj.blogArray.splice(indexToCut, 1);
+				
+				if (managerObj.blacklistCompleteEventHandler != null)
+				{
+					managerObj.blacklistCompleteEventHandler();
+				}
+			}
+		};
+		
+		this.adapter.send(this.adapter.xhr, this.eventHandler);
+	};
+	
+	this.getLastPost = function(managerObj){		
+		if (managerObj.blogArray)
+		{
+			if (managerObj.blogArray.length > 0)
+				return managerObj.blogArray[managerObj.blogArray.length - 1];
+			else
+				return -1;
+		}
+		else
+			return 0;
+	};
+	
 	this.loadMorePosts = function(serverScriptURL, requestSize, startFrom, userID, blogContainer){
 		this.content = blogContainer;
 		this.url = serverScriptURL.toString();
@@ -41,53 +87,27 @@ function blogManager(){
 		managerObj.loadCompleteEventHandler = eventHandlerFunc;
 	};
 	
-	this.blacklist = function(managerObj, serverScriptURL, postID, userID){
+	this.setBlacklistCompleteEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.blacklistCompleteEventHandler = eventHandlerFunc;
+	};
+	
+	this.validatePost = function(serverScriptURL, titleToValidate, postBodyToValidate){
 		this.url = serverScriptURL.toString();
-		this.parameters = "postID=" + postID.toString();
-		this.parameters += "&userID=" + userID.toString();
+		this.parameters = "title=" + titleToValidate.toString();
+		this.parameters += "&post=" + postBodyToValidate.toString();
 		this.parameters += "&sid=" + Math.random();
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
 		this.eventHandler = function(managerObj){
 			if (managerObj.adapter.xhr.readyState == 4)
-			{
-				var idToCut = parseInt(managerObj.adapter.xhr.responseText);
-				var indexToCut;
-				
-				for (var i = 0; i < managerObj.blogArray.length; i++)
-				{
-					if (managerObj.blogArray[i] == idToCut)
-					{
-						indexToCut = managerObj.blogArray[i];
-						break;
-					}
-				}
-				
-				managerObj.blogArray.splice(indexToCut, 1);
-				
-				if (managerObj.blacklistCompleteEventHandler != null)
-				{
-					managerObj.blacklistCompleteEventHandler();
-				}
+			{				
+				alert(managerObj.adapter.xhr.responseText);
+				var validationData = JSON.parse(managerObj.adapter.xhr.responseText);
+//				alert(validationData.val1); 
+				// Good start.  Now I need to make a magical JSON helper for the backend.
 			}
 		};
 		
 		this.adapter.send(this.adapter.xhr, this.eventHandler);
-	};
-	
-	this.setBlacklistCompleteEventHandler = function(managerObj, eventHandlerFunc){
-		managerObj.blacklistCompleteEventHandler = eventHandlerFunc;
-	};
-	
-	this.getLastPost = function(managerObj){		
-		if (managerObj.blogArray)
-		{
-			if (managerObj.blogArray.length > 0)
-				return managerObj.blogArray[managerObj.blogArray.length - 1];
-			else
-				return -1;
-		}
-		else
-			return 0;
-	};
+	}
 }
