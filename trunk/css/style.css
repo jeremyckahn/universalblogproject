@@ -185,6 +185,10 @@ Placed at the top of the file for convenience.*/
 	margin:				0px 0px 16px 0px;
 }
 
+.formContainer .errorHighlight{
+	background:			#ff6;
+}
+
 .formContainer .infoOutput{
 	color:				#000;
 	display:			none;

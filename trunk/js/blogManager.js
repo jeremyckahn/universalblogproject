@@ -3,6 +3,7 @@ function blogManager(){
 	this.loadCompleteEventHandler;
 	this.blacklistCompleteEventHandler;
 	this.postValidationCompleteEventHandler;
+	this.postSubmitCompleteEventHandler;
 	this.blogsRemain;
 	this.postValidationJSON;
 	
@@ -33,6 +34,27 @@ function blogManager(){
 				if (managerObj.blacklistCompleteEventHandler != null)
 				{
 					managerObj.blacklistCompleteEventHandler();
+				}
+			}
+		};
+		
+		this.adapter.send(this.adapter.xhr, this.eventHandler);
+	};
+	
+	this.createPost = function(serverScriptURL, title, post, userID){
+		this.url = serverScriptURL.toString();
+		this.parameters = "title=" + title.toString();
+		this.parameters += "&post=" + post.toString();
+		this.parameters += "&userID=" + userID.toString();
+		this.parameters += "&sid=" + Math.random();
+		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
+		
+		this.eventHandler = function(managerObj){
+			if (managerObj.adapter.xhr.readyState == 4)
+			{
+				if (managerObj.postSubmitCompleteEventHandler != null)
+				{
+					managerObj.postSubmitCompleteEventHandler();
 				}
 			}
 		};
@@ -91,6 +113,10 @@ function blogManager(){
 	
 	this.setBlacklistCompleteEventHandler = function(managerObj, eventHandlerFunc){
 		managerObj.blacklistCompleteEventHandler = eventHandlerFunc;
+	};
+	
+	this.setPostSubmitCompleteEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.postSubmitCompleteEventHandler = eventHandlerFunc;
 	};
 	
 	this.setPostValidationCompleteEventHandler = function(managerObj, eventHandlerFunc){
