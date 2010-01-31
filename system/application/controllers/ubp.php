@@ -208,14 +208,27 @@ class UBP extends Controller {
 	// this is going to return a JSON object
 	function validatePost()
 	{
-		// test!
-		//echo "{ \"val1\" : \"This is the first JSON value\" }";
-		$json = array(
-			"val1" => "This is the first value",
-			"val2" => "This is the second value"
-			);
+		$title = $this->input->post("title");
+		$post = $this->input->post("post");
+		
+		$validationJSON = array(
+			"isValid" => false,
+			"errors" => array()
+		);
+		
+		if (strlen($title) >= $this->MAX_TITLE_LENGTH)
+			array_push($validationJSON["errors"], "The title is too long.");
 			
-		echo(JSONifyAssocArr($json));
+		if (strlen($title) == 0)
+			array_push($validationJSON["errors"], "There is no title.");
+			
+		if (strlen($post) >= $this->MAX_POST_LENGTH)
+			array_push($validationJSON["errors"], "The post is too long.");
+			
+		if (strlen($post) == 0)
+			array_push($validationJSON["errors"], "There is no body text.");
+			
+		echo(JSONifyAssocArr($validationJSON));
 	}	
 	
 	/***************************************

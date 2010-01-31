@@ -2,25 +2,45 @@
 
 if ( ! function_exists('JSONifyAssocArr'))
 {
-	// SHIT!  THIS DOESN'T WORK AT ALL!!
 	function JSONifyAssocArr($assocArr) // STRING
 	{
+		if (!isset($assocArr))
+			return;
+			
 		$returnStr = "{";
-		// Do some crazy voodoo here
 		
 		$keys = array_keys($assocArr);
 		$values = array_values($assocArr);
 		
 		for ($i = 0; $i < count($keys); $i++)
 		{
-			$returnStr = $returnStr + $keys[$i];
-			$returnStr = $returnStr + " : ";
-			$returnStr = $returnStr + "\"" + $values[$i] + "\"";
+			$returnStr .= "\"" . $keys[$i] . "\"";
+			$returnStr .= " : ";
 			
-//			error_log($returnStr);
+			if (is_numeric($values[$i]))
+			{
+				$returnStr .= $values[$i];
+			}
+			else if (is_array($values[$i]))
+			{
+				$returnStr .= JSONifyAssocArr($values[$i]);
+			}
+			else if ($values[$i] === TRUE)
+			{
+				$returnStr .= "true";	
+			}
+			else if ($values[$i] === FALSE)
+			{
+				$returnStr .= "false";	
+			}
+			else
+				$returnStr .= quotify($values[$i]);
+			
+			if ($i != count($keys) - 1)
+				$returnStr .= ", ";
 		}
 		
-		$returnStr = $returnStr + "}";
+		$returnStr .= "}";
 		
 		return $returnStr;
 	}	

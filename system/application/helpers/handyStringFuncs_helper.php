@@ -6,4 +6,15 @@ if ( ! function_exists('strContains'))
 	{
 		return (stripos($string, $subStr) === FALSE);
 	}	
-}  ?>
+}
+
+if ( ! function_exists('quotify'))
+{
+	function quotify($string)
+	{
+		return "\"" . $string . "\"";
+	}	
+}  
+
+
+?>

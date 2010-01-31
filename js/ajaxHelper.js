@@ -32,3 +32,23 @@ function ajaxAdapter(url, parameters, objectParam)
 		xhr.send(parameters);
 	};
 }
+
+function JSONLength(JSONObj)
+{
+	var count = 0;
+	
+	for (item in JSONObj)
+		count++;
+		
+	return count;
+}
+
+function JSONToArray(JSONObj)
+{
+	var returnArray = new Array();
+	
+	for (item in JSONObj)
+		returnArray.push(JSONObj[item]);
+		
+	return returnArray;
+}
