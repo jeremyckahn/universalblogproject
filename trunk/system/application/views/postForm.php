@@ -65,25 +65,20 @@
 		
 		togglePreviewMode();
 		
-		
-		// Handful of JSON test code.
-		/*var url = "<?= base_url() . "index.php/ubp/validatePost"; ?>";
-		var adapter = new ajaxAdapter(url, "", null);
-		
-		var eventHandler = function(){
-			if (adapter.xhr.readyState == 4)
-			{
-				alert(JSON.parse(adapter.xhr.responseText).val1);
-			}
+		if (inPreviewMode)
+		{ 
+			manager.setPostValidationCompleteEventHandler(manager, function(){
+				var validationJSON = manager.postValidationJSON.errors;
+				var numberOfErrors = JSONLength(validationJSON);
+				//alert(JSONToArray(validationJSON));
+			});
+			
+			var results = manager.validatePost(
+				"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
+				titleText, // titleToValidate
+				postText //postBodyToValidate
+			);
 		}
-		
-		adapter.send(adapter.xhr, eventHandler);*/
-		
-		manager.validatePost(
-			"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
-			titleText, // titleToValidate
-			postText //postBodyToValidate
-		);
 	}
 	
 	function togglePreviewMode()

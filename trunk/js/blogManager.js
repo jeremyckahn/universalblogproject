@@ -2,7 +2,9 @@ function blogManager(){
 	this.blogArray;
 	this.loadCompleteEventHandler;
 	this.blacklistCompleteEventHandler;
+	this.postValidationCompleteEventHandler;
 	this.blogsRemain;
+	this.postValidationJSON;
 	
 	this.blacklist = function(managerObj, serverScriptURL, postID, userID){
 		this.url = serverScriptURL.toString();
@@ -91,6 +93,10 @@ function blogManager(){
 		managerObj.blacklistCompleteEventHandler = eventHandlerFunc;
 	};
 	
+	this.setPostValidationCompleteEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.postValidationCompleteEventHandler = eventHandlerFunc;
+	};
+	
 	this.validatePost = function(serverScriptURL, titleToValidate, postBodyToValidate){
 		this.url = serverScriptURL.toString();
 		this.parameters = "title=" + titleToValidate.toString();
@@ -100,11 +106,13 @@ function blogManager(){
 		
 		this.eventHandler = function(managerObj){
 			if (managerObj.adapter.xhr.readyState == 4)
-			{				
-				alert(managerObj.adapter.xhr.responseText);
-				var validationData = JSON.parse(managerObj.adapter.xhr.responseText);
-//				alert(validationData.val1); 
-				// Good start.  Now I need to make a magical JSON helper for the backend.
+			{
+				managerObj.postValidationJSON = JSON.parse(managerObj.adapter.xhr.responseText);
+				
+				if (managerObj.postValidationCompleteEventHandler != null)
+				{
+					managerObj.postValidationCompleteEventHandler();
+				}
 			}
 		};
 		
