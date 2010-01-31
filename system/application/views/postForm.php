@@ -10,11 +10,11 @@
 
 	<div class ="label">Title:</div>
 
-	<input id="txtTitle" class="txtTitle" type="text" name="title" value="<?= set_value('title'); ?>"/>
+	<input id="txtTitle" class="txtTitle" type="text" name="title" value="" onfocus="removeClass(this, 'errorHighlight');"/>
 			
 	<div class ="label">Post:</div>
 
-	<textarea id = "txtPost" class="txtPost" name="post" rows="10" cols="30"><?= set_value('post'); ?></textarea>
+	<textarea id = "txtPost" class="txtPost" name="post" rows="10" cols="30" onfocus="removeClass(this, 'errorHighlight');"></textarea>
 
 	<div style="color: #f00;"><?= validation_errors(); ?></div>
 	
@@ -33,11 +33,14 @@
 
 <div class="customUIButtonFrame">
 		
-		<span id="btnPreviewToggle" class="button rollover" onclick="preview();">preview</span>
+	<span id="btnPreviewToggle" class="button rollover left" onclick="preview();">preview</span>
 	
-	</div>
+	<span id="btnSubmit" class="button rollover right" onclick="submitPost();">submit</span>
+
+</div>
 
 <script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
+<script type="text/javascript" src="<?= base_url() . "js/styleManager.js" ?>"></script>
 
 <script type="text/javascript">
 
@@ -46,6 +49,7 @@
 	var fieldContainer = document.getElementById("fieldContainer");
 	var previewContainer = document.getElementById("previewContainer");
 	var btnPreviewToggle = document.getElementById("btnPreviewToggle");
+	var btnSubmit = document.getElementById("btnSubmit");
 	var txtTitle = document.getElementById("txtTitle");
 	var txtPost = document.getElementById("txtPost");
 	var previewTitle = document.getElementById("previewTitle");
@@ -53,9 +57,23 @@
 	
 	var titleText, postText;
 	var inPreviewMode = false;
-	var errorHightlight = "#ff6";
 	
 	previewContainer.style.display = "none";
+	btnSubmit.style.display = "none";
+
+	function submitPost()
+	{
+		manager.setPostSubmitCompleteEventHandler(manager, function(){
+			alert("Post submitted!");
+		});
+		
+		manager.createPost(
+			"<?= base_url() . "index.php/ubp/createPost"; ?>", // serverScriptURL
+			titleText, // title
+			postText, // post
+			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?> // userID
+		);
+	}
 
 	function preview()
 	{		
@@ -72,19 +90,18 @@
 			if (errorArray.length == 0)
 				togglePreviewMode();
 			
-			//for (errorStr in errorArray)
 			for (var i = 0; i < errorArray.length; i++)
 			{	
 				if (errorArray[i].toLowerCase().search("title") > -1)
-					txtTitle.style.background = errorHightlight;
+					addClass(txtTitle, "errorHighlight");
 					
 				if (errorArray[i].toLowerCase().search("post") > -1 ||
 					errorArray[i].toLowerCase().search("body") > -1)
-					txtPost.style.background = errorHightlight;
+					addClass(txtPost, "errorHighlight");
 			}
 		});
 		
-		var results = manager.validatePost(
+		manager.validatePost(
 			"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
 			titleText, // titleToValidate
 			postText //postBodyToValidate
@@ -100,12 +117,14 @@
 			fieldContainer.style.display = "none";
 			previewContainer.style.display = "block";
 			btnPreviewToggle.innerHTML = "edit";
+			btnSubmit.style.display = "block";
 		}
 		else
 		{
 			fieldContainer.style.display = "block";
 			previewContainer.style.display = "none";
 			btnPreviewToggle.innerHTML = "preview";
+			btnSubmit.style.display = "none";
 		}
 	}
 </script>

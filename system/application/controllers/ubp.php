@@ -16,7 +16,7 @@ class UBP extends Controller {
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
-		$this->load->helper(array('form', 'url', 'handyStringFuncs', 'json'));
+		$this->load->helper(array('form', 'url', 'handyStringFuncs', 'json', 'validation'));
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		
@@ -167,6 +167,22 @@ class UBP extends Controller {
 		$this->load->view('templateEnd');
 	}
 	
+	// TODO: NOT SECURE.  THERE NEEDS TO BE EITHER SESSION VALIDATION OR USER KEY VALIDATION
+	function createPost()
+	{
+		$title = $this->input->post("title");
+		$post = $this->input->post("post");
+		$userID = $this->input->post("userID");
+		
+		$postValidation = validatePostText($this, $title, $post);
+		
+		if ($postValidation["isValid"])
+		{
+			// strip_tags is called on the title and post to sanitize for DB entry.
+			$postSubmittedSuccessfully = $this->UBP_DAL->createPost(strip_tags($title), strip_tags($post), $userID);
+		}
+	}
+	
 	/***************************************
 	*	Blog management functions - END
 	****************************************/
@@ -205,30 +221,12 @@ class UBP extends Controller {
 	*	Data validators - BEGIN
 	****************************************/
 
-	// this is going to return a JSON object
 	function validatePost()
 	{
 		$title = $this->input->post("title");
 		$post = $this->input->post("post");
 		
-		$validationJSON = array(
-			"isValid" => false,
-			"errorList" => array()
-		);
-		
-		if (strlen($title) >= $this->MAX_TITLE_LENGTH)
-			array_push($validationJSON["errorList"], "The title is too long.");
-			
-		if (strlen($title) == 0)
-			array_push($validationJSON["errorList"], "There is no title.");
-			
-		if (strlen($post) >= $this->MAX_POST_LENGTH)
-			array_push($validationJSON["errorList"], "The post is too long.");
-			
-		if (strlen($post) == 0)
-			array_push($validationJSON["errorList"], "There is no post body text.");
-			
-		echo(JSONifyAssocArr($validationJSON));
+		echo(JSONifyAssocArr(validatePostText($this, $title, $post)));
 	}	
 	
 	/***************************************
