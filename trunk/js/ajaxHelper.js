@@ -48,7 +48,9 @@ function JSONToArray(JSONObj)
 	var returnArray = new Array();
 	
 	for (item in JSONObj)
-		returnArray.push(JSONObj[item]);
+	{
+		returnArray.push(JSONObj[item].toString());
+	}
 		
 	return returnArray;
 }

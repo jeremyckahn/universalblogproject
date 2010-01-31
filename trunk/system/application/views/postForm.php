@@ -53,6 +53,7 @@
 	
 	var titleText, postText;
 	var inPreviewMode = false;
+	var errorHightlight = "#ff6";
 	
 	previewContainer.style.display = "none";
 
@@ -63,22 +64,31 @@
 		previewTitle.innerHTML = titleText;
 		previewPost.innerHTML = postText;
 		
-		togglePreviewMode();
-		
-		if (inPreviewMode)
-		{ 
-			manager.setPostValidationCompleteEventHandler(manager, function(){
-				var validationJSON = manager.postValidationJSON.errors;
-				var numberOfErrors = JSONLength(validationJSON);
-				//alert(JSONToArray(validationJSON));
-			});
+		manager.setPostValidationCompleteEventHandler(manager, function(){
+			var validationJSON = manager.postValidationJSON;
+			var numberOfErrors = JSONLength(validationJSON.errorList);
+			var errorArray = JSONToArray(validationJSON.errorList);
 			
-			var results = manager.validatePost(
-				"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
-				titleText, // titleToValidate
-				postText //postBodyToValidate
-			);
-		}
+			if (errorArray.length == 0)
+				togglePreviewMode();
+			
+			//for (errorStr in errorArray)
+			for (var i = 0; i < errorArray.length; i++)
+			{	
+				if (errorArray[i].toLowerCase().search("title") > -1)
+					txtTitle.style.background = errorHightlight;
+					
+				if (errorArray[i].toLowerCase().search("post") > -1 ||
+					errorArray[i].toLowerCase().search("body") > -1)
+					txtPost.style.background = errorHightlight;
+			}
+		});
+		
+		var results = manager.validatePost(
+			"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
+			titleText, // titleToValidate
+			postText //postBodyToValidate
+		);
 	}
 	
 	function togglePreviewMode()
