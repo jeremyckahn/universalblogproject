@@ -45,7 +45,6 @@ function blogManager(){
 		this.url = serverScriptURL.toString();
 		this.parameters = "title=" + title.toString();
 		this.parameters += "&post=" + post.toString();
-		this.parameters += "&userID=" + userID.toString();
 		this.parameters += "&sid=" + Math.random();
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
