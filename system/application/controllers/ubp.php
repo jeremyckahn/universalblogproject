@@ -167,19 +167,17 @@ class UBP extends Controller {
 		$this->load->view('templateEnd');
 	}
 	
-	// TODO: NOT SECURE.  THERE NEEDS TO BE EITHER SESSION VALIDATION OR USER KEY VALIDATION
 	function createPost()
 	{
 		$title = $this->input->post("title");
 		$post = $this->input->post("post");
-		$userID = $this->input->post("userID");
 		
 		$postValidation = validatePostText($this, $title, $post);
 		
 		if ($postValidation["isValid"])
 		{
 			// strip_tags is called on the title and post to sanitize for DB entry.
-			$postSubmittedSuccessfully = $this->UBP_DAL->createPost(strip_tags($title), strip_tags($post), $userID);
+			$postSubmittedSuccessfully = $this->UBP_DAL->createPost(strip_tags($title), strip_tags($post), $this->session->userdata("userID"));
 		}
 	}
 	
@@ -232,5 +230,4 @@ class UBP extends Controller {
 	/***************************************
 	*	Data validators - END
 	****************************************/
-	
 }?>

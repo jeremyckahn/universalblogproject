@@ -5,7 +5,6 @@
 					"class" => "formContainer");
 ?>
 
-<!--<?= form_open('ubp/post', $formAttributes); ?>-->
 <div id="fieldContainer" class="formContainer">
 
 	<div class ="label">Title:</div>
@@ -18,9 +17,6 @@
 
 	<div style="color: #f00;"><?= validation_errors(); ?></div>
 	
-	<!--<input type="submit" value="Submit" />-->
-	
-<!--</form>-->
 </div>
 
 <div id="previewContainer" class="postContainer">
@@ -43,7 +39,7 @@
 <script type="text/javascript" src="<?= base_url() . "js/styleManager.js" ?>"></script>
 
 <script type="text/javascript">
-
+/* <![CDATA[ */
 	var manager = new blogManager();
 
 	var fieldContainer = document.getElementById("fieldContainer");
@@ -70,8 +66,7 @@
 		manager.createPost(
 			"<?= base_url() . "index.php/ubp/createPost"; ?>", // serverScriptURL
 			titleText, // title
-			postText, // post
-			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?> // userID
+			postText // post
 		);
 	}
 
@@ -127,6 +122,7 @@
 			btnSubmit.style.display = "none";
 		}
 	}
+/* ]]> */
 </script>
 
 <?} else {?>
