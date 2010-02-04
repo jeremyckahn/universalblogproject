@@ -5,34 +5,38 @@
 					"class" => "formContainer");
 ?>
 
-<div id="fieldContainer" class="formContainer">
+<div id="postFormContainer">
 
-	<div class ="label">Title:</div>
-
-	<input id="txtTitle" class="txtTitle" type="text" name="title" value="" onfocus="removeClass(this, 'errorHighlight');"/>
-			
-	<div class ="label">Post:</div>
-
-	<textarea id = "txtPost" class="txtPost" name="post" rows="10" cols="30" onfocus="removeClass(this, 'errorHighlight');"></textarea>
-
-	<div style="color: #f00;"><?= validation_errors(); ?></div>
+	<div id="fieldContainer" class="formContainer">
 	
-</div>
-
-<div id="previewContainer" class="postContainer">
+		<div class ="label">Title:</div>
 	
-	<h1 id="previewTitle" class="articleHeader"></h1>
+		<input id="txtTitle" class="txtTitle" type="text" name="title" value="" onfocus="removeClass(this, 'errorHighlight');"/>
+				
+		<div class ="label">Post:</div>
 	
-	<p id="previewPost"></p>
+		<textarea id = "txtPost" class="txtPost" name="post" rows="10" cols="30" onfocus="removeClass(this, 'errorHighlight');"></textarea>
 	
-</div>
-
-<div class="customUIButtonFrame">
+		<div style="color: #f00;"><?= validation_errors(); ?></div>
 		
-	<span id="btnPreviewToggle" class="button rollover left" onclick="preview();">preview</span>
+	</div>
 	
-	<span id="btnSubmit" class="button rollover right" onclick="submitPost();">submit</span>
-
+	<div id="previewContainer" class="postContainer">
+		
+		<h1 id="previewTitle" class="articleHeader"></h1>
+		
+		<p id="previewPost"></p>
+		
+	</div>
+	
+	<div id="editingControls" class="customUIButtonFrame">
+			
+		<span id="btnPreviewToggle" class="button rollover left" onclick="preview();">preview</span>
+		
+		<span id="btnSubmit" class="button rollover right" onclick="submitPost();">submit</span>
+	
+	</div>
+	
 </div>
 
 <script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
@@ -42,6 +46,7 @@
 /* <![CDATA[ */
 	var manager = new blogManager();
 
+	var postFormContainer = document.getElementById("postFormContainer");
 	var fieldContainer = document.getElementById("fieldContainer");
 	var previewContainer = document.getElementById("previewContainer");
 	var btnPreviewToggle = document.getElementById("btnPreviewToggle");
@@ -50,6 +55,7 @@
 	var txtPost = document.getElementById("txtPost");
 	var previewTitle = document.getElementById("previewTitle");
 	var previewPost = document.getElementById("previewPost");
+	var editingControls = document.getElementById("editingControls");
 	
 	var titleText, postText;
 	var inPreviewMode = false;
@@ -60,7 +66,11 @@
 	function submitPost()
 	{
 		manager.setPostSubmitCompleteEventHandler(manager, function(){
-			alert("Post submitted!");
+			var serverResponse = manager.adapter.xhr.responseText;
+			
+			postFormContainer.innerHTML = serverResponse;
+			
+			
 		});
 		
 		manager.createPost(

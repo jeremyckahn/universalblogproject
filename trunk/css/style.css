@@ -75,6 +75,13 @@ Placed at the top of the file for convenience.*/
 	padding:			0px 30px 0px 15px;
 }
 
+.main .errorMessage{
+	background:			#ff8;
+	border:				solid 1px #000;
+	color:				#f00;
+	padding:			15px 15px 15px 15px;
+}
+
 .main .pageSizeConstrain{
 	max-width:			1200px;
 	min-width:			780px;

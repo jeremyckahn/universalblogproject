@@ -171,6 +171,13 @@ class UBP extends Controller {
 	{
 		$title = $this->input->post("title");
 		$post = $this->input->post("post");
+		$data = array(
+			"postSubmittedSuccessfully" => FALSE,
+			"title" => "",
+			"post" => "",
+			"errorMessages" => array()
+		);
+		$postSubmittedSuccessfully = FALSE;
 		
 		$postValidation = validatePostText($this, $title, $post);
 		
@@ -178,7 +185,26 @@ class UBP extends Controller {
 		{
 			// strip_tags is called on the title and post to sanitize for DB entry.
 			$postSubmittedSuccessfully = $this->UBP_DAL->createPost(strip_tags($title), strip_tags($post), $this->session->userdata("userID"));
+			
+			if (!$postSubmittedSuccessfully)
+			{
+				array_push($data["errorMessages"], "There was an error submitting your post to the database.  Please copy your blog post, refresh the page and try again.  We apologize for the inconvenience.");
+			}
 		}
+		else
+		{
+			array_push($data["errorMessages"], "The post you submitted was not valid.");
+		}
+		
+		if (!$postSubmittedSuccessfully)
+		{
+			$data["title"] = $title;
+			$data["post"] = $post;
+		}
+		
+		$data["postSubmittedSuccessfully"] = $postSubmittedSuccessfully;
+		
+		$this->load->view('postSubmissionResult', $data);
 	}
 	
 	/***************************************
