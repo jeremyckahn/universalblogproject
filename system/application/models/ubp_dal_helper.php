@@ -21,34 +21,34 @@
 		{
 			foreach($postArray as $post)
 			{
-				$returnString = $returnString . "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
+				$returnString .= "<div id=\"postID_" . $post['blogID'] . "\" class=\"postContainer\">\n";
 				
 				// If a special directive is "SINGLEVIEW," make the post title a link to the single-post view
 				if (strContains($options, "SINGLEVIEW"))
-					$returnString = $returnString . "<h1 class=\"articleHeader\"><a href=\"" . base_url() . "index.php/ubp/index/blogID/" . $post['blogID'] . "\">" . htmlentities(urldecode($post['title'])) . "</a></h1>\n";
+					$returnString .= "<h1 class=\"articleHeader\"><a href=\"" . base_url() . "index.php/ubp/index/blogID/" . $post['blogID'] . "\">" . htmlentities(urldecode($post['title'])) . "</a></h1>\n";
 				else
 				{
-					$returnString = $returnString . "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
+					$returnString .= "<h1 class=\"articleHeader\">" . htmlentities(urldecode($post['title'])) . "</h1>\n";
 					
 					$postDate = explode(" ", $post['datePosted']);
 					$dateSegments = explode("-", $postDate[0]);
-					$returnString = $returnString . "<h3 class=\"articleDate bracketize\">" . $dateSegments[1] . "-" . $dateSegments[2] . "-" . $dateSegments[0] . "</h3>";
+					$returnString .= "<h3 class=\"articleDate bracketize\">" . $dateSegments[1] . "-" . $dateSegments[2] . "-" . $dateSegments[0] . "</h3>";
 				}
 				
-				$returnString = $returnString . "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
+				$returnString .= "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
 				
 				if ($userID != "0")
 				{
-					$returnString = $returnString . "<div class=\"controlPanel\"><span class=\"blacklistButton bracketize rollover\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">blacklist this post</span></div>\n";
+					$returnString .= "<div class=\"controlPanel\"><span class=\"blacklistButton bracketize rollover\" value=\"" . $post['blogID'] . "\" onclick=\"blacklist(" . $post['blogID'] . ")\">blacklist this post</span></div>\n";
 				}
 				
-				$returnString = $returnString . "</div>\n";
+				$returnString .= "</div>\n";
 				
-				$blogList = $blogList . $post['blogID'] . "_";			
+				$blogList .= $post['blogID'] . "_";			
 			}
 		}
 		
-		$returnString = $returnString . "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"/>\n";
+		$returnString .= "<input id=\"blogList\" type=\"hidden\" value=\"" . $blogList . "\"/>\n";
 		
 		if ($blogList)
 		{
@@ -56,12 +56,12 @@
 			$lastPostIDLoaded = $lastPostIDLoaded[count($lastPostIDLoaded) - 2];
 			
 			if ($this->UBP_DAL->postsRemain($lastPostIDLoaded))
-				$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"TRUE\"/>\n";
+				$returnString .= "<input id=\"blogsRemain\" type=\"hidden\" value=\"TRUE\"/>\n";
 			else
-				$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"/>\n";
+				$returnString .= "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"/>\n";
 		}
 		else
-			$returnString = $returnString . "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"\n>";
+			$returnString .= "<input id=\"blogsRemain\" type=\"hidden\" value=\"FALSE\"\n>";
 		
 		return $returnString;
 	}

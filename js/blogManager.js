@@ -87,6 +87,7 @@ function blogManager(){
 			{
 				managerObj.content.innerHTML += (managerObj.adapter.xhr.responseText);
 				
+				// TODO:  This should be done with JSON.
 				var blogList = document.getElementById("blogList");
 				managerObj.blogArray = blogList.value.split("_");
 				managerObj.blogArray.pop();
