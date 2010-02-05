@@ -44,13 +44,22 @@ function JSONLength(JSONObj)
 }
 
 function JSONToArray(JSONObj)
-{
+{		
 	var returnArray = new Array();
+	var length = JSONLength(JSONObj);
 	
-	for (item in JSONObj)
+	for (var i = 0; i < length; i++)
 	{
-		returnArray.push(JSONObj[item].toString());
+		if (isArray(JSONObj[i]))
+			JSONObj[i] = JSONToArray(JSONObj[i]);
+		
+		returnArray.push(JSONObj[i]);
 	}
 		
 	return returnArray;
+}
+
+function isArray(theVar)
+{
+	return ((typeof theVar == "object") && !(typeof theVar[1] == "undefined"))
 }
