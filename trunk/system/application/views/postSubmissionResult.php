@@ -13,7 +13,7 @@
 
 <? foreach($errorMessages as $error) { ?>
 
-	<p class="errorMessage"><?= $error ?></p>
+	<p class="boxedErrorMessage"><?= $error ?></p>
 
 <? } ?>
 

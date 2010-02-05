@@ -75,7 +75,15 @@ Placed at the top of the file for convenience.*/
 	padding:			0px 30px 0px 15px;
 }
 
-.main .errorMessage{
+.main .errorText{
+	color:				#f00;
+}
+
+.main .errorText:before{
+	content:			"  *  ";
+}
+
+.main .boxedErrorMessage{
 	background:			#ff8;
 	border:				solid 1px #000;
 	color:				#f00;
@@ -203,7 +211,7 @@ Placed at the top of the file for convenience.*/
 }
 
 .formContainer .label{
-	display:			block;
+	/*display:			block;*/
 	font-size:			18pt;
 	margin:				0px 0px 5px 0px;
 }
@@ -220,7 +228,7 @@ Placed at the top of the file for convenience.*/
 	font-size:			16pt;
 	height:				300px;
 	line-height:		28px;
-	margin:				0px 0px 18px 0px;
+	margin:				8px 0px 18px 0px;
 	width:				98%;
 }
 
@@ -230,7 +238,7 @@ Placed at the top of the file for convenience.*/
 	display:			block;
 	font-family:		helvetica, sans-serif;
 	font-size:			24pt;
-	margin:				0px 0px 18px 0px;
+	margin:				8px 0px 18px 0px;
 	width:				80%;
 }
 

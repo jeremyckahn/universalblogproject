@@ -9,13 +9,17 @@
 
 	<div id="fieldContainer" class="formContainer">
 	
-		<div class ="label">Title:</div>
+		<span class ="label">Title:</span>
 	
-		<input id="txtTitle" class="txtTitle" type="text" name="title" value="" onfocus="removeClass(this, 'errorHighlight');"/>
+		<span id="titleError" class="errorText"></span>
+	
+		<input id="txtTitle" class="txtTitle" type="text" name="title" value="" onfocus="resetErrorStyle(this, titleError);"/>
 				
-		<div class ="label">Post:</div>
+		<span class ="label">Post:</span>
 	
-		<textarea id = "txtPost" class="txtPost" name="post" rows="10" cols="30" onfocus="removeClass(this, 'errorHighlight');"></textarea>
+		<span id="postError" class="errorText"></span>
+	
+		<textarea id = "txtPost" class="txtPost" name="post" rows="10" cols="30" onfocus="resetErrorStyle(this, postError);"></textarea>
 	
 		<div style="color: #f00;"><?= validation_errors(); ?></div>
 		
@@ -56,12 +60,17 @@
 	var previewTitle = document.getElementById("previewTitle");
 	var previewPost = document.getElementById("previewPost");
 	var editingControls = document.getElementById("editingControls");
+	var titleError = document.getElementById("titleError");
+	var postError = document.getElementById("postError");
 	
 	var titleText, postText;
 	var inPreviewMode = false;
 	
 	previewContainer.style.display = "none";
 	btnSubmit.style.display = "none";
+	titleError.style.display = "none";
+	postError.style.display = "none";
+	
 
 	function submitPost()
 	{
@@ -69,8 +78,6 @@
 			var serverResponse = manager.adapter.xhr.responseText;
 			
 			postFormContainer.innerHTML = serverResponse;
-			
-			
 		});
 		
 		manager.createPost(
@@ -92,17 +99,25 @@
 			var numberOfErrors = JSONLength(validationJSON.errorList);
 			var errorArray = JSONToArray(validationJSON.errorList);
 			
-			if (errorArray.length == 0)
+			if (numberOfErrors == 0)
 				togglePreviewMode();
 			
-			for (var i = 0; i < errorArray.length; i++)
-			{	
-				if (errorArray[i].toLowerCase().search("title") > -1)
+			// Would have used a "for...in" but they don't play nicely with multidimensional arrays.  Therefore, a standard for loop is used.
+			for (var i = 0; i < numberOfErrors; i++)
+			{					
+				if (errorArray[i][0] == "title")
+				{
+					titleError.style.display = "inline";
+					titleError.innerHTML = errorArray[i][1];
 					addClass(txtTitle, "errorHighlight");
+				}
 					
-				if (errorArray[i].toLowerCase().search("post") > -1 ||
-					errorArray[i].toLowerCase().search("body") > -1)
+				if (errorArray[i][0] == "post")
+				{
+					postError.style.display = "inline";
+					postError.innerHTML = errorArray[i][1];
 					addClass(txtPost, "errorHighlight");
+				}
 			}
 		});
 		
@@ -111,6 +126,12 @@
 			titleText, // titleToValidate
 			postText //postBodyToValidate
 		);
+	}
+	
+	function resetErrorStyle(element, errorMessageElement)
+	{
+		removeClass(element, 'errorHighlight');
+		errorMessageElement.style.display = "none";
 	}
 	
 	function togglePreviewMode()
