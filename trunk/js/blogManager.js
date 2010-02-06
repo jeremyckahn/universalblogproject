@@ -11,7 +11,6 @@ function blogManager(){
 		this.url = serverScriptURL.toString();
 		this.parameters = "postID=" + postID.toString();
 		this.parameters += "&userID=" + userID.toString();
-		this.parameters += "&sid=" + Math.random();
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
 		this.eventHandler = function(managerObj){
@@ -43,9 +42,8 @@ function blogManager(){
 	
 	this.createPost = function(serverScriptURL, title, post, userID){
 		this.url = serverScriptURL.toString();
-		this.parameters = "title=" + title.toString();
-		this.parameters += "&post=" + post.toString();
-		this.parameters += "&sid=" + Math.random();
+		this.parameters = "title=" + encodeURIComponent(title.toString());
+		this.parameters += "&post=" + encodeURIComponent(post.toString());
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
 		this.eventHandler = function(managerObj){
@@ -79,7 +77,6 @@ function blogManager(){
 		this.parameters = "requestSize=" + requestSize.toString();
 		this.parameters += "&startFrom=" + startFrom.toString();
 		this.parameters += "&userID=" + userID.toString();
-		this.parameters += "&sid=" + Math.random();
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
 		this.eventHandler = function(managerObj){
@@ -125,9 +122,8 @@ function blogManager(){
 	
 	this.validatePost = function(serverScriptURL, titleToValidate, postBodyToValidate){
 		this.url = serverScriptURL.toString();
-		this.parameters = "title=" + titleToValidate.toString();
-		this.parameters += "&post=" + postBodyToValidate.toString();
-		this.parameters += "&sid=" + Math.random();
+		this.parameters = "title=" + encodeURIComponent(titleToValidate.toString());
+		this.parameters += "&post=" + encodeURIComponent(postBodyToValidate.toString());
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
 		this.eventHandler = function(managerObj){

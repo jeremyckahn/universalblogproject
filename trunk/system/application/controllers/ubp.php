@@ -155,22 +155,8 @@ class UBP extends Controller {
 	
 	function post()
 	{
-		$postSubmittedSuccessfully = FALSE;
-		
-		if ($this->session->userdata("username"))
-		{	
-			$this->form_validation->set_rules('title', 'title', 'required|max_length[' . $this->MAX_TITLE_LENGTH . ']');
-			$this->form_validation->set_rules('post', 'post', 'required|max_length[' . $this->MAX_POST_LENGTH . ']');
-			
-			if ($this->form_validation->run())
-			{
-				// strip_tags is called on the title and post to sanitize for DB entry.
-				$postSubmittedSuccessfully = $this->UBP_DAL->createPost(strip_tags($this->input->post("title", TRUE)), strip_tags($this->input->post("post", TRUE)), $this->session->userdata("userID"));
-			}
-		}
-		
 		$this->load->view('templateBegin');
-		$this->load->view($postSubmittedSuccessfully ? 'postSubmitted' : 'postForm');
+		$this->load->view('postForm');
 		$this->load->view('templateEnd');
 	}
 	
@@ -191,7 +177,11 @@ class UBP extends Controller {
 		if ($postValidation["isValid"])
 		{
 			// strip_tags is called on the title and post to sanitize for DB entry.
-			$postSubmittedSuccessfully = $this->UBP_DAL->createPost(strip_tags($title), strip_tags($post), $this->session->userdata("userID"));
+			$postSubmittedSuccessfully = $this->UBP_DAL->createPost(
+				strip_tags($title), 
+				strip_tags($post, "<br/>"), 
+				$this->session->userdata("userID")
+			);
 			
 			if (!$postSubmittedSuccessfully)
 			{
