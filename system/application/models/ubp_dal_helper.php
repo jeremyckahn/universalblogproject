@@ -35,7 +35,9 @@
 					$returnString .= "<h3 class=\"articleDate bracketize\">" . $dateSegments[1] . "-" . $dateSegments[2] . "-" . $dateSegments[0] . "</h3>";
 				}
 				
-				$returnString .= "<p>" . htmlentities(urldecode($post['post'])) . "</p>\n";
+				$returnString .= "<p>" . 
+				str_replace("<br/>", "<br>", urldecode($post['post'])) .
+				"</p>\n";
 				
 				if ($userID != "0")
 				{

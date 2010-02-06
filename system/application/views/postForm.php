@@ -86,7 +86,7 @@
 		manager.createPost(
 			"<?= base_url() . "index.php/ubp/createPost"; ?>", // serverScriptURL
 			titleText, // title
-			postText // post
+			postText.replace(/\n/g, "<br/>") // post
 		);
 	}
 
@@ -95,7 +95,7 @@
 		titleText = txtTitle.value;
 		postText = txtPost.value;
 		previewTitle.innerHTML = titleText;
-		previewPost.innerHTML = postText;
+		previewPost.innerHTML = postText.replace(/\n/g, "<br/>");
 		
 		manager.setPostValidationCompleteEventHandler(manager, function(){
 			var validationJSON = manager.postValidationJSON;

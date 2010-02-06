@@ -36,12 +36,22 @@
 	var usernameError = document.getElementById("usernameError");
 	var emailError = document.getElementById("emailError");
 	
+	var username, email;
+	var managerObj = new userManager();
+	
 	usernameError.style.display = "none";
 	emailError.style.display = "none";
 
 	function requestReminder()
 	{
+		username = txtUsername.value;
+		email = txtEmail.value;
 		
+		userManager.changePassword(
+			// serverScriptURL
+			// oldPassword
+			// newPassword
+		);
 	}
 
 /* ]]> */

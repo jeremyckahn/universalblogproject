@@ -19,6 +19,9 @@ function ajaxAdapter(url, parameters, objectParam)
 	this.xhr = getXmlHttpRequestObject();
 	var callingObject = objectParam;
 	
+	// Add a random string to the request to make sure results are not cached data.
+	parameters += "&sid=" + Math.random();
+	
 	if (this.xhr == null)
 	{
 		alert("Uh oh!  Unable to access the server.");
