@@ -5,6 +5,8 @@
 					"class" => "formContainer");
 ?>
 
+<h2 id="pageTitle">Write a post.</h2>
+
 <div id="postFormContainer">
 
 	<div id="fieldContainer" class="formContainer">
@@ -13,7 +15,7 @@
 	
 		<span id="titleError" class="errorText"></span>
 	
-		<input id="txtTitle" class="txtTitle" type="text" name="title" value="" onfocus="resetErrorStyle(this, titleError);"/>
+		<input id="txtTitle" class="txtStandard" type="text" name="title" value="" onfocus="resetErrorStyle(this, titleError);"/>
 				
 		<span class ="label">Post:</span>
 	
@@ -62,6 +64,7 @@
 	var editingControls = document.getElementById("editingControls");
 	var titleError = document.getElementById("titleError");
 	var postError = document.getElementById("postError");
+	var pageTitle = document.getElementById("pageTitle");
 	
 	var titleText, postText;
 	var inPreviewMode = false;
@@ -73,7 +76,7 @@
 	
 
 	function submitPost()
-	{
+	{	
 		manager.setPostSubmitCompleteEventHandler(manager, function(){
 			var serverResponse = manager.adapter.xhr.responseText;
 			
@@ -88,7 +91,7 @@
 	}
 
 	function preview()
-	{		
+	{			
 		titleText = txtTitle.value;
 		postText = txtPost.value;
 		previewTitle.innerHTML = titleText;
@@ -128,18 +131,13 @@
 		);
 	}
 	
-	function resetErrorStyle(element, errorMessageElement)
-	{
-		removeClass(element, 'errorHighlight');
-		errorMessageElement.style.display = "none";
-	}
-	
 	function togglePreviewMode()
 	{
 		inPreviewMode = !inPreviewMode;
 		
 		if (inPreviewMode)
 		{
+			pageTitle.style.display = "none";
 			fieldContainer.style.display = "none";
 			previewContainer.style.display = "block";
 			btnPreviewToggle.innerHTML = "edit";
@@ -147,6 +145,7 @@
 		}
 		else
 		{
+			pageTitle.style.display = "block";
 			fieldContainer.style.display = "block";
 			previewContainer.style.display = "none";
 			btnPreviewToggle.innerHTML = "preview";

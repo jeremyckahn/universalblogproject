@@ -5,7 +5,9 @@
 						"class" => "formContainer"
 ); ?>
 
-<h2>Welcome to the Universal Blog Project.  We just need a little information and you'll be ready to post.</h2>
+<h2>Welcome to the Universal Blog Project.</h2>
+
+<p>We just need a little information and you'll be ready to post.</p>
 
 <?= form_open('ubp/signup', $formAttributes); ?>
 	
@@ -15,11 +17,11 @@
 			
 	<div class ="label">Password:</div>
 	
-	<input id="txtPassword" class="txtPassword" type="password" name="password" value="<?= set_value('password'); ?>"/>
+	<input id="txtPassword" class="txtStandard" type="password" name="password" value="<?= set_value('password'); ?>"/>
 	
 	<div class ="label">Please re-type password, just to be sure:</div>
 	
-	<input id="txtPasswordConfirm" class="txtPassword" type="password" name="passwordConfirm" value="<?= set_value('passwordConfirm'); ?>"/>
+	<input id="txtPasswordConfirm" class="txtStandard" type="password" name="passwordConfirm" value="<?= set_value('passwordConfirm'); ?>"/>
 	
 	<div class ="label">Email:</div>
 	

@@ -40,14 +40,16 @@ Placed at the top of the file for convenience.*/
 	color:				#888;
 	font-size:			16px;
 	font-weight:		normal;
-	margin:				0px 0px 0px px;
+	margin:				0px 0px 0px 2px;
 }
 
 .main .bracketize:before{
+	color:				#888;
 	content:			"[ ";
 }
 
 .main .bracketize:after{
+	color:				#888;
 	content:			" ]";
 }
 
@@ -211,9 +213,8 @@ Placed at the top of the file for convenience.*/
 }
 
 .formContainer .label{
-	/*display:			block;*/
 	font-size:			18pt;
-	margin:				0px 0px 5px 0px;
+	margin:				0px 0px 0px 18px;
 }
 
 .formContainer .postForm{
@@ -268,6 +269,7 @@ Placed at the top of the file for convenience.*/
 	display:			block;
 	font-family:		helvetica, sans-serif;
 	font-size:			22pt;
+	margin-top:			9px;
 	margin-bottom:		inherit;
 	width:				300px;
 }

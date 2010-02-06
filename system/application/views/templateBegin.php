@@ -21,6 +21,8 @@
     	
     	<script type="text/javascript" src="<?= base_url() . "js/ajaxHelper.js" ?>"></script>
     	
+    	<script type="text/javascript" src="<?= base_url() . "js/ubpHelper.js" ?>"></script>
+    	
     </head>
     
     <body class="main">
@@ -28,7 +30,7 @@
 	    <div id="titleAndContentContainer" class="titleAndContentContainer pageSizeConstrain">
 		    
 		    <div id ="mainTitleContainer" class="mainTitleContainer">
-				<span class = "title bracketize">the universal blog project</span>
+				<span class = "title bracketize" onclick="linkTo('index');">the universal blog project</span>
 			</div>
 	
 	    	<ul id ="navPanel" class="navPanel">
