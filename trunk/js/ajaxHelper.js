@@ -58,8 +58,3 @@ function JSONToArray(JSONObj)
 		
 	return returnArray;
 }
-
-function isArray(theVar)
-{
-	return ((typeof theVar == "object") && !(typeof theVar[1] == "undefined"))
-}

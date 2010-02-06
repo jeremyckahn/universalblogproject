@@ -15,7 +15,7 @@
 			
 	<span class ="label">Password:</span>
 	
-	<input id="txtPassword" class="txtPassword" type="password" name="password" value="<?= set_value('password'); ?>"/>
+	<input id="txtPassword" class="txtStandard" type="password" name="password" value="<?= set_value('password'); ?>"/>
 	
 	<div style="color: #f00;"><?= validation_errors(); ?></div>
 
@@ -24,6 +24,8 @@
 		<span class="button rollover" onclick="login();">log in</span>
 	
 	</div>
+	
+	<?= anchor("ubp/forgotPassword", "I forgot my password", "class=\"forgotPassword rollover bracketize\""); ?>
 
 </form>
 

@@ -42,6 +42,13 @@ class UBP extends Controller {
 	/***************************************
 	*	User management functions - BEGIN
 	****************************************/
+	function forgotPassword()
+	{
+		$this->load->view('templateBegin');
+		$this->load->view('forgotPassword');
+		$this->load->view('templateEnd');
+	}
+	
 	function login()
 	{		
 		$this->form_validation->set_rules('username', 'username', 'required');
@@ -75,6 +82,17 @@ class UBP extends Controller {
 		$this->load->view('templateEnd');
 	}
 	
+	function logout()
+	{
+		$this->session->unset_userdata('username');
+		$this->session->unset_userdata('loggedIn');
+		$this->session->sess_destroy();
+		
+		$this->load->view('templateBegin');
+		$this->load->view('logout');
+		$this->load->view('templateEnd');
+	}
+	
 	function signup()
 	{
 		$this->form_validation->set_rules('username', 'username', 'required|min_length[' . $this->MIN_USERNAME_LENGTH . ']|required|max_length[' . $this->MAX_USERNAME_LENGTH . ']');
@@ -97,17 +115,6 @@ class UBP extends Controller {
 		$this->load->view("templateBegin");
 		$this->load->view("signupForm");
 		$this->load->view("templateEnd");
-	}
-	
-	function logout()
-	{
-		$this->session->unset_userdata('username');
-		$this->session->unset_userdata('loggedIn');
-		$this->session->sess_destroy();
-		
-		$this->load->view('templateBegin');
-		$this->load->view('logout');
-		$this->load->view('templateEnd');
 	}
 	
 	/***************************************
