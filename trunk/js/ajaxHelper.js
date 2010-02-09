@@ -46,6 +46,7 @@ function JSONLength(JSONObj)
 	return count;
 }
 
+// TODO:  Does not work correctly with multidimensional arrays.
 function JSONToArray(JSONObj)
 {		
 	var returnArray = new Array();

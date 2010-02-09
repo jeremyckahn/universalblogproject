@@ -17,11 +17,17 @@
 
     	<title>the universal blog project</title>
     	
+    	<!-- CSS includes -->
+    	
     	<link rel = "stylesheet" type = "text/css" href = "<?= base_url() . "css/style.css" ?>" />
+    	
+    	<!-- JavaScript includes -->
     	
     	<script type="text/javascript" src="<?= base_url() . "js/ajaxHelper.js" ?>"></script>
     	
     	<script type="text/javascript" src="<?= base_url() . "js/ubpHelper.js" ?>"></script>
+    	
+    	<script type="text/javascript" src="<?= base_url() . "js/styleManager.js" ?>"></script>
     	
     </head>
     

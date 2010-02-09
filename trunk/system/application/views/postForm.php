@@ -46,7 +46,6 @@
 </div>
 
 <script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
-<script type="text/javascript" src="<?= base_url() . "js/styleManager.js" ?>"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -79,7 +78,6 @@
 	{	
 		manager.setPostSubmitCompleteEventHandler(manager, function(){
 			var serverResponse = manager.adapter.xhr.responseText;
-			
 			postFormContainer.innerHTML = serverResponse;
 		});
 		

@@ -93,6 +93,28 @@ class UBP extends Controller {
 		$this->load->view('templateEnd');
 	}
 	
+	function createPasswordResetrequest()
+	{
+		$returnVal = array(
+			"requestComplete" => FALSE,
+			"errorInfo" => array(
+				"invalidArg" => "",
+				"message" => ""
+			)
+		);
+		
+		$username = $this->input->post("username");
+		$email = $this->input->post("email");
+		
+		if (!$this->UBP_DAL->userExists($username))
+		{
+			$returnVal["errorInfo"]["invalidArg"] = "username";
+			$returnVal["errorInfo"]["message"] = "This is not a valid user.";
+			
+			exit(JSONifyAssocArr($returnVal));
+		}
+	}
+	
 	function signup()
 	{
 		$this->form_validation->set_rules('username', 'username', 'required|min_length[' . $this->MIN_USERNAME_LENGTH . ']|required|max_length[' . $this->MAX_USERNAME_LENGTH . ']');

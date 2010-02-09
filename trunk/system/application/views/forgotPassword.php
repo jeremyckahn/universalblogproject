@@ -28,6 +28,10 @@
 
 </div>
 
+<!-- JS includes -->
+
+<script type="text/javascript" src="<?= base_url() . "js/userManager.js" ?>"></script>
+
 <script type="text/javascript">
 /* <![CDATA[ */
 
@@ -37,7 +41,7 @@
 	var emailError = document.getElementById("emailError");
 	
 	var username, email;
-	var managerObj = new userManager();
+	var manager = new userManager();
 	
 	usernameError.style.display = "none";
 	emailError.style.display = "none";
@@ -47,10 +51,17 @@
 		username = txtUsername.value;
 		email = txtEmail.value;
 		
-		userManager.changePassword(
-			// serverScriptURL
-			// oldPassword
-			// newPassword
+		manager.setChangePasswordCompleteEventHandler(manager, function(){
+			alert(/*JSONToArray*/(manager.serverJSONResponse));
+			alert(manager.serverJSONResponse.requestComplete);
+			alert(manager.serverJSONResponse.errorInfo.invalidArg);
+			alert(manager.serverJSONResponse.errorInfo.message);
+		});
+		
+		manager.resetPasswordRequest(
+			"<?= base_url() . "index.php/ubp/createPasswordResetrequest"; ?>", // serverScriptURL
+			username, // username
+			email // email
 		);
 	}
 
