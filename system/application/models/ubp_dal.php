@@ -108,7 +108,7 @@
     
     function userExists($username) // BOOLEAN
     {
-		$query = $this->db->query("SELECT DISTINCT * FROM users WHERE username = \"" . $username . "\"");
+		$query = $this->db->query("SELECT DISTINCT * FROM users WHERE LCASE(username) = \"" . strtolower($username) . "\"");
 		
 		// If the query finds anything, return TRUE
 		return $query->result_array() ? TRUE : FALSE;

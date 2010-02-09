@@ -21,6 +21,7 @@ if ( ! function_exists('JSONifyAssocArr'))
 			{
 				$returnStr .= $values[$i];
 			}
+			// TODO:  This does not work correctly with arrays inside of the JSON
 			else if (is_array($values[$i]))
 			{
 				$returnStr .= JSONifyAssocArr($values[$i]);
