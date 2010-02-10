@@ -95,38 +95,43 @@
 		previewTitle.innerHTML = titleText;
 		previewPost.innerHTML = postText.replace(/\n/g, "<br/>");
 		
-		manager.setPostValidationCompleteEventHandler(manager, function(){
-			var validationJSON = manager.postValidationJSON;
-			var numberOfErrors = JSONLength(validationJSON.errorList);
-			var errorArray = JSONToArray(validationJSON.errorList);
-			
-			if (numberOfErrors == 0)
-				togglePreviewMode();
-			
-			// Would have used a "for...in" but they don't play nicely with multidimensional arrays.  Therefore, a standard for loop is used.
-			for (var i = 0; i < numberOfErrors; i++)
-			{					
-				if (errorArray[i][0] == "title")
-				{
-					titleError.style.display = "inline";
-					titleError.innerHTML = errorArray[i][1];
-					addClass(txtTitle, "errorHighlight");
+		if (!inPreviewMode)
+		{
+			manager.setPostValidationCompleteEventHandler(manager, function(){
+				var validationJSON = manager.postValidationJSON;
+				var numberOfErrors = JSONLength(validationJSON.errorList);
+				var errorArray = JSONToArray(validationJSON.errorList);
+				
+				if (numberOfErrors == 0)
+					togglePreviewMode();
+				
+				// Would have used a "for...in" but they don't play nicely with multidimensional arrays.  Therefore, a standard for loop is used.
+				for (var i = 0; i < numberOfErrors; i++)
+				{					
+					if (errorArray[i][0] == "title")
+					{
+						titleError.style.display = "inline";
+						titleError.innerHTML = errorArray[i][1];
+						addClass(txtTitle, "errorHighlight");
+					}
+						
+					if (errorArray[i][0] == "post")
+					{
+						postError.style.display = "inline";
+						postError.innerHTML = errorArray[i][1];
+						addClass(txtPost, "errorHighlight");
+					}
 				}
-					
-				if (errorArray[i][0] == "post")
-				{
-					postError.style.display = "inline";
-					postError.innerHTML = errorArray[i][1];
-					addClass(txtPost, "errorHighlight");
-				}
-			}
-		});
+			});
 		
-		manager.validatePost(
-			"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
-			titleText, // titleToValidate
-			postText //postBodyToValidate
-		);
+			manager.validatePost(
+				"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
+				titleText, // titleToValidate
+				postText //postBodyToValidate
+			);
+		}
+		else 
+			togglePreviewMode();
 	}
 	
 	function togglePreviewMode()

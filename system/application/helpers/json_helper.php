@@ -21,10 +21,12 @@ if ( ! function_exists('JSONifyAssocArr'))
 			{
 				$returnStr .= $values[$i];
 			}
-			// TODO:  This does not work correctly with arrays inside of the JSON
 			else if (is_array($values[$i]))
 			{
-				$returnStr .= JSONifyAssocArr($values[$i]);
+				if (is_assoc($values[$i]))
+					$returnStr .= JSONifyAssocArr($values[$i]);
+				else
+					$returnStr .= arrayToString($values[$i]);
 			}
 			else if ($values[$i] === TRUE)
 			{
@@ -44,7 +46,13 @@ if ( ! function_exists('JSONifyAssocArr'))
 		$returnStr .= "}";
 		
 		return $returnStr;
-	}	
-}  
+	}
+}
+
+// Function by an anonymous user on php.net:  http://php.net/manual/en/function.is-array.php
+function is_assoc($array) 
+{
+    return (is_array($array) && 0 !== count(array_diff_key($array,array_keys(array_keys($array)))));
+}
 
 ?>
