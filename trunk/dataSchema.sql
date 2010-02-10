@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 10, 2010 at 11:35 AM
+-- Generation Time: Feb 09, 2010 at 08:00 PM
 -- Server version: 5.0.41
 -- PHP Version: 5.2.6
 
@@ -24,7 +24,7 @@ CREATE TABLE `blacklists` (
   `userID` int(11) NOT NULL default '0',
   `blogID` int(11) NOT NULL default '0',
   PRIMARY KEY  (`blacklistID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
@@ -34,15 +34,15 @@ CREATE TABLE `blacklists` (
 
 CREATE TABLE `blogs` (
   `blogID` int(11) NOT NULL auto_increment,
-  `title` varchar(150) collate ascii_bin NOT NULL,
-  `post` varchar(5000) collate ascii_bin NOT NULL,
+  `title` varchar(450) collate ascii_bin NOT NULL,
+  `post` varchar(15000) collate ascii_bin NOT NULL,
   `userID` int(11) NOT NULL default '0',
   `blacklistCount` int(11) NOT NULL default '0',
   `isBlacklisted` int(11) NOT NULL default '0',
   `cannotBeBlacklisted` int(11) NOT NULL default '0',
   `datePosted` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`blogID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin COMMENT='This stores blog posts.' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii COLLATE=ascii_bin COMMENT='This stores blog posts.' AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `passwordResets` (
   `uniqueIdentifier` varchar(30) character set ascii collate ascii_bin NOT NULL,
   `used` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`passwordResetID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
@@ -73,4 +73,4 @@ CREATE TABLE `users` (
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `feedPageSize` int(11) NOT NULL default '5',
   PRIMARY KEY  (`userID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
