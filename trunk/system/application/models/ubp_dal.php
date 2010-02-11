@@ -30,6 +30,11 @@
 		return $this->db->affected_rows() ? $postID : -1;
     }
     
+    function createPasswordResetEntry()
+    {
+    	
+    }
+    
     function createUser($username, $password, $email) // BOOLEAN
     {
     	if ($this->userExists($username))
@@ -97,6 +102,14 @@
 		
 		$results = $query->result_array();
 		return $results ? $results[0] : FALSE;
+    }
+    
+    function isValidUsernameEmailCombination($username, $email)
+    {
+    	$query = $this->db->query("SELECT DISTINCT * FROM users WHERE LCASE(username) = \"" . strtolower($username) . "\" AND LCASE(email) = \"" . strtolower($email) . "\"");
+		
+		// If the query finds anything, return TRUE
+		return $query->result_array() ? TRUE : FALSE;
     }
     
     function postsRemain($lastPostIDLoaded) // BOOLEAN

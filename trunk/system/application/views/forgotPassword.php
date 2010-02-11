@@ -1,6 +1,6 @@
 <h2>Forgot your password?</h2>
 
-<p>Don't worry, just fill out your username and email, and we'll send you instructions on how to reset it.</p>
+<p id="instructions">Don't worry, just fill out your username and email, and we'll send you instructions on how to reset it.</p>
 
 <div id="forgotPasswordForm" class="forgotPasswordForm">
 
@@ -28,6 +28,10 @@
 
 </div>
 
+<div id="requestOutput">
+
+</div>
+
 <!-- JS includes -->
 
 <script type="text/javascript" src="<?= base_url() . "js/userManager.js" ?>"></script>
@@ -35,6 +39,8 @@
 <script type="text/javascript">
 /* <![CDATA[ */
 
+	var forgotPasswordForm = document.getElementById("forgotPasswordForm");
+	var instructions = document.getElementById("instructions");
 	var txtUsername = document.getElementById("txtUsername");
 	var txtEmail = document.getElementById("txtEmail");
 	var usernameError = document.getElementById("usernameError");
@@ -51,11 +57,30 @@
 		username = txtUsername.value;
 		email = txtEmail.value;
 		
-		manager.setChangePasswordCompleteEventHandler(manager, function(){
-			alert(/*JSONToArray*/(manager.serverJSONResponse));
-			alert(manager.serverJSONResponse.requestComplete);
-			alert(manager.serverJSONResponse.errorInfo.invalidArg);
-			alert(manager.serverJSONResponse.errorInfo.message);
+		manager.setChangePasswordCompleteEventHandler(manager, function(){			
+			var response = manager.serverJSONResponse;
+			
+			if (response.requestComplete)
+			{
+				instructions.style.display = "none";
+				forgotPasswordForm.innerHTML = response.requestMessage;
+			}
+			else
+			{
+				if (response.errorInfo.invalidArg == "username")
+				{
+					usernameError.style.display = "inline";
+					addClass(txtUsername, "errorHighlight");
+					usernameError.innerHTML = response.errorInfo.message;
+				}
+				
+				if (response.errorInfo.invalidArg == "email")
+				{
+					emailError.style.display = "inline";
+					addClass(txtEmail, "errorHighlight");
+					emailError.innerHTML = response.errorInfo.message;
+				}
+			}
 		});
 		
 		manager.resetPasswordRequest(
