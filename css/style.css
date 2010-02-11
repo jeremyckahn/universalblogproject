@@ -58,6 +58,10 @@ Placed at the top of the file for convenience.*/
 	line-height:		30px;	
 }
 
+.main .blockNarrow{
+	width:				80%;	
+}
+
 
 .main .articleHeader, .main .articleHeader a{
 	color:				#333;
@@ -68,6 +72,10 @@ Placed at the top of the file for convenience.*/
 
 .main .articleHeader a:hover{
 	text-decoration:	underline;
+}
+
+.main .blockCenter{
+	margin:				0px auto 0px auto;	
 }
 
 .main .content{

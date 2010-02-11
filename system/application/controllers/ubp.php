@@ -97,10 +97,12 @@ class UBP extends Controller {
 	{
 		$returnVal = array(
 			"requestComplete" => FALSE,
+			"responseMessage" => "",
 			"errorInfo" => array(
 				"invalidArg" => "",
 				"message" => ""
 			)
+			
 		);
 		
 		$username = $this->input->post("username");
@@ -113,6 +115,22 @@ class UBP extends Controller {
 			
 			exit(JSONifyAssocArr($returnVal));
 		}
+		
+		if (!$this->UBP_DAL->isValidUsernameEmailCombination($username, $email))
+		{
+			$returnVal["errorInfo"]["invalidArg"] = "email";
+			$returnVal["errorInfo"]["message"] = 'The email address specified does not match what is on record for \\"' . $username . '\\"';  // Mind the escape javascript quote escapes!
+			
+			exit(JSONifyAssocArr($returnVal));
+		}
+		
+		$this->UBP_DAL->createPasswordResetEntry();
+
+		$returnVal["requestComplete"] = TRUE;
+		$returnVal["requestMessage"] = '<p class=\"blockNarrow blockCenter\">Instructions on how to reset the password for \\"' . $username . '\\" have been sent to \\"' . $email . '.\\"  Please note that this reset request will only be active for 20 minutes, after that you will have to make another request with this form.</p>';
+		
+		echo(JSONifyAssocArr($returnVal));
+		
 	}
 	
 	function signup()
