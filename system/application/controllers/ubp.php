@@ -16,7 +16,7 @@ class UBP extends Controller {
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
-		$this->load->helper(array('form', 'url', 'handyStringFuncs', 'json', 'validation'));
+		$this->load->helper(array('form', 'url', 'handyStringFuncs', 'json', 'validation', 'string'));
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		
@@ -135,6 +135,8 @@ class UBP extends Controller {
 	
 	function signup()
 	{
+		$userWasSuccessfullyCreated = FALSE;
+		
 		$this->form_validation->set_rules('username', 'username', 'required|min_length[' . $this->MIN_USERNAME_LENGTH . ']|required|max_length[' . $this->MAX_USERNAME_LENGTH . ']');
 		$this->form_validation->set_rules('password', 'password', 'required|min_length[' . $this->MIN_PASSWORD_LENGTH . ']|required|max_length[' . $this->MAX_PASSWORD_LENGTH . ']');
 		$this->form_validation->set_rules('passwordConfirm', 'password confirmation', 'required|matches[password]');
@@ -144,9 +146,10 @@ class UBP extends Controller {
 		{
 			// Set a new validation rule to call the custom callback, and revalidate.
 			$this->form_validation->set_rules('username', 'username', 'callback_canCreateUser');
-			$this->form_validation->run();
-			
-			$userWasSuccessfullyCreated = $this->UBP_DAL->createUser($this->input->post("username", TRUE), $this->input->post("password", TRUE), $this->input->post("email", TRUE));
+			if($this->form_validation->run())
+			{
+				$userWasSuccessfullyCreated = $this->UBP_DAL->createUser($this->input->post("username", TRUE), $this->input->post("password", TRUE), $this->input->post("email", TRUE));
+			}
 			
 			if ($userWasSuccessfullyCreated)
 				$this->UBP_DAL_HELPER->logUserIn($this->input->post("username", TRUE), $this->input->post("password", TRUE));
@@ -253,7 +256,7 @@ class UBP extends Controller {
 	****************************************/
 	
 	function userIsValid()
-	{
+	{		
 		if ($this->UBP_DAL->getUserDataArray($this->input->post("username", TRUE), $this->input->post("password", TRUE)))
 			return true;
 		else
@@ -264,7 +267,7 @@ class UBP extends Controller {
 	}
 	
 	function canCreateUser()
-	{
+	{		
 		if (!$this->UBP_DAL->userExists($this->input->post("username", TRUE)))
 			return TRUE;
 		else

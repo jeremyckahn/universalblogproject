@@ -37,6 +37,10 @@
     
     function createUser($username, $password, $email) // BOOLEAN
     {
+    	$username = $this->sanitizeString($username);
+    	$password = $this->sanitizeString($password);
+    	$email = $this->sanitizeString($email);
+    	
     	if ($this->userExists($username))
     		return FALSE;
     	
@@ -96,16 +100,28 @@
     }
     
     function getUserDataArray($username, $password) // ARRAY
-    {    	
+    {    
+    	$username = $this->sanitizeString($username);
+    	$password = $this->sanitizeString($password);
+    	
     	$query = $this->db->query("SELECT DISTINCT * FROM users WHERE username = \"" . $username . "\" AND password = \"" . 
 		md5($password) . "\"");
 		
 		$results = $query->result_array();
+		
+		// Unencodes user data for proper output
+		$results[0]["username"] = $this->unsanitizeString($results[0]["username"]);
+		$results[0]["password"] = $this->unsanitizeString($results[0]["password"]);
+		$results[0]["email"] = $this->unsanitizeString($results[0]["email"]);
+		
 		return $results ? $results[0] : FALSE;
     }
     
     function isValidUsernameEmailCombination($username, $email)
     {
+    	$username = $this->sanitizeString($username);
+    	$password = $this->sanitizeString($password);
+    	
     	$query = $this->db->query("SELECT DISTINCT * FROM users WHERE LCASE(username) = \"" . strtolower($username) . "\" AND LCASE(email) = \"" . strtolower($email) . "\"");
 		
 		// If the query finds anything, return TRUE
@@ -121,6 +137,8 @@
     
     function userExists($username) // BOOLEAN
     {
+    	$username = $this->sanitizeString($username);
+    	
 		$query = $this->db->query("SELECT DISTINCT * FROM users WHERE LCASE(username) = \"" . strtolower($username) . "\"");
 		
 		// If the query finds anything, return TRUE
@@ -130,5 +148,10 @@
     function sanitizeString($string) // STRING
     {
     	return urlencode($string);
+    }
+    
+    function unsanitizeString($string) // STRING
+    {
+    	return urldecode($string);
     }
 }?>
