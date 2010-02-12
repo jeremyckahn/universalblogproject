@@ -7,6 +7,7 @@
         $this->load->model('UBP_DAL', '', TRUE);
     }
     
+    // TODO:  This should be done separetly in a view, formotting posts this way is a poor design choice.
 	function formatBlogs($postArray, $userID) // STRING
 	{		
 		$returnString = "";

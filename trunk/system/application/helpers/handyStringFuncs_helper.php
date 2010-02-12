@@ -4,7 +4,8 @@ if ( ! function_exists('strContains'))
 {
 	function strContains($string, $subStr)
 	{
-		return (stripos($string, $subStr) === FALSE);
+		//return (stripos($string, $subStr) === FALSE);
+		return ((stripos($string, $subStr) === FALSE) == 1) ? TRUE : FALSE;
 	}	
 }
 
