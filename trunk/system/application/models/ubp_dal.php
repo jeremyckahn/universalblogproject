@@ -52,14 +52,14 @@
     
     function createUser($username, $password, $email) // BOOLEAN
     {
-    	$username = $this->sanitizeString($username);
-    	$password = $this->sanitizeString($password);
-    	$email = $this->sanitizeString($email);
-    	
-    	if ($this->userExists($username))
-    		return FALSE;
-    	
-    	$sql = "INSERT INTO users(username, password, email) VALUES(\"" . $username . "\",\"" . md5($password) . "\",\"" . $email . "\")";
+	    	$username = $this->sanitizeString($username);
+	    	$password = $this->sanitizeString($password);
+	    	$email = $this->sanitizeString($email);
+	    	
+	    	if ($this->userExists($username))
+	    		return FALSE;
+	    	
+	    	$sql = "INSERT INTO users(username, password, email) VALUES(\"" . $username . "\",\"" . md5($password) . "\",\"" . $email . "\")";
 		$this->db->query($sql);
 		
 		return $this->db->affected_rows() ? TRUE : FALSE;
@@ -137,9 +137,8 @@
     
     function getUserIDFromName($username) // INTEGER
     {
-    	$sql = "SELECT userID FROM users WHERE username = \"" . $username . "\"";
-    	
-    	$query = $this->db->query($sql);
+	    	$sql = "SELECT userID FROM users WHERE username = \"" . $username . "\"";
+	    	$query = $this->db->query($sql);
 		$results = $query->result_array();
 		
 		return $results ? $results[0]["userID"] : FALSE;
@@ -155,6 +154,39 @@
     
     /***************************************
 	*	DB get/retrieval functions - END
+	****************************************/
+	
+	//------------------------------------------------------------
+	
+	/***************************************
+	*	DB set/update - BEGIN
+	****************************************/
+	
+	function setPasswordByUserID($userID, $newPassword) // BOOLEAN
+	{
+		$sql = "SELECT * FROM users WHERE users.userID = " . $userID . " AND users.password = \"" . md5($newPassword) . "\"";
+		$query = $this->db->query($sql);
+		
+		// If the new password is the same as the old password, just return true so that the reset DB entry is removed.
+		if ($query->result_array())
+			return TRUE;
+		
+		$sql = "UPDATE users SET users.password = \"" . md5($newPassword) . "\" WHERE users.userID = " . $userID;
+		$this->db->query($sql);
+		
+		return $this->db->affected_rows() ? TRUE : FALSE;
+	}
+	
+	function disablePasswordResetEntryByID($passwordResetID) // BOOLEAN
+	{
+		$sql = "UPDATE passwordResets SET passwordResets.used = 1 WHERE passwordResets.uniqueIdentifier = \"" . $passwordResetID . "\"";
+		$this->db->query($sql);
+		
+		return $this->db->affected_rows() ? TRUE : FALSE;
+	}
+	
+	/***************************************
+	*	DB set/update - END
 	****************************************/
 	
 	//------------------------------------------------------------

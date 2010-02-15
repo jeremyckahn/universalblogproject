@@ -17,7 +17,9 @@
 	
 	<input id="txtPassword" class="txtStandard" type="password" name="password" value="<?= set_value('password'); ?>"/>
 	
-	<div style="color: #f00;"><?= validation_errors(); ?></div>
+	<? if (validation_errors()) { ?>
+	<div class="boxedErrorMessage"><?= validation_errors(); ?></div>
+	<? } ?>
 
 	<div class="customUIButtonFrame">
 		

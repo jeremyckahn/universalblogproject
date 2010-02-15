@@ -147,10 +147,14 @@ class UBP extends Controller {
 	}
 	
 	function resetPassword()
-	{	
+	{
+		$this->form_validation->set_rules('password', 'password', 'requiredmin_length[' . $this->MIN_PASSWORD_LENGTH . ']|required|max_length[' . $this->MAX_PASSWORD_LENGTH . ']');
+		$this->form_validation->set_rules('confirmPassword', 'password confirmation', 'required|matches[password]');
+		
 		$data = array(
 			"userID" => 0,
-			"requestIsValid" => FALSE
+			"requestIsValid" => FALSE,
+			"passwordSuccessfullyChanged" => FALSE
 		);
 		
 		if (isset($this->GET_ARRAY["resetID"]))
@@ -159,15 +163,29 @@ class UBP extends Controller {
 			$resetEntryArray = $this->UBP_DAL->getPasswordResetEntryFromID($resetID);
 			$userID = isset($resetEntryArray["userID"]) ? $resetEntryArray["userID"] : 0;
 			$dateOfRequest = isset($resetEntryArray["generatedDate"]) ? $resetEntryArray["generatedDate"] : 0;
+			$uniqueIdentifier = isset($resetEntryArray["uniqueIdentifier"]) ? $resetEntryArray["uniqueIdentifier"] : 0;
+			$resetRequestWasUsed = isset($resetEntryArray["used"]) ? $resetEntryArray["used"] : 0;
 			
 			// 60 (seconds) * 20 (minutes) = 1200 (seconds)
 			if ((time() - strtotime($dateOfRequest)) < 1200 &&
-				$userID != 0)
+				$userID != 0 &&
+				!$resetRequestWasUsed)
 			{
 				$data["requestIsValid"] = TRUE;
+				
+				// If the reset expiration timer has not been exceeded, and if the form is valid, create the new password.
+				if ($this->form_validation->run())
+				{
+					$data["passwordSuccessfullyChanged"] = $this->UBP_DAL->setPasswordByUserID($userID, $this->input->post("password"));
+					
+					// If the password was successfully changed, set the reset entry to "used"
+					if ($data["passwordSuccessfullyChanged"])
+						$this->UBP_DAL->disablePasswordResetEntryByID($resetID);
+				}
 			}
 		
 			$data["userID"] = $userID;
+			$data["uniqueIdentifier"] = $uniqueIdentifier;
 		}
 		
 		$this->load->view('templateBegin');

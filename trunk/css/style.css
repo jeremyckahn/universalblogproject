@@ -98,7 +98,7 @@ Placed at the top of the file for convenience.*/
 	border:				solid 1px #000;
 	color:				#f00;
 	line-height:		130%;
-	padding:			15px 15px 15px 15px;
+	padding:			10px 15px 10px 15px;
 }
 
 .main .boxedErrorMessage a{
