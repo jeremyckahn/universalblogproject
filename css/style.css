@@ -97,7 +97,17 @@ Placed at the top of the file for convenience.*/
 	background:			#ff8;
 	border:				solid 1px #000;
 	color:				#f00;
+	line-height:		130%;
 	padding:			15px 15px 15px 15px;
+}
+
+.main .boxedErrorMessage a{
+	color:				inherit;
+	font-weight:		bold;	
+}
+
+.main .boxedErrorMessage a:hover{
+	text-decoration:	underline;	
 }
 
 .main .pageSizeConstrain{
