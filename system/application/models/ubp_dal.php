@@ -4,6 +4,11 @@
         parent::Model();
     }
     
+    
+    /***************************************
+	*	DB create functions - BEGIN
+	****************************************/
+    
     function createBlacklist($userID, $postID, $blacklistLimit) // INTEGER
     {
     	// Creat the blacklist entry
@@ -30,9 +35,19 @@
 		return $this->db->affected_rows() ? $postID : -1;
     }
     
-    function createPasswordResetEntry()
+    function createPasswordResetEntry($userID, $uniqueIdentifier)
     {
+    	$sql = "INSERT INTO passwordResets(userID, uniqueIdentifier, used) VALUES(". $userID .", \"" . $uniqueIdentifier ."\", 0)";
+    	$this->db->query($sql);
     	
+    	return $this->db->affected_rows() ? TRUE : FALSE;
+    }
+    
+    function createPost($title, $post, $userID) // BOOLEAN
+    {
+		$sql = "INSERT INTO blogs(title, post, userID) VALUES(\"". $this->sanitizeString($title) ."\", \"" . $this->sanitizeString($post) . "\"," . $userID .")";
+		$this->db->query($sql);
+		return $this->db->affected_rows() ? TRUE : FALSE;
     }
     
     function createUser($username, $password, $email) // BOOLEAN
@@ -50,12 +65,15 @@
 		return $this->db->affected_rows() ? TRUE : FALSE;
     }
     
-    function createPost($title, $post, $userID) // BOOLEAN
-    {
-		$sql = "INSERT INTO blogs(title, post, userID) VALUES(\"". $this->sanitizeString($title) ."\", \"" . $this->sanitizeString($post) . "\"," . $userID .")";
-		$this->db->query($sql);
-		return $this->db->affected_rows() ? TRUE : FALSE;
-    }
+    /***************************************
+	*	DB create functions - END
+	****************************************/
+	
+	//------------------------------------------------------------
+	
+	/***************************************
+	*	DB get/retrieval functions - BEGIN
+	****************************************/
     
     function getPosts($userID, $requestSize, $startFrom) // ARRAY
     {
@@ -117,10 +135,26 @@
 		return $results ? $results[0] : FALSE;
     }
     
+    function getUserIDFromName($username) // INTEGER
+    {
+    	$sql = "SELECT userID FROM users WHERE username = \"" . $username . "\"";
+    	
+    	$query = $this->db->query($sql);
+		$results = $query->result_array();
+		
+		return $results ? $results[0]["userID"] : FALSE;
+    }
+    
+    /***************************************
+	*	DB get/retrieval functions - END
+	****************************************/
+    
     function isValidUsernameEmailCombination($username, $email)
     {
     	$username = $this->sanitizeString($username);
-    	$password = $this->sanitizeString($password);
+    	$email = $this->sanitizeString($email);
+    	
+    	error_log($email);
     	
     	$query = $this->db->query("SELECT DISTINCT * FROM users WHERE LCASE(username) = \"" . strtolower($username) . "\" AND LCASE(email) = \"" . strtolower($email) . "\"");
 		

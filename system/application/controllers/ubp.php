@@ -94,7 +94,7 @@ class UBP extends Controller {
 	}
 	
 	function createPasswordResetrequest()
-	{
+	{		
 		$returnVal = array(
 			"requestComplete" => FALSE,
 			"responseMessage" => "",
@@ -102,7 +102,6 @@ class UBP extends Controller {
 				"invalidArg" => "",
 				"message" => ""
 			)
-			
 		);
 		
 		$username = $this->input->post("username");
@@ -124,7 +123,23 @@ class UBP extends Controller {
 			exit(JSONifyAssocArr($returnVal));
 		}
 		
-		$this->UBP_DAL->createPasswordResetEntry();
+		$userID = $this->UBP_DAL->getUserIDFromName($username);
+		$uniqueIdentifier = $this->session->userdata("session_id");
+		$this->UBP_DAL->createPasswordResetEntry($userID, $uniqueIdentifier);
+		
+		// Send the email here
+		// Email/username is valid, send the email
+		$to = $email;
+			$subject = "Your password reset link for the Universal Blog Project";
+		$message = "Hello, you requested a password reset for universalblogproject.com.  Please visit "
+		//. $_SESSION['serverLocation'] . "/scripts/php/passwordReset/resetForm.php?id=" . $uniqueIdentifier
+		. "PUT URL HERE" 
+		. " to reset your password.  This link will only remain active for 20 minutes.  Thanks for using the site!";
+		$from = "jeremyckahn@gmail.com";
+		$headers = "From: $from";
+		mail($to,$subject,$message,$headers);
+		// THIS NEEDS TO BE TESTED ON A SERVER
+	
 
 		$returnVal["requestComplete"] = TRUE;
 		$returnVal["requestMessage"] = '<p class=\"blockNarrow blockCenter\">Instructions on how to reset the password for \\"' . $username . '\\" have been sent to \\"' . $email . '.\\"  Please note that this reset request will only be active for 20 minutes, after that you will have to make another request with this form.</p>';
