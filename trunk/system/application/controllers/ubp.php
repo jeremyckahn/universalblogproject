@@ -132,8 +132,7 @@ class UBP extends Controller {
 		$to = $email;
 			$subject = "Your password reset link for the Universal Blog Project";
 		$message = "Hello, you requested a password reset for universalblogproject.com.  Please visit "
-		//. $_SESSION['serverLocation'] . "/scripts/php/passwordReset/resetForm.php?id=" . $uniqueIdentifier
-		. "PUT URL HERE" 
+		. base_url() . "index.php/ubp/resetPassword/resetID/" . $uniqueIdentifier
 		. " to reset your password.  This link will only remain active for 20 minutes.  Thanks for using the site!";
 		$from = "jeremyckahn@gmail.com";
 		$headers = "From: $from";
@@ -145,7 +144,35 @@ class UBP extends Controller {
 		$returnVal["requestMessage"] = '<p class=\"blockNarrow blockCenter\">Instructions on how to reset the password for \\"' . $username . '\\" have been sent to \\"' . $email . '.\\"  Please note that this reset request will only be active for 20 minutes, after that you will have to make another request with this form.</p>';
 		
 		echo(JSONifyAssocArr($returnVal));
+	}
+	
+	function resetPassword()
+	{	
+		$data = array(
+			"userID" => 0,
+			"requestIsValid" => FALSE
+		);
 		
+		if (isset($this->GET_ARRAY["resetID"]))
+		{
+			$resetID = $this->GET_ARRAY["resetID"];
+			$resetEntryArray = $this->UBP_DAL->getPasswordResetEntryFromID($resetID);
+			$userID = isset($resetEntryArray["userID"]) ? $resetEntryArray["userID"] : 0;
+			$dateOfRequest = isset($resetEntryArray["generatedDate"]) ? $resetEntryArray["generatedDate"] : 0;
+			
+			// 60 (seconds) * 20 (minutes) = 1200 (seconds)
+			if ((time() - strtotime($dateOfRequest)) < 1200 &&
+				$userID != 0)
+			{
+				$data["requestIsValid"] = TRUE;
+			}
+		
+			$data["userID"] = $userID;
+		}
+		
+		$this->load->view('templateBegin');
+		$this->load->view('passwordResetForm', $data);
+		$this->load->view('templateEnd');
 	}
 	
 	function signup()

@@ -54,7 +54,7 @@ CREATE TABLE `passwordResets` (
   `passwordResetID` int(11) NOT NULL auto_increment,
   `generatedDate` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `userID` int(11) NOT NULL default '0',
-  `uniqueIdentifier` varchar(30) character set ascii collate ascii_bin NOT NULL,
+  `uniqueIdentifier` varchar(50) character set ascii collate ascii_bin NOT NULL,
   `used` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`passwordResetID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;

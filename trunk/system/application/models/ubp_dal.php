@@ -145,16 +145,28 @@
 		return $results ? $results[0]["userID"] : FALSE;
     }
     
+    function getPasswordResetEntryFromID($resetID) // ARRAY
+    {
+    	$query = $this->db->query("SELECT * FROM passwordResets WHERE uniqueIdentifier = \"" . $resetID . "\"");
+    	
+    	$results = $query->result_array();
+    	return $results ? $results[0] : array();
+    }
+    
     /***************************************
 	*	DB get/retrieval functions - END
+	****************************************/
+	
+	//------------------------------------------------------------
+	
+	/***************************************
+	*	DB validation/confirmation functions - BEGIN
 	****************************************/
     
     function isValidUsernameEmailCombination($username, $email)
     {
     	$username = $this->sanitizeString($username);
     	$email = $this->sanitizeString($email);
-    	
-    	error_log($email);
     	
     	$query = $this->db->query("SELECT DISTINCT * FROM users WHERE LCASE(username) = \"" . strtolower($username) . "\" AND LCASE(email) = \"" . strtolower($email) . "\"");
 		
@@ -178,6 +190,10 @@
 		// If the query finds anything, return TRUE
 		return $query->result_array() ? TRUE : FALSE;
     }
+    
+    /***************************************
+	*	DB validation/confirmation functions - END
+	****************************************/
     
     function sanitizeString($string) // STRING
     {
