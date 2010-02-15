@@ -27,9 +27,10 @@
 	
 	<input id="txtEmail" class="txtStandard" type="text" name="email" value="<?= set_value('email'); ?>"/>
 	
-	<div style="color: #f00;"><?= validation_errors(); ?></div>
+	<? if (validation_errors()) { ?>
+	<div class="boxedErrorMessage"><?= validation_errors(); ?></div>
+	<? } ?>
 	
-	<!--<input type="submit" value="Submit" />-->
 	<div class="customUIButtonFrame">
 		
 		<span class="button rollover" onclick="signup();">sign up</span>
