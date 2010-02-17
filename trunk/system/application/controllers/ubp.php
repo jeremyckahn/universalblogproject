@@ -16,7 +16,7 @@ class UBP extends Controller {
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
-		$this->load->helper(array('form', 'url', 'handyStringFuncs', 'json', 'validation', 'string'));
+		$this->load->helper(array('form', 'url', 'ubpstring', 'json', 'validation', 'string'));
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		
@@ -177,6 +177,9 @@ class UBP extends Controller {
 				if ($this->form_validation->run())
 				{
 					$data["passwordSuccessfullyChanged"] = $this->UBP_DAL->setPasswordByUserID($userID, $this->input->post("password"));
+					
+					// Password has been reset, so the session ID should be reset as well.
+					$this->session->sess_destroy();
 					
 					// If the password was successfully changed, set the reset entry to "used"
 					if ($data["passwordSuccessfullyChanged"])
