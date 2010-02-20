@@ -133,6 +133,10 @@ Placed at the top of the file for convenience.*/
 	margin:				20px 0px 0px 5px;	
 }
 
+.main .userNameDisplay a{
+	color:				inherit;
+	font-weight:		normal;
+}
 
 
 
@@ -336,16 +340,11 @@ Placed at the top of the file for convenience.*/
 	width:				260px;	
 }
 
-/*.navPanel .navPanelElement{
-	display:			block;
-	font-size:			45pt;
-	font-weight:		bold;
-}*/
-
 .navPanel li{
 	display:			block;
 	font-size:			45pt;
 	font-weight:		bold;
+	margin:				0px 0px 5px 0px;
 }
 
 /* Page-forward button */

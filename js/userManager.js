@@ -1,6 +1,7 @@
 function userManager(){
 	this.userID
-	this.changePasswordCompleteEventHandler;
+	this.passwordResetCompleteEventHandler;
+	this.passwordChangeCompleteEventHandler;
 	this.serverJSONResponse;
 	
 	this.resetPasswordRequest = function(serverScriptURL, username, email){
@@ -14,15 +15,24 @@ function userManager(){
 			{
 				managerObj.serverJSONResponse = JSON.parse(managerObj.adapter.xhr.responseText);
 				
-				if (managerObj.changePasswordCompleteEventHandler != null)
-					managerObj.changePasswordCompleteEventHandler();
+				if (managerObj.passwordResetCompleteEventHandler != null)
+					managerObj.passwordResetCompleteEventHandler();
 			}	
 		};
 		
 		this.adapter.send(this.adapter.xhr, this.eventHandler);
 	};
 	
-	this.setChangePasswordCompleteEventHandler = function(managerObj, eventHandlerFunc){
-		managerObj.changePasswordCompleteEventHandler = eventHandlerFunc;
+	this.resetPassword = function(serverScriptURL, currentPassword, newPassword, newPasswordConfirm){
+		// TODO:  THIS ISN'T DONE YET
+		
+	};
+	
+	this.setPasswordResetCompleteEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.passwordResetCompleteEventHandler = eventHandlerFunc;
+	};
+	
+	this.setPasswordChangeCompleteEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.passwordChangeCompleteEventHandler = eventHandlerFunc;
 	};
 }
