@@ -3,7 +3,7 @@
 <p class="blockNarrow">Your password has been changed!  You may now <?= anchor("ubp/login", "log in"); ?> with your new password.</p>
 
 <? }elseif (!$requestIsValid){ ?>
-	<div class="boxedErrorMessage">The "reset ID" you provided in the URL is either not valid, or has expired.  Please keep in mind that password reset requests expire after 20 minutes.  You may may make another reset request <?= anchor("ubp/forgotPassword", "here"); ?>.</div>
+	<div class="boxedErrorMessage">The "reset ID" you provided in the URL is either not valid, or has expired.  Please keep in mind that password reset requests expire after 20 minutes.  You may make another reset request <?= anchor("ubp/forgotPassword", "here"); ?>.</div>
 <? } else {
 	
 	$formAttributes = array(

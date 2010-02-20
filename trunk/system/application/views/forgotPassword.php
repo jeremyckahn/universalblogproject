@@ -57,7 +57,7 @@
 		username = txtUsername.value;
 		email = txtEmail.value;
 		
-		manager.setChangePasswordCompleteEventHandler(manager, function(){			
+		manager.setPasswordResetCompleteEventHandler(manager, function(){			
 			var response = manager.serverJSONResponse;
 			
 			if (response.requestComplete)

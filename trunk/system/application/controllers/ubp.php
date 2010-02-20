@@ -196,6 +196,13 @@ class UBP extends Controller {
 		$this->load->view('templateEnd');
 	}
 	
+	function settings()
+	{
+		$this->load->view('templateBegin');
+		$this->load->view('settingsview');
+		$this->load->view('templateEnd');
+	}
+	
 	function signup()
 	{
 		$userWasSuccessfullyCreated = FALSE;

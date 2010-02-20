@@ -65,7 +65,8 @@
 			    <?php
 			    	if ($this->session->userdata("loggedIn"))
 			    	{
-			    		echo "<li class = \"userNameDisplay bracketize\">" . $this->session->userdata("username") . "</li>\n";
+			    		//echo "<li class = \"userNameDisplay bracketize\">" . $this->session->userdata("username") . "</li>\n";
+			    		echo "<li class = \"userNameDisplay\">" . anchor("ubp/settings", $this->session->userdata("username"), "class=\"rollover bracketize\"") . "</li>\n";
 			    	} 
 			    ?>
 			    
