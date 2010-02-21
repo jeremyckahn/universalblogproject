@@ -30,6 +30,10 @@
 
 </div>
 
+
+<script type="text/javascript" src="<?= base_url() . "js/userManager.js" ?>"></script>
+<script type="text/javascript" src="<?= base_url() . "js/modalManager.js" ?>"></script>
+
 <script type="text/javascript">
 	var txtNewPassword = document.getElementById("txtNewPassword");
 	var txtConfirmNewPassword = document.getElementById("txtConfirmNewPassword");
@@ -45,5 +49,10 @@
 		newPassword = txtNewPassword.value;
 		newPasswordConfirm = txtConfirmNewPassword.value;
 	}
+	
+	modal = new modalManager("HAMSTERS");
+//	modal.showModal(modal);
+	
+	//alert(document.body.clientHeight);
 	
 </script>
