@@ -1,11 +1,28 @@
-function modalManager(modalContents){
+function modalManager(instanceName, modalContents){
+	this.instanceName = instanceName;
+	
+	// Values set here for easy modification
 	this.backgroundColor = "#000";
-	this.opacity = "0.4";
-	this.filter = "alpha(opacity=40)";
+	this.opacity = "0.8";
+	this.filter = "alpha(opacity=80)";
 	this.height = "500px";
 	this.width = "650px";
+	this.modalPadding = "15px";
 	this.modalContents = modalContents;
 	this.modalBackgroundName = "modalTransparentBackground";
+	this.modalContainerName = "modalContainer";
+	this.modalContentsSpacerName = "modalContentsSpacer";
+	
+	this.opacityThreshold = this.opacity;
+	this.opacity = "0.0";
+	
+	this.documentUpdateAddressor = "document." + this.instanceName + ".updateModal(document." + this.instanceName +");";
+	this.documentFadeInAddressor = "document." + this.instanceName + ".fadeIn(document." + this.instanceName +");";
+	this.updateHandle;
+	
+	this.containerDiv = document.createElement("div");
+	this.containerDiv.setAttributeNode(document.createAttribute("id"));
+	this.containerDiv.id = this.modalContainerName;
 	
 	this.backgroundDiv = document.createElement("div");
 	this.backgroundDiv.setAttributeNode(document.createAttribute("id"));
@@ -13,7 +30,6 @@ function modalManager(modalContents){
 	
 	this.contentsDiv = document.createElement("div");
 	this.contentsDiv.innerHTML = this.modalContents;
-	this.backgroundDiv.appendChild(this.contentsDiv);
 	
 	this.backgroundDiv.style.height = "100%";
 	this.backgroundDiv.style.width = "100%";
@@ -24,41 +40,64 @@ function modalManager(modalContents){
 	this.backgroundDiv.style.top = "0px";
 	this.backgroundDiv.style.left = "0px";
 	
-	// TODO:  This isn't working.  Find another method.
-	this.contentsDiv.style.background = getElementStyle(document.body, "background");
+	this.contentsSpacer = document.createElement("div");
+	this.contentsSpacer.setAttributeNode(document.createAttribute("id"));
+	this.contentsSpacer.id = this.modalContentsSpacerName;
+	this.contentsSpacer.style.position = "fixed";
+	this.contentsSpacer.style.top = "0px";
+	this.contentsSpacer.style.left = "0px";
+	
+	this.contentsDiv.style.background = getElementStyle(document.body, "backgroundColor");
+	this.contentsDiv.style.opacity = "1.0";
+	this.contentsDiv.style.filter = "alpha(opacity=100)";
+	this.contentsDiv.style.padding = this.modalPadding;
+	
+	this.contentsSpacer.appendChild(this.contentsDiv);
+	this.containerDiv.appendChild(this.backgroundDiv);
+	//this.containerDiv.appendChild(this.contentsSpacer);
+	
+	document[this.instanceName] = this;
+	
+	this.fadeIn = function(managerObj){
+		managerObj.setOpacity(managerObj, managerObj.getOpacity(managerObj) + .075);
+		
+		if (managerObj.getOpacity(managerObj) >= managerObj.opacityThreshold)
+		{
+			managerObj.containerDiv.appendChild(managerObj.contentsSpacer);
+			managerObj.updateModal(managerObj);
+		}
+		else
+		{
+			managerObj.updateHandle = setTimeout(managerObj.documentFadeInAddressor, 25);
+		}
+	};
+	
+	this.killModal = function(managerObj){
+		document.body.removeChild(managerObj.containerDiv);
+		managerObj.setOpacity(managerObj, 0);
+		clearTimeout(managerObj.updateHandle);
+	};
 	
 	this.showModal = function(managerObj){
-		
-		// Some test crap
-//		managerObj.backgroundDiv.style.background = "#f0f";
-		
-		document.body.appendChild(managerObj.backgroundDiv);
+		document.body.appendChild(managerObj.containerDiv);
+		eval(managerObj.documentFadeInAddressor);
 	};
 	
-	this.killModal = function(){
-		
+	this.updateModal = function(managerObj){
+		this.top = (window.innerHeight - managerObj.contentsDiv.clientHeight) / 2;
+		this.left = (document.body.clientWidth - managerObj.contentsDiv.clientWidth) / 2;
+		managerObj.contentsSpacer.style.padding = this.top + "px 0px 0px " + this.left + "px";
+		managerObj.updateHandle = window.setTimeout(managerObj.documentUpdateAddressor, 50);
 	};
 	
-	this.updateModal = function(){
-		
+	this.getOpacity = function(managerObj){
+		return parseFloat(managerObj.opacity);
 	};
 	
+	this.setOpacity = function(managerObj, opacity){
+		managerObj.opacity = opacity.toString();
+		managerObj.filter = "alpha(opacity=" + (opacity * 100) + ")";
+		managerObj.backgroundDiv.style.opacity = managerObj.opacity;
+		managerObj.backgroundDiv.style.filter = managerObj.filter;
+	};
 }
-
-
-/*  How is this going to work?
-
-The object should expect some HTML in the constructor.  This will be passed using document.getElementById and innerHTML.
-	- Note:  The container tag that holds the HTML should be set to display: none by an inline style.
-	
-There needs to be two functions to call:  showModal and killModal.
-
-Internally, the modal needs to keep things displayed properly by constantly re-aligning itself.  There will need to be a funtion called realign() that is constantly called by setInterval().  This will be cancelled by killModal();
-
-Functions:
-
-showModal()
-killModal()
-updateModal()
-
-*/

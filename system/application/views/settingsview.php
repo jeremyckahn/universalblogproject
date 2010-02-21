@@ -26,8 +26,30 @@
 
 <div class="customUIButtonFrame">
 			
-	<span id="btnSubmitNewPassword" class="button rollover left" onclick="submitPassword();">change password</span>
+	<span id="btnSubmitNewPassword" class="button rollover left" onclick="authenticatePasswordChange();">change password</span>
 
+</div>
+
+<div id="modalContainer" style="display: none;">
+	
+	<h2>Please confirm your current password.</h2>
+	
+	<div class="formContainer">
+	
+		<div class ="label">Current password:</div>
+		
+		<input id="txtCurrentPassword" class="txtStandard" type="password" name="txtCurrentPassword" value=""/>
+		
+	</div>
+	
+	<div class="customUIButtonFrame main">
+		
+		<span id="btnAuthenticateChanges" class="button rollover left" onclick="killModal();">authenticate</span>
+		
+		<span id="btnCancelChanges" class="button rollover right" onclick="killModal();">cancel</span>
+	
+	</div>	
+	
 </div>
 
 
@@ -39,19 +61,27 @@
 	var txtConfirmNewPassword = document.getElementById("txtConfirmNewPassword");
 	var passwordError = document.getElementById("passwordError");
 	var passwordRequestOutput = document.getElementById("passwordRequestOutput");
+	var modalContainer = document.getElementById("modalContainer");
+	
+	var modal = new modalManager("modal", modalContainer.innerHTML);
 	
 	var currentPassword, newPassword, newPasswordConfirm;
 	
 	passwordError.style.display = "none";
 	passwordRequestOutput.style.display = "none";
 	
+	function authenticatePasswordChange(){
+		modal.showModal(modal);
+	}
+	
 	function submitPassword(){
 		newPassword = txtNewPassword.value;
 		newPasswordConfirm = txtConfirmNewPassword.value;
 	}
 	
-	modal = new modalManager("HAMSTERS");
-//	modal.showModal(modal);
+	function killModal(){
+		modal.killModal(modal);	
+	}
 	
 	//alert(document.body.clientHeight);
 	
