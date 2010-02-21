@@ -11,3 +11,11 @@ function removeClass(element, classToRemove)
 		element.className = element.className.replace(classToRemove, "");
 	}
 }
+
+function getElementStyle(element, style)
+{
+	if (getComputedStyle)
+		return getComputedStyle(element, null)[style];
+	else
+		return element.currentStyle[style]; // Test this on IE
+}
