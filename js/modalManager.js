@@ -3,8 +3,8 @@ function modalManager(instanceName, modalContents){
 	
 	// Values set here for easy modification
 	this.backgroundColor = "#000";
-	this.opacity = "0.8";
-	this.filter = "alpha(opacity=80)";
+	this.opacity = "0.7";
+	this.filter = "alpha(opacity=70)";
 	this.height = "500px";
 	this.width = "650px";
 	this.modalPadding = "15px";
@@ -54,12 +54,11 @@ function modalManager(instanceName, modalContents){
 	
 	this.contentsSpacer.appendChild(this.contentsDiv);
 	this.containerDiv.appendChild(this.backgroundDiv);
-	//this.containerDiv.appendChild(this.contentsSpacer);
 	
 	document[this.instanceName] = this;
 	
 	this.fadeIn = function(managerObj){
-		managerObj.setOpacity(managerObj, managerObj.getOpacity(managerObj) + .075);
+		managerObj.setOpacity(managerObj, managerObj.getOpacity(managerObj) + .1);
 		
 		if (managerObj.getOpacity(managerObj) >= managerObj.opacityThreshold)
 		{
@@ -68,11 +67,12 @@ function modalManager(instanceName, modalContents){
 		}
 		else
 		{
-			managerObj.updateHandle = setTimeout(managerObj.documentFadeInAddressor, 25);
+			managerObj.updateHandle = setTimeout(managerObj.documentFadeInAddressor, 50);
 		}
 	};
 	
 	this.killModal = function(managerObj){
+		managerObj.containerDiv.removeChild(managerObj.contentsSpacer);
 		document.body.removeChild(managerObj.containerDiv);
 		managerObj.setOpacity(managerObj, 0);
 		clearTimeout(managerObj.updateHandle);
