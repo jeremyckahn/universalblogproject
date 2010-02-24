@@ -1,11 +1,20 @@
+/*  Modal Manager 0.5
+
+by Jeremy Kahn - jeremyckahn@gmail.com
+
+Instructions coming soon!
+
+*/
+
 function modalManager(instanceName, modalContents){
 	this.instanceName = instanceName;
 	
 	// Values set here for easy modification
 	this.fadeInRate = 1;
-	this.fadeOutRate = 3;
+	this.fadeOutRate = 1;
+	this.callBackSpeed = 25;
 	this.backgroundColor = "#000";
-	this.opacity = "0.7";
+	this.opacity = "0.6";
 	this.filter = "alpha(opacity=70)";
 	this.height = "500px";
 	this.width = "650px";
@@ -86,7 +95,7 @@ function modalManager(instanceName, modalContents){
 				managerObj.fadeInCompleteEventHandler();
 		}
 		else{
-			managerObj.updateHandle = setTimeout(managerObj.documentFadeInAddressor, 50);
+			managerObj.updateHandle = setTimeout(managerObj.documentFadeInAddressor, managerObj.callBackSpeed);
 		}
 	};
 	
@@ -96,9 +105,11 @@ function modalManager(instanceName, modalContents){
 		if (managerObj.getOpacity(managerObj) <= 0){
 			clearTimeout(managerObj.updateHandle);
 			document.body.removeChild(managerObj.containerDiv);
-			managerObj.updateModal(managerObj);
 			managerObj.setOpacity(managerObj, 0);
 			managerObj.isVisible = false;
+			
+			// Reset the contentsSpacer
+			managerObj.contentsSpacer.style.padding = "0px";
 
 			// Take the modal contents and put them back where you found them, so they can be used later.
 			managerObj.modalContents.innerHTML = managerObj.contentsDiv.innerHTML;
@@ -107,7 +118,7 @@ function modalManager(instanceName, modalContents){
 				managerObj.fadeOutCompleteEventHandler();
 		}
 		else{
-			managerObj.updateHandle = setTimeout(managerObj.documentFadeOutAddressor, 50);
+			managerObj.updateHandle = setTimeout(managerObj.documentFadeOutAddressor, managerObj.callBackSpeed);
 		}
 	};
 	
@@ -129,7 +140,7 @@ function modalManager(instanceName, modalContents){
 		managerObj.contentsSpacer.style.padding = this.top + "px 0px 0px " + this.left + "px";
 		
 		if (managerObj.isVisible)
-			managerObj.updateHandle = window.setTimeout(managerObj.documentUpdateAddressor, 50);
+			managerObj.updateHandle = window.setTimeout(managerObj.documentUpdateAddressor, managerObj.callBackSpeed);
 	};
 	
 	this.setFadeInCompleteEventHandler = function(managerObj, eventHandlerFunc){
