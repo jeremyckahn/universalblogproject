@@ -37,7 +37,7 @@
 	<div class="formContainer">
 	
 		<div class ="label">Current password:</div>
-		
+
 		<input id="txtCurrentPassword" class="txtStandard" type="password" name="txtCurrentPassword" value=""/>
 		
 	</div>
@@ -63,12 +63,19 @@
 	var passwordRequestOutput = document.getElementById("passwordRequestOutput");
 	var modalContainer = document.getElementById("modalContainer");
 	
-	var modal = new modalManager("modal", modalContainer.innerHTML);
+	// These are not assigned yet because the pointer will be lost the use authenticates an action.  Assigned in registerModal()
+	var txtCurrentPassword, btnAuthenticateChanges, btnCancelChanges;
 	
 	var currentPassword, newPassword, newPasswordConfirm;
 	
 	passwordError.style.display = "none";
 	passwordRequestOutput.style.display = "none";
+	
+	var modal = new modalManager("modal", modalContainer);
+	
+	modal.setFadeInCompleteEventHandler(modal, function(){
+		registerModal();
+	});
 	
 	function authenticatePasswordChange(){
 		modal.showModal(modal);
@@ -80,9 +87,15 @@
 	}
 	
 	function killModal(){
-		modal.killModal(modal);	
+		modal.hideModal(modal);	
 	}
 	
-	//alert(document.body.clientHeight);
+	function registerModal(){
+		txtCurrentPassword = document.getElementById("txtCurrentPassword");
+		btnAuthenticateChanges = document.getElementById("btnAuthenticateChanges");
+		btnCancelChanges = document.getElementById("btnCancelChanges");
+		txtCurrentPassword.value = "";
+		txtCurrentPassword.focus();
+	}
 	
 </script>
