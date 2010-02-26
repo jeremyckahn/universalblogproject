@@ -23,8 +23,9 @@ function userManager(){
 		this.adapter.send(this.adapter.xhr, this.eventHandler);
 	};
 	
-	this.resetPassword = function(serverScriptURL, currentPassword, newPassword, newPasswordConfirm){
+	this.resetPassword = function(serverScriptURL, currentPassword, newPassword){
 		// TODO:  THIS ISN'T DONE YET
+		
 		
 	};
 	
