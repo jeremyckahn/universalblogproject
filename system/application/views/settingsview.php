@@ -16,7 +16,7 @@
 	
 	<div class ="label">Confirm new password:</div>
 	
-	<span id="passwordError" class="errorText"></span>
+	<span id="passwordError" class="errorText hidden"></span>
 	
 	<span id="passwordRequestOutput"></span>
 	
@@ -26,7 +26,7 @@
 
 <div class="customUIButtonFrame">
 			
-	<span id="btnSubmitNewPassword" class="button rollover left" onclick="authenticatePasswordChange();">change password</span>
+	<span id="btnSubmitNewPassword" class="button rollover left" onclick="submitPassword();">change password</span>
 
 </div>
 
@@ -68,10 +68,11 @@
 	
 	var currentPassword, newPassword, newPasswordConfirm;
 	
-	passwordError.style.display = "none";
+	//passwordError.style.display = "none";
 	passwordRequestOutput.style.display = "none";
 	
 	var modal = new modalManager("modal", modalContainer);
+	var user = new userManager();
 	
 	modal.setFadeInCompleteEventHandler(modal, function(){
 		registerModal();
@@ -82,8 +83,19 @@
 	}
 	
 	function submitPassword(){
+		//currentPassword = txtCurrentPassword.value;
 		newPassword = txtNewPassword.value;
 		newPasswordConfirm = txtConfirmNewPassword.value;
+		
+		if (newPassword != newPasswordConfirm){
+			setError(passwordError, txtConfirmNewPassword, "The passwords do not match.");
+		}
+		
+		/*user.resetPasswordRequest(
+				"<?= base_url() . "index.php/ubp/changePassword"; ?>", //serverScriptURL
+				currentPassword, // currentPasssword
+				newPassword // newPassword
+			);*/
 	}
 	
 	function killModal(){
@@ -97,5 +109,19 @@
 		txtCurrentPassword.value = "";
 		txtCurrentPassword.focus();
 	}
+	
+	function setError(errorOutput, errorField, errorText){
+		//errorOutput.style.display = "inline";
+		removeClass(errorOutput, "hidden");
+		addClass(errorField, "errorHighlight");
+		errorOutput.innerHTML = errorText;
+		errorField.onfocus = function(){
+			addClass(errorOutput, "hidden");
+			removeClass(errorField, "errorHighlight");
+			errorOutput.innerHTML = "";	
+		};
+	}
+	
+	
 	
 </script>

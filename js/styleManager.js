@@ -1,6 +1,10 @@
 function addClass(element, classToAdd)
 {
-	element.className += " " + classToAdd;
+	// If classToAdd is not already present, add it
+	if (element.className.search(classToAdd) == -1){
+		element.className += " " + classToAdd;
+		element.className = removeTrailingSpacesFrom(element.className);
+	}
 }
 
 function removeClass(element, classToRemove)
@@ -9,6 +13,7 @@ function removeClass(element, classToRemove)
 	if (element.className.search(classToRemove) != -1)
 	{
 		element.className = element.className.replace(classToRemove, "");
+		element.className = removeTrailingSpacesFrom(element.className);
 	}
 }
 

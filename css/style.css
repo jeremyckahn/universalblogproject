@@ -91,6 +91,7 @@ Placed at the top of the file for convenience.*/
 
 .main .errorText:before{
 	content:			"  *  ";
+	display:			inline;
 }
 
 .main .boxedErrorMessage{
@@ -108,6 +109,10 @@ Placed at the top of the file for convenience.*/
 
 .main .boxedErrorMessage a:hover{
 	text-decoration:	underline;	
+}
+
+.main .hidden{
+	display:			none;	
 }
 
 .main .pageSizeConstrain{
@@ -235,6 +240,7 @@ Placed at the top of the file for convenience.*/
 }
 
 .formContainer .label{
+	display:			inline;  /*  THIS MAY BREAK THINGS */
 	font-size:			18pt;
 	margin:				0px 0px 0px 18px;
 }
