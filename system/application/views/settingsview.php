@@ -44,7 +44,7 @@
 	
 	<div class="customUIButtonFrame main">
 		
-		<span id="btnAuthenticateChanges" class="button rollover left" onclick="killModal();">authenticate</span>
+		<span id="btnAuthenticateChanges" class="button rollover left" onclick="submit();">authenticate</span>
 		
 		<span id="btnCancelChanges" class="button rollover right" onclick="killModal();">cancel</span>
 	
@@ -63,13 +63,20 @@
 	var passwordRequestOutput = document.getElementById("passwordRequestOutput");
 	var modalContainer = document.getElementById("modalContainer");
 	
-	// These are not assigned yet because the pointer will be lost the use authenticates an action.  Assigned in registerModal()
+	// These are not assigned yet because the reference will be lost when the user authenticates an action.  Assigned in registerModal()
 	var txtCurrentPassword, btnAuthenticateChanges, btnCancelChanges;
 	
 	var currentPassword, newPassword, newPasswordConfirm;
 	
-	//passwordError.style.display = "none";
 	passwordRequestOutput.style.display = "none";
+	
+	// Pretent enums
+	var changePassword = 1;
+	var changeEmail = 2;
+	var changeSize = 3;
+	
+	// Placeholder, used for submit() later
+	var currentAction;
 	
 	var modal = new modalManager("modal", modalContainer);
 	var user = new userManager();
@@ -78,7 +85,7 @@
 		registerModal();
 	});
 	
-	function authenticatePasswordChange(){
+	function promptForPassword(){
 		modal.showModal(modal);
 	}
 	
@@ -90,6 +97,10 @@
 		if (newPassword != newPasswordConfirm){
 			setError(passwordError, txtConfirmNewPassword, "The passwords do not match.");
 		}
+		else{
+			currentAction = changePassword;
+			promptForPassword();
+		}
 		
 		/*user.resetPasswordRequest(
 				"<?= base_url() . "index.php/ubp/changePassword"; ?>", //serverScriptURL
@@ -99,7 +110,7 @@
 	}
 	
 	function killModal(){
-		modal.hideModal(modal);	
+		modal.hideModal(modal);
 	}
 	
 	function registerModal(){
@@ -120,6 +131,15 @@
 			removeClass(errorField, "errorHighlight");
 			errorOutput.innerHTML = "";	
 		};
+	}
+	
+	function submit(){
+		currentPassword = txtCurrentPassword.value;
+		
+		//alert("woot!");
+		// Do stuff here...
+		
+		modal.hideModal(modal);
 	}
 	
 	

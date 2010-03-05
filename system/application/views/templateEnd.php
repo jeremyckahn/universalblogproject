@@ -1,4 +1,6 @@
 <?= "\n    " ?>
+				<div class="clear"></div>
+			
 			</div> <!-- /content -->
 			
 		</div> <!-- /titleAndContentContainer -->
