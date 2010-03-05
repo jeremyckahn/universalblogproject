@@ -62,6 +62,10 @@ Placed at the top of the file for convenience.*/
 	width:				80%;	
 }
 
+.main .clear{
+	clear:				both;
+}
+
 
 .main .articleHeader, .main .articleHeader a{
 	color:				#333;
