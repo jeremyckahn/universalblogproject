@@ -3,8 +3,7 @@
     {
         parent::Model();
     }
-    
-    
+        
     /***************************************
 	*	DB create functions - BEGIN
 	****************************************/
@@ -206,6 +205,13 @@
 		return $query->result_array() ? TRUE : FALSE;
     }
     
+	function isValidPassword($userID, $password)
+	{
+    	$password = $this->sanitizeString($password);
+		
+		// TODO:  NOT DONE YET
+	}
+	
     function postsRemain($lastPostIDLoaded) // BOOLEAN
     {
     	$query = $this->db->query("SELECT * FROM `blogs` WHERE blogs.blogID < " . $lastPostIDLoaded . " LIMIT 1");
