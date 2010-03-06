@@ -146,6 +146,15 @@ class UBP extends Controller {
 		echo(JSONifyAssocArr($returnVal));
 	}
 	
+	function changePassword()
+	{
+		$userID = $this->session->userdata("userID");
+		$currentPassword = $this->input->post("currentPassword");
+		$newPassword = $this->input->post("newPassword");
+		
+		//if ($this->UBP_DAL->getUserDataArray($userID, $currentPassword))
+	}
+	
 	function resetPassword()
 	{
 		$this->form_validation->set_rules('password', 'password', 'requiredmin_length[' . $this->MIN_PASSWORD_LENGTH . ']|required|max_length[' . $this->MAX_PASSWORD_LENGTH . ']');

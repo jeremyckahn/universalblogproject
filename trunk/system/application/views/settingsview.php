@@ -70,13 +70,13 @@
 	
 	passwordRequestOutput.style.display = "none";
 	
-	// Pretent enums
+	// Pretend enums
 	var changePassword = 1;
 	var changeEmail = 2;
 	var changeSize = 3;
 	
 	// Placeholder, used for submit() later
-	var currentAction;
+	var submitAction;
 	
 	var modal = new modalManager("modal", modalContainer);
 	var user = new userManager();
@@ -98,7 +98,7 @@
 			setError(passwordError, txtConfirmNewPassword, "The passwords do not match.");
 		}
 		else{
-			currentAction = changePassword;
+			submitAction = changePassword;
 			promptForPassword();
 		}
 		
@@ -136,8 +136,17 @@
 	function submit(){
 		currentPassword = txtCurrentPassword.value;
 		
-		//alert("woot!");
-		// Do stuff here...
+		switch(submitAction){
+			case changePassword:
+				//alert("Changing password...");
+				break;
+			case changeEmail:
+			
+				break;
+			case changeSize:
+		
+				break;
+		}
 		
 		modal.hideModal(modal);
 	}
