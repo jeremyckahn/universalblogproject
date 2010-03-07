@@ -205,11 +205,15 @@
 		return $query->result_array() ? TRUE : FALSE;
     }
     
+	// TODO:  TEST!!
 	function isValidPassword($userID, $password)
 	{
     	$password = $this->sanitizeString($password);
 		
-		// TODO:  NOT DONE YET
+		$query = $this->db->query("SELECT DISTINCT * FROM users WHERE userID = " . $userID . " AND password = \"" . md5($password) . "\"");
+		
+		// If the query finds anything, return TRUE
+		return $query->result_array() ? TRUE : FALSE;
 	}
 	
     function postsRemain($lastPostIDLoaded) // BOOLEAN

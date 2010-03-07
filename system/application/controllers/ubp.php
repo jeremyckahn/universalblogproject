@@ -137,8 +137,6 @@ class UBP extends Controller {
 		$from = "jeremyckahn@gmail.com";
 		$headers = "From: $from";
 		mail($to,$subject,$message,$headers);
-		// THIS NEEDS TO BE TESTED ON A SERVER
-	
 
 		$returnVal["requestComplete"] = TRUE;
 		$returnVal["requestMessage"] = '<p class=\"blockNarrow blockCenter\">Instructions on how to reset the password for \\"' . $username . '\\" have been sent to \\"' . $email . '.\\"  Please note that this reset request will only be active for 20 minutes, after that you will have to make another request with this form.</p>';
@@ -149,10 +147,32 @@ class UBP extends Controller {
 	function changePassword()
 	{
 		$userID = $this->session->userdata("userID");
+		$username = $this->session->userdata("username");
 		$currentPassword = $this->input->post("currentPassword");
 		$newPassword = $this->input->post("newPassword");
 		
-		//if ($this->UBP_DAL->getUserDataArray($userID, $currentPassword))
+		$returnVal = array(
+			"passwordChanged" => FALSE,
+			"messages" => array()
+		);
+		
+		if ($this->UBP_DAL->isValidPassword($userID, $currentPassword))
+		{
+			if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
+			{
+				$returnVal["passwordChanged"] = TRUE;
+			}
+			else
+			{
+				$returnVal["messages"][] = "There was a server error.  Please try again later.";
+			}
+		}
+		else
+		{
+			$returnVal["messages"][] = "The current password supplied is not the correct one for this account.  Please try again.";
+		}
+		
+		echo JSONifyAssocArr($returnVal);
 	}
 	
 	function resetPassword()

@@ -101,12 +101,6 @@
 			submitAction = changePassword;
 			promptForPassword();
 		}
-		
-		/*user.resetPasswordRequest(
-				"<?= base_url() . "index.php/ubp/changePassword"; ?>", //serverScriptURL
-				currentPassword, // currentPasssword
-				newPassword // newPassword
-			);*/
 	}
 	
 	function killModal(){
@@ -139,6 +133,17 @@
 		switch(submitAction){
 			case changePassword:
 				//alert("Changing password...");
+				
+				user.setPasswordChangeCompleteEventHandler(user, function(){
+					alert(user.serverJSONResponse.passwordChanged);
+					alert(user.serverJSONResponse.messages);
+				});
+				
+				user.resetPassword(
+					"<?= base_url() . "index.php/ubp/changePassword"; ?>", //serverScriptURL
+					currentPassword, // currentPasssword
+					newPassword // newPassword
+				);
 				break;
 			case changeEmail:
 			
