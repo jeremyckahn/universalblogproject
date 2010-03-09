@@ -205,8 +205,7 @@
 		return $query->result_array() ? TRUE : FALSE;
     }
     
-	// TODO:  TEST!!
-	function isValidPassword($userID, $password)
+	function isValidPasswordUserIDCombo($userID, $password)
 	{
     	$password = $this->sanitizeString($password);
 		

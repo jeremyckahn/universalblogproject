@@ -79,7 +79,7 @@ Placed at the top of the file for convenience.*/
 }
 
 .main .blockCenter{
-	margin:				0px auto 0px auto;	
+	margin:				0px auto 0px auto;
 }
 
 .main .content{
@@ -91,6 +91,8 @@ Placed at the top of the file for convenience.*/
 
 .main .errorText{
 	color:				#f00;
+	display: 			block;
+	margin:				0px 0px 12px 0px;
 }
 
 .main .errorText:before{
@@ -115,6 +117,10 @@ Placed at the top of the file for convenience.*/
 	text-decoration:	underline;	
 }
 
+.main .centerAlign{
+	text-align:			center;
+}
+
 .main .hidden{
 	display:			none;	
 }
@@ -133,6 +139,11 @@ Placed at the top of the file for convenience.*/
 
 .main .rollover:hover{
 	color:				#09c;	
+}
+
+.main .serverResponseOutput{
+	margin:				0px auto 0px auto;
+	width:				80%;
 }
 
 .main .userNameDisplay{
