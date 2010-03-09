@@ -139,7 +139,7 @@ class UBP extends Controller {
 		mail($to,$subject,$message,$headers);
 
 		$returnVal["requestComplete"] = TRUE;
-		$returnVal["requestMessage"] = '<p class=\"blockNarrow blockCenter\">Instructions on how to reset the password for \\"' . $username . '\\" have been sent to \\"' . $email . '.\\"  Please note that this reset request will only be active for 20 minutes, after that you will have to make another request with this form.</p>';
+		$returnVal["requestMessage"] = '<p class=\"serverResponseOutput\">Instructions on how to reset the password for \\"' . $username . '\\" have been sent to \\"' . $email . '.\\"  Please note that this reset request will only be active for 20 minutes, after that you will have to make another request with this form.</p>';
 		
 		echo(JSONifyAssocArr($returnVal));
 	}
@@ -156,20 +156,51 @@ class UBP extends Controller {
 			"messages" => array()
 		);
 		
-		if ($this->UBP_DAL->isValidPassword($userID, $currentPassword))
+		if ($this->UBP_DAL->isValidPasswordUserIDCombo($userID, $currentPassword))
 		{
-			if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
+			// This commented block is obsolete and does not work as desired, but will be kept for one SVN commit as a just-in-case.
+			/*if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
 			{
 				$returnVal["passwordChanged"] = TRUE;
+				$returnVal["messages"][] = "Password successfully changed!";
+			}
+			else if ($newPassword < $this->MIN_PASSWORD_LENGTH)
+			{
+				$returnVal["messages"][] = "Your password must be at least " . $this->MIN_PASSWORD_LENGTH . " characters long.";
+			}
+			else if ($newPassword > $this->MAX_PASSWORD_LENGTH)
+			{
+				$returnVal["messages"][] = "Your password may be no longer than " . $this->MAX_PASSWORD_LENGTH . " characters long.";
 			}
 			else
 			{
 				$returnVal["messages"][] = "There was a server error.  Please try again later.";
+			}*/
+			
+			if ((strlen($newPassword) >= $this->MIN_PASSWORD_LENGTH) && (strlen($newPassword) <= $this->MAX_PASSWORD_LENGTH))
+			{
+				if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
+				{
+					$returnVal["passwordChanged"] = TRUE;
+					$returnVal["messages"][] = "Password successfully changed!";
+				}
+				else
+				{
+					$returnVal["messages"][] = "There was a server error.  Please try again later.";
+				}
+			}else if (strlen($newPassword) < $this->MIN_PASSWORD_LENGTH)
+			{
+				$returnVal["messages"][] = "Your password must be at least " . $this->MIN_PASSWORD_LENGTH . " characters long.";
 			}
+			else if (strlen($newPassword) > $this->MAX_PASSWORD_LENGTH)
+			{
+				$returnVal["messages"][] = "Your password may be no longer than " . $this->MAX_PASSWORD_LENGTH . " characters long.";
+			}
+			
 		}
 		else
 		{
-			$returnVal["messages"][] = "The current password supplied is not the correct one for this account.  Please try again.";
+			$returnVal["messages"][] = 'The \"current password\" supplied is not the correct one for this account.  Please try again.';
 		}
 		
 		echo JSONifyAssocArr($returnVal);

@@ -10,17 +10,19 @@
 
 <div class="formContainer">
 	
+	<span id="passwordChangeError" class="errorText hidden"></span>
+	
 	<div class ="label">New password:</div>
 	
 	<input id="txtNewPassword" class="txtStandard" type="password" name="txtNewPassword" value=""/>
 	
 	<div class ="label">Confirm new password:</div>
 	
-	<span id="passwordError" class="errorText hidden"></span>
-	
-	<span id="passwordRequestOutput"></span>
+	<span id="passwordConfirmError" class="errorText hidden"></span>
 	
 	<input id="txtConfirmNewPassword" class="txtStandard" type="password" name="txtConfirmNewPassword" value=""/>
+	
+	<div id="passwordRequestOutput" class="serverResponseOutput centerAlign hidden"></div>
 
 </div>
 
@@ -59,7 +61,8 @@
 <script type="text/javascript">
 	var txtNewPassword = document.getElementById("txtNewPassword");
 	var txtConfirmNewPassword = document.getElementById("txtConfirmNewPassword");
-	var passwordError = document.getElementById("passwordError");
+	var passwordConfirmError = document.getElementById("passwordConfirmError");
+	var passwordChangeError = document.getElementById("passwordChangeError");
 	var passwordRequestOutput = document.getElementById("passwordRequestOutput");
 	var modalContainer = document.getElementById("modalContainer");
 	
@@ -68,7 +71,7 @@
 	
 	var currentPassword, newPassword, newPasswordConfirm;
 	
-	passwordRequestOutput.style.display = "none";
+	//passwordRequestOutput.style.display = "none";
 	
 	// Pretend enums
 	var changePassword = 1;
@@ -90,14 +93,15 @@
 	}
 	
 	function submitPassword(){
-		//currentPassword = txtCurrentPassword.value;
 		newPassword = txtNewPassword.value;
 		newPasswordConfirm = txtConfirmNewPassword.value;
 		
 		if (newPassword != newPasswordConfirm){
-			setError(passwordError, txtConfirmNewPassword, "The passwords do not match.");
+			setError(passwordConfirmError, txtConfirmNewPassword, "The passwords do not match.");
 		}
-		else{
+		else if(newPassword == ""){
+			setError(passwordChangeError, txtNewPassword, "You did not specify a new password.");
+		}else {
 			submitAction = changePassword;
 			promptForPassword();
 		}
@@ -115,28 +119,22 @@
 		txtCurrentPassword.focus();
 	}
 	
-	function setError(errorOutput, errorField, errorText){
-		//errorOutput.style.display = "inline";
-		removeClass(errorOutput, "hidden");
-		addClass(errorField, "errorHighlight");
-		errorOutput.innerHTML = errorText;
-		errorField.onfocus = function(){
-			addClass(errorOutput, "hidden");
-			removeClass(errorField, "errorHighlight");
-			errorOutput.innerHTML = "";	
-		};
-	}
+	
 	
 	function submit(){
 		currentPassword = txtCurrentPassword.value;
 		
 		switch(submitAction){
 			case changePassword:
-				//alert("Changing password...");
-				
 				user.setPasswordChangeCompleteEventHandler(user, function(){
-					alert(user.serverJSONResponse.passwordChanged);
-					alert(user.serverJSONResponse.messages);
+					
+					if (user.serverJSONResponse.passwordChanged){
+						setRemovableOutput(passwordRequestOutput, user.serverJSONResponse.messages[0]);
+					}
+					else{
+						setError(passwordChangeError, txtCurrentPassword, user.serverJSONResponse.messages[0]);
+					}
+					
 				});
 				
 				user.resetPassword(

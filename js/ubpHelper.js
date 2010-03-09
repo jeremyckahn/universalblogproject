@@ -19,3 +19,23 @@ function removeTrailingSpacesFrom(thatString){
 		
 	return thisString;
 }
+
+function setError(errorOutput, errorField, errorText){
+	removeClass(errorOutput, "hidden");
+	addClass(errorField, "errorHighlight");
+	errorOutput.innerHTML = errorText;
+	errorField.onfocus = function(){
+		addClass(errorOutput, "hidden");
+		removeClass(errorField, "errorHighlight");
+		errorOutput.innerHTML = "";	
+	};
+}
+
+function setRemovableOutput(outputContainer, outputContent){
+	removeClass(outputContainer, "hidden");
+	outputContainer.innerHTML = outputContent;
+	outputContainer.onclick = function(){
+		addClass(outputContainer, "hidden");
+		outputContainer.innerHTML = "";	
+	};
+}
