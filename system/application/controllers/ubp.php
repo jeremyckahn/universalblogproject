@@ -157,26 +157,7 @@ class UBP extends Controller {
 		);
 		
 		if ($this->UBP_DAL->isValidPasswordUserIDCombo($userID, $currentPassword))
-		{
-			// This commented block is obsolete and does not work as desired, but will be kept for one SVN commit as a just-in-case.
-			/*if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
-			{
-				$returnVal["passwordChanged"] = TRUE;
-				$returnVal["messages"][] = "Password successfully changed!";
-			}
-			else if ($newPassword < $this->MIN_PASSWORD_LENGTH)
-			{
-				$returnVal["messages"][] = "Your password must be at least " . $this->MIN_PASSWORD_LENGTH . " characters long.";
-			}
-			else if ($newPassword > $this->MAX_PASSWORD_LENGTH)
-			{
-				$returnVal["messages"][] = "Your password may be no longer than " . $this->MAX_PASSWORD_LENGTH . " characters long.";
-			}
-			else
-			{
-				$returnVal["messages"][] = "There was a server error.  Please try again later.";
-			}*/
-			
+		{	
 			if ((strlen($newPassword) >= $this->MIN_PASSWORD_LENGTH) && (strlen($newPassword) <= $this->MAX_PASSWORD_LENGTH))
 			{
 				if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
