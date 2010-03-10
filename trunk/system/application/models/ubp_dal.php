@@ -117,7 +117,8 @@
     }
     
     function getUserDataArray($username, $password) // ARRAY
-    {    
+    {   
+		$returnVal;
     	$username = $this->sanitizeString($username);
     	$password = $this->sanitizeString($password);
     	
@@ -126,12 +127,21 @@
 		
 		$results = $query->result_array();
 		
-		// Unencodes user data for proper output
-		$results[0]["username"] = $this->unsanitizeString($results[0]["username"]);
-		$results[0]["password"] = $this->unsanitizeString($results[0]["password"]);
-		$results[0]["email"] = $this->unsanitizeString($results[0]["email"]);
+		if ($results)
+		{
+			// Unencodes user data for proper output
+			$results[0]["username"] = $this->unsanitizeString($results[0]["username"]);
+			$results[0]["password"] = $this->unsanitizeString($results[0]["password"]);
+			$results[0]["email"] = $this->unsanitizeString($results[0]["email"]);
+			
+			$returnVal = $results[0];
+		}
+		else
+		{
+			$returnVal = FALSE;
+		}
 		
-		return $results ? $results[0] : FALSE;
+		return $returnVal;
     }
     
     function getUserIDFromName($username) // INTEGER
