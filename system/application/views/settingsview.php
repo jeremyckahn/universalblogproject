@@ -6,7 +6,13 @@
 	} 
 ?>
 
-<h2>Change your password</h2>
+<h1 class="indent">user settings</h1>
+
+<div class="separator"></div>
+
+<!------ Change email ------>
+
+<h2>change your password</h2>
 
 <div class="formContainer">
 	
@@ -31,6 +37,40 @@
 	<span id="btnSubmitNewPassword" class="button rollover left" onclick="submitPassword();">change password</span>
 
 </div>
+
+<div class="separator"></div>
+
+<!------ End change email ------>
+
+<!------ Change password ------>
+
+<h2>change your email</h2>
+
+<div class="formContainer">
+	
+	<span id="emailChangeError" class="errorText hidden"></span>
+	
+	<div class="label">Current email:</div>
+	
+	<h3 id="currentEmail"><?= $this->session->userdata("email"); ?></h3>
+	
+	<div class="label">New email:</div>
+	
+	<input id="txtNewEmail" class="txtStandard" type="text" name="txtNewEmail" value=""/>
+	
+	<div id="emailRequestOutput" class="serverResponseOutput centerAlign hidden"></div>
+
+</div>
+
+<div class="customUIButtonFrame">
+			
+	<span id="btnSubmitNewEmail" class="button rollover left" onclick="submitEmail();">change email</span>
+
+</div>
+
+<!------ End change email ------>
+
+
 
 <div id="modalContainer" style="display: none;">
 	
@@ -64,12 +104,15 @@
 	var passwordConfirmError = document.getElementById("passwordConfirmError");
 	var passwordChangeError = document.getElementById("passwordChangeError");
 	var passwordRequestOutput = document.getElementById("passwordRequestOutput");
+	var txtNewEmail = document.getElementById("txtNewEmail");
+	var emailChangeError = document.getElementById("emailChangeError");
+	var emailRequestOutput = document.getElementById("emailRequestOutput");
 	var modalContainer = document.getElementById("modalContainer");
 	
 	// These are not assigned yet because the reference will be lost when the user authenticates an action.  Assigned in registerModal()
 	var txtCurrentPassword, btnAuthenticateChanges, btnCancelChanges;
 	
-	var currentPassword, newPassword, newPasswordConfirm;
+	var currentPassword, newPassword, newPasswordConfirm, newEmail;
 	
 	//passwordRequestOutput.style.display = "none";
 	
@@ -90,6 +133,10 @@
 	
 	function promptForPassword(){
 		modal.showModal(modal);
+	}
+	
+	function submitEmail(){
+		newEmail = txtNewEmail.value;
 	}
 	
 	function submitPassword(){

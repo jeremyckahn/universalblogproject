@@ -24,8 +24,6 @@ function userManager(){
 	};
 	
 	this.resetPassword = function(serverScriptURL, currentPassword, newPassword){
-		// TODO:  THIS ISN'T DONE YET
-		
 		this.url = serverScriptURL;
 		this.parameters = "currentPassword=" + encodeURIComponent(currentPassword.toString());
 		this.parameters += "&newPassword=" + encodeURIComponent(newPassword.toString());

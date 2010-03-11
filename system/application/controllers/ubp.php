@@ -238,7 +238,7 @@ class UBP extends Controller {
 	}
 	
 	function settings()
-	{
+	{	
 		$this->load->view('templateBegin');
 		$this->load->view('settingsview');
 		$this->load->view('templateEnd');
