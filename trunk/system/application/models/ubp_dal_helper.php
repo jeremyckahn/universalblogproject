@@ -78,6 +78,7 @@
 			$sessionData = array(
 				'username' 		=> $user["username"],
 				'userID'   		=> $user["userID"],
+				'email'  		=> $user["email"],
 				'feedPageSize'  => $user["feedPageSize"],
 				'loggedIn' 		=> TRUE
 			);

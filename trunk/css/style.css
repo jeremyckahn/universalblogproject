@@ -36,11 +36,30 @@ Placed at the top of the file for convenience.*/
 	word-wrap:			break-word;
 }
 
+.main h1{
+	margin:				8px 0px 12px 0px;
+}
+
+.main p{
+	font-size:			22px;
+	line-height:		30px;	
+}
+
+.main div .separator{
+	border-bottom:		solid 2px #333;
+	height:				1px;
+	width:				100%;
+}
+
 .main .articleDate{
 	color:				#888;
 	font-size:			16px;
 	font-weight:		normal;
 	margin:				0px 0px 0px 2px;
+}
+
+.main .blockNarrow{
+	width:				80%;	
 }
 
 .main .bracketize:before{
@@ -53,17 +72,12 @@ Placed at the top of the file for convenience.*/
 	content:			" ]";
 }
 
-.main p{
-	font-size:			22px;
-	line-height:		30px;	
-}
-
-.main .blockNarrow{
-	width:				80%;	
-}
-
 .main .clear{
 	clear:				both;
+}
+
+.main .indent{
+	padding:			0px 0px 0px 20px;
 }
 
 
