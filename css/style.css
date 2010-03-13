@@ -135,6 +135,11 @@ Placed at the top of the file for convenience.*/
 	text-align:			center;
 }
 
+.main .contentSpacerMedium{
+	clear:				left;
+	height:				40px;
+}
+
 .main .hidden{
 	display:			none;	
 }
@@ -150,7 +155,6 @@ Placed at the top of the file for convenience.*/
 	margin:				0px 0px 24px 0px;
 }
 
-
 .main .rollover:hover{
 	color:				#09c;	
 }
@@ -159,6 +163,12 @@ Placed at the top of the file for convenience.*/
 	margin:				0px auto 0px auto;
 	width:				80%;
 }
+
+.main .successText{
+	color:				#0c0;	
+}
+
+
 
 .main .userNameDisplay{
 	color:				#888;

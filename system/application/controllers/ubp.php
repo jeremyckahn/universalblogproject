@@ -13,6 +13,7 @@ class UBP extends Controller {
 		$this->MAX_POST_LENGTH = 5000;
 		$this->MAX_BLACKLIST_LIMIT = 20;
 		$this->MAX_DEFAULT_FEED_PAGE_SIZE = 5;
+		$this->SERVER_ERROR_MESSAGE = "There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).";
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
@@ -130,7 +131,7 @@ class UBP extends Controller {
 		// Send the email here
 		// Email/username is valid, send the email
 		$to = $email;
-			$subject = "Your password reset link for the Universal Blog Project";
+		$subject = "Your password reset link for the Universal Blog Project";
 		$message = "Hello, you requested a password reset for universalblogproject.com.  Please visit "
 		. base_url() . "index.php/ubp/resetPassword/resetID/" . $uniqueIdentifier
 		. " to reset your password.  This link will only remain active for 20 minutes.  Thanks for using the site!";
@@ -167,7 +168,7 @@ class UBP extends Controller {
 				}
 				else
 				{
-					$returnVal["messages"][] = "There was a server error.  Please try again later.";
+					$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;
 				}
 			}else if (strlen($newPassword) < $this->MIN_PASSWORD_LENGTH)
 			{
@@ -182,6 +183,56 @@ class UBP extends Controller {
 		else
 		{
 			$returnVal["messages"][] = 'The \"current password\" supplied is not the correct one for this account.  Please try again.';
+		}
+		
+		echo JSONifyAssocArr($returnVal);
+	}
+	
+	// TODO:  This should be put somewhere else.  Put here for ease of development.
+	function changeEmail() // AJAX
+	{
+		$userID = $this->session->userdata("userID");
+		$password = $this->input->post("password");
+		$newEmail = $this->input->post("newEmail");
+		
+		$returnVal = array(
+			"emailChanged" => FALSE,
+			"messages" => array(),
+			"currentEmail" => ""
+		);
+		
+		$this->form_validation->set_rules('newEmail', 'newEmail', 'required|valid_email');
+		
+		if ($this->form_validation->run())
+		{
+			if ($this->UBP_DAL->isValidPasswordUserIDCombo($userID, $password))
+			{
+				if ($this->UBP_DAL->setEmailByUserID($userID, $newEmail))
+				{
+					$returnVal["emailChanged"] = TRUE;
+					$returnVal["messages"][] = "Your email has been changed!";
+					
+					//$currentEmail = getEmailByUserID($userID);
+					//$this->session->set_userdata('some_name', 'some_value');
+					if ($currentEmail = $this->UBP_DAL->getEmailByUserID($userID))
+					{
+						$returnVal["currentEmail"] = $currentEmail;
+						$this->session->set_userdata('email', $currentEmail);
+					}
+				}
+				else
+				{
+					$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;	
+				}
+			}
+			else
+			{
+				$returnVal["messages"][] = "The password was incorrect.  Please try again.";
+			}
+		}
+		else
+		{
+			$returnVal["messages"][] = 'The email \"' . $this->input->post("newEmail") . '\" is not valid.  Please re-check and try again.';
 		}
 		
 		echo JSONifyAssocArr($returnVal);
@@ -238,7 +289,7 @@ class UBP extends Controller {
 	}
 	
 	function settings()
-	{	
+	{		
 		$this->load->view('templateBegin');
 		$this->load->view('settingsview');
 		$this->load->view('templateEnd');
