@@ -73,6 +73,15 @@
 	/***************************************
 	*	DB get/retrieval functions - BEGIN
 	****************************************/
+	
+	function getEmailByUserID($userID) // STRING
+	{
+		$sql = "SELECT email FROM users WHERE userID = \"" . $userID . "\"";
+    	$query = $this->db->query($sql);
+		$results = $query->result_array();
+		
+		return $results ? $results[0]["email"] : FALSE;
+	}
     
     function getPosts($userID, $requestSize, $startFrom) // ARRAY
     {
@@ -146,8 +155,8 @@
     
     function getUserIDFromName($username) // INTEGER
     {
-	    	$sql = "SELECT userID FROM users WHERE username = \"" . $username . "\"";
-	    	$query = $this->db->query($sql);
+    	$sql = "SELECT userID FROM users WHERE username = \"" . $username . "\"";
+    	$query = $this->db->query($sql);
 		$results = $query->result_array();
 		
 		return $results ? $results[0]["userID"] : FALSE;
@@ -170,6 +179,21 @@
 	/***************************************
 	*	DB set/update - BEGIN
 	****************************************/
+	
+	function setEmailByUserID($userID, $newEmail) // BOOLEAN
+	{	
+		$sql = "SELECT * FROM users WHERE users.userID = " . $userID . " AND users.email = \"" . $newEmail . "\"";
+		$query = $this->db->query($sql);
+		
+		// If the new email is the same as the old email, just return true so that the program logic can continue as desired.
+		if ($query->result_array())
+			return TRUE;
+		
+		$sql = "UPDATE users SET users.email = \"" . $newEmail . "\" WHERE users.userID = " . $userID;
+		$this->db->query($sql);
+		
+		return $this->db->affected_rows() ? TRUE : FALSE;
+	}
 	
 	function setPasswordByUserID($userID, $newPassword) // BOOLEAN
 	{

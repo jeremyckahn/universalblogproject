@@ -2,7 +2,27 @@ function userManager(){
 	this.userID
 	this.passwordResetCompleteEventHandler;
 	this.passwordChangeCompleteEventHandler;
+	this.emailChangeCompleteEventHandler;
 	this.serverJSONResponse;
+	
+	this.changeEmail = function(serverScriptURL, password, newEmail){
+		this.url = serverScriptURL;
+		this.parameters = "&password=" + encodeURIComponent(password.toString());
+		this.parameters += "&newEmail=" + encodeURIComponent(newEmail.toString());
+		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
+		
+		this.eventHandler = function(managerObj){
+			if (managerObj.adapter.xhr.readyState == 4)
+			{
+				managerObj.serverJSONResponse = JSON.parse(managerObj.adapter.xhr.responseText);
+				
+				if (managerObj.emailChangeCompleteEventHandler != null)
+					managerObj.emailChangeCompleteEventHandler();
+			}	
+		};
+		
+		this.adapter.send(this.adapter.xhr, this.eventHandler);	
+	}
 	
 	this.resetPasswordRequest = function(serverScriptURL, username, email){
 		this.url = serverScriptURL;
@@ -40,6 +60,10 @@ function userManager(){
 		};
 		
 		this.adapter.send(this.adapter.xhr, this.eventHandler);
+	};
+	
+	this.setEmailChangeCompleteEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.emailChangeCompleteEventHandler = eventHandlerFunc;
 	};
 	
 	this.setPasswordResetCompleteEventHandler = function(managerObj, eventHandlerFunc){

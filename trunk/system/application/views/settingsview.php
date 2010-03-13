@@ -8,9 +8,9 @@
 
 <h1 class="indent">user settings</h1>
 
-<div class="separator"></div>
+<div class="contentSpacerMedium"></div>
 
-<!------ Change email ------>
+<!------ Change password ------>
 
 <h2>change your password</h2>
 
@@ -28,7 +28,7 @@
 	
 	<input id="txtConfirmNewPassword" class="txtStandard" type="password" name="txtConfirmNewPassword" value=""/>
 	
-	<div id="passwordRequestOutput" class="serverResponseOutput centerAlign hidden"></div>
+	<div id="passwordRequestOutput" class="serverResponseOutput centerAlign successText hidden"></div>
 
 </div>
 
@@ -38,27 +38,28 @@
 
 </div>
 
-<div class="separator"></div>
+<div class="contentSpacerMedium"></div>
 
-<!------ End change email ------>
+<!------ End change password ------>
 
-<!------ Change password ------>
+<!------ Change email ------>
 
 <h2>change your email</h2>
 
 <div class="formContainer">
 	
-	<span id="emailChangeError" class="errorText hidden"></span>
-	
 	<div class="label">Current email:</div>
 	
 	<h3 id="currentEmail"><?= $this->session->userdata("email"); ?></h3>
+	
+	<span id="emailChangeError" class="errorText hidden"></span>
 	
 	<div class="label">New email:</div>
 	
 	<input id="txtNewEmail" class="txtStandard" type="text" name="txtNewEmail" value=""/>
 	
-	<div id="emailRequestOutput" class="serverResponseOutput centerAlign hidden"></div>
+	
+	<div id="emailRequestOutput" class="serverResponseOutput centerAlign successText hidden"></div>
 
 </div>
 
@@ -105,6 +106,7 @@
 	var passwordChangeError = document.getElementById("passwordChangeError");
 	var passwordRequestOutput = document.getElementById("passwordRequestOutput");
 	var txtNewEmail = document.getElementById("txtNewEmail");
+	var lblCurrentEmail = document.getElementById("currentEmail");
 	var emailChangeError = document.getElementById("emailChangeError");
 	var emailRequestOutput = document.getElementById("emailRequestOutput");
 	var modalContainer = document.getElementById("modalContainer");
@@ -133,25 +135,6 @@
 	
 	function promptForPassword(){
 		modal.showModal(modal);
-	}
-	
-	function submitEmail(){
-		newEmail = txtNewEmail.value;
-	}
-	
-	function submitPassword(){
-		newPassword = txtNewPassword.value;
-		newPasswordConfirm = txtConfirmNewPassword.value;
-		
-		if (newPassword != newPasswordConfirm){
-			setError(passwordConfirmError, txtConfirmNewPassword, "The passwords do not match.");
-		}
-		else if(newPassword == ""){
-			setError(passwordChangeError, txtNewPassword, "You did not specify a new password.");
-		}else {
-			submitAction = changePassword;
-			promptForPassword();
-		}
 	}
 	
 	function killModal(){
@@ -190,15 +173,59 @@
 					newPassword // newPassword
 				);
 				break;
+				
 			case changeEmail:
-			
+				user.setEmailChangeCompleteEventHandler(user, function(){
+					//alert(user.serverJSONResponse);	
+					if (user.serverJSONResponse.emailChanged){
+						setRemovableOutput(emailRequestOutput, user.serverJSONResponse.messages[0]);
+						lblCurrentEmail.innerHTML = user.serverJSONResponse.currentEmail;
+					}
+					else{
+						setError(emailChangeError, txtNewEmail, user.serverJSONResponse.messages[0]);
+					}
+				});
+				
+				user.changeEmail(
+					"<?= base_url() . "index.php/ubp/changeEmail"; ?>", //serverScriptURL
+					currentPassword, // passsword
+					newEmail // newEmail
+				);
 				break;
+				
 			case changeSize:
 		
 				break;
 		}
 		
 		modal.hideModal(modal);
+	}
+	
+	function submitEmail(){
+		newEmail = txtNewEmail.value;
+		
+		if (newEmail != ""){
+			submitAction = changeEmail;
+			promptForPassword();
+		}
+		else{
+			setError(emailChangeError, txtNewEmail, "You did not specify a new email.");
+		}
+	}
+	
+	function submitPassword(){
+		newPassword = txtNewPassword.value;
+		newPasswordConfirm = txtConfirmNewPassword.value;
+		
+		if (newPassword != newPasswordConfirm){
+			setError(passwordConfirmError, txtConfirmNewPassword, "The passwords do not match.");
+		}
+		else if(newPassword == ""){
+			setError(passwordChangeError, txtNewPassword, "You did not specify a new password.");
+		}else {
+			submitAction = changePassword;
+			promptForPassword();
+		}
 	}
 	
 	
