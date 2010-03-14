@@ -144,6 +144,14 @@ Placed at the top of the file for convenience.*/
 	display:			none;	
 }
 
+.main .largeDropDown{
+	border:				solid #888 1px;
+	font-size:			22px;
+	line-height:		0px;
+	padding:			2px 2px 2px 2px;
+	text-align:			right;
+}
+
 .main .pageSizeConstrain{
 	max-width:			1200px;
 	min-width:			780px;
