@@ -10,7 +10,7 @@
 
 <div class="contentSpacerMedium"></div>
 
-<!------ Change password ------>
+<!-- Change password -->
 
 <h2>change your password</h2>
 
@@ -40,9 +40,9 @@
 
 <div class="contentSpacerMedium"></div>
 
-<!------ End change password ------>
+<!-- End change password -->
 
-<!------ Change email ------>
+<!-- Change email -->
 
 <h2>change your email</h2>
 
@@ -58,7 +58,6 @@
 	
 	<input id="txtNewEmail" class="txtStandard" type="text" name="txtNewEmail" value=""/>
 	
-	
 	<div id="emailRequestOutput" class="serverResponseOutput centerAlign successText hidden"></div>
 
 </div>
@@ -69,11 +68,45 @@
 
 </div>
 
-<!------ End change email ------>
+<div class="contentSpacerMedium"></div>
 
+<!-- End change email -->
 
+<!-- Change feed size -->
 
-<div id="modalContainer" style="display: none;">
+<h2>change your email</h2>
+
+<div class="formContainer">
+	
+	<span id="feedSizeChangeError" class="errorText hidden"></span>
+	
+	<div class="label">Posts per page:</div>
+	
+	<select id="ddlFeedSize" class="largeDropDown">
+	
+	<? for($i = 5; $i <= $maxFeedSize; $i += $feedSizeIncrement): ?>
+		<option value="<?= $i ?>" <? echo($this->session->userdata("feedPageSize") == $i ? "selected=\"selected\"" : "") ?>><?= $i ?></option> 
+		
+	<?  endfor ?>
+	</select>
+	
+	<div id="feedSizeRequestOutput" class="serverResponseOutput centerAlign successText hidden"></div>
+
+</div>
+
+<div class="customUIButtonFrame">
+			
+	<span id="btnSubmitFeedSize" class="button rollover left" onclick="submitFeedSize();">change feed size</span>
+
+</div>
+
+<div class="contentSpacerMedium"></div>
+
+<!-- End change feed size -->
+
+<!-- This is the modal that prompts the user for their password. -->
+
+<div id="modalContainer" class="hidden">
 	
 	<h2>Please confirm your current password.</h2>
 	
@@ -109,12 +142,15 @@
 	var lblCurrentEmail = document.getElementById("currentEmail");
 	var emailChangeError = document.getElementById("emailChangeError");
 	var emailRequestOutput = document.getElementById("emailRequestOutput");
+	var feedSizeChangeError = document.getElementById("feedSizeChangeError");
+	var ddlFeedSize = document.getElementById("ddlFeedSize");
+	var feedSizeRequestOutput = document.getElementById("feedSizeRequestOutput");
 	var modalContainer = document.getElementById("modalContainer");
 	
 	// These are not assigned yet because the reference will be lost when the user authenticates an action.  Assigned in registerModal()
 	var txtCurrentPassword, btnAuthenticateChanges, btnCancelChanges;
 	
-	var currentPassword, newPassword, newPasswordConfirm, newEmail;
+	var currentPassword, newPassword, newPasswordConfirm, newEmail, feedSize;
 	
 	//passwordRequestOutput.style.display = "none";
 	
@@ -149,8 +185,6 @@
 		txtCurrentPassword.focus();
 	}
 	
-	
-	
 	function submit(){
 		currentPassword = txtCurrentPassword.value;
 		
@@ -176,7 +210,6 @@
 				
 			case changeEmail:
 				user.setEmailChangeCompleteEventHandler(user, function(){
-					//alert(user.serverJSONResponse);	
 					if (user.serverJSONResponse.emailChanged){
 						setRemovableOutput(emailRequestOutput, user.serverJSONResponse.messages[0]);
 						lblCurrentEmail.innerHTML = user.serverJSONResponse.currentEmail;
@@ -194,7 +227,20 @@
 				break;
 				
 			case changeSize:
-		
+				user.setFeedSizeChangeCompleteEventHandler(user, function(){
+					if (user.serverJSONResponse.feedSizeChanged){
+						setRemovableOutput(feedSizeRequestOutput, user.serverJSONResponse.messages[0]);
+					}
+					else{
+						setError(feedSizeChangeError, ddlFeedSize, user.serverJSONResponse.messages[0]);
+					}
+				});
+				
+				user.changeFeedSize(
+					"<?= base_url() . "index.php/ubp/changeFeedSize"; ?>", //serverScriptURL
+					currentPassword, // passsword
+					feedSize // newEmail
+				);
 				break;
 		}
 		
@@ -213,6 +259,12 @@
 		}
 	}
 	
+	function submitFeedSize(){
+		feedSize = ddlFeedSize.value;
+		submitAction = changeSize;
+		promptForPassword();
+	}
+	
 	function submitPassword(){
 		newPassword = txtNewPassword.value;
 		newPasswordConfirm = txtConfirmNewPassword.value;
@@ -227,7 +279,5 @@
 			promptForPassword();
 		}
 	}
-	
-	
 	
 </script>

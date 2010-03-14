@@ -1,8 +1,9 @@
 function userManager(){
-	this.userID
+	this.userID;
+	this.emailChangeCompleteEventHandler;
+	this.feedSizeChangeCompleteEventHandler;
 	this.passwordResetCompleteEventHandler;
 	this.passwordChangeCompleteEventHandler;
-	this.emailChangeCompleteEventHandler;
 	this.serverJSONResponse;
 	
 	this.changeEmail = function(serverScriptURL, password, newEmail){
@@ -22,6 +23,25 @@ function userManager(){
 		};
 		
 		this.adapter.send(this.adapter.xhr, this.eventHandler);	
+	}
+	
+	this.changeFeedSize = function(serverScriptURL, password, feedSize){
+		this.url = serverScriptURL;
+		this.parameters = "&password=" + encodeURIComponent(password.toString());
+		this.parameters += "&feedSize=" + encodeURIComponent(feedSize.toString());
+		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
+		
+		this.eventHandler = function(managerObj){
+			if (managerObj.adapter.xhr.readyState == 4)
+			{
+				managerObj.serverJSONResponse = JSON.parse(managerObj.adapter.xhr.responseText);
+				
+				if (managerObj.feedSizeChangeCompleteEventHandler != null)
+					managerObj.feedSizeChangeCompleteEventHandler();
+			}	
+		};
+		
+		this.adapter.send(this.adapter.xhr, this.eventHandler);		
 	}
 	
 	this.resetPasswordRequest = function(serverScriptURL, username, email){
@@ -60,6 +80,10 @@ function userManager(){
 		};
 		
 		this.adapter.send(this.adapter.xhr, this.eventHandler);
+	};
+	
+	this.setFeedSizeChangeCompleteEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.feedSizeChangeCompleteEventHandler = eventHandlerFunc;
 	};
 	
 	this.setEmailChangeCompleteEventHandler = function(managerObj, eventHandlerFunc){

@@ -195,6 +195,21 @@
 		return $this->db->affected_rows() ? TRUE : FALSE;
 	}
 	
+	function setFeedSizeByUserID($userID, $feedSize) // BOOLEAN
+	{	
+		$sql = "SELECT * FROM users WHERE users.userID = " . $userID . " AND users.feedPageSize = \"" . $feedSize . "\"";
+		$query = $this->db->query($sql);
+		
+		// If the new feedPageSize is the same as the old feedPageSize, just return true so that the program logic can continue as desired.
+		if ($query->result_array())
+			return TRUE;
+		
+		$sql = "UPDATE users SET users.feedPageSize = \"" . $feedSize . "\" WHERE users.userID = " . $userID;
+		$this->db->query($sql);
+		
+		return $this->db->affected_rows() ? TRUE : FALSE;
+	}
+	
 	function setPasswordByUserID($userID, $newPassword) // BOOLEAN
 	{
 		$sql = "SELECT * FROM users WHERE users.userID = " . $userID . " AND users.password = \"" . md5($newPassword) . "\"";

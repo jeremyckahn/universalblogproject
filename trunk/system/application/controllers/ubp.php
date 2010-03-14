@@ -13,6 +13,8 @@ class UBP extends Controller {
 		$this->MAX_POST_LENGTH = 5000;
 		$this->MAX_BLACKLIST_LIMIT = 20;
 		$this->MAX_DEFAULT_FEED_PAGE_SIZE = 5;
+		$this->MAX_FEED_PAGE_SIZE = 25;
+		$this->FEED_PAGE_SIZE_INCREMENT = 5;
 		$this->SERVER_ERROR_MESSAGE = "There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).";
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
@@ -212,8 +214,6 @@ class UBP extends Controller {
 					$returnVal["emailChanged"] = TRUE;
 					$returnVal["messages"][] = "Your email has been changed!";
 					
-					//$currentEmail = getEmailByUserID($userID);
-					//$this->session->set_userdata('some_name', 'some_value');
 					if ($currentEmail = $this->UBP_DAL->getEmailByUserID($userID))
 					{
 						$returnVal["currentEmail"] = $currentEmail;
@@ -222,7 +222,7 @@ class UBP extends Controller {
 				}
 				else
 				{
-					$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;	
+					$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;
 				}
 			}
 			else
@@ -233,6 +233,40 @@ class UBP extends Controller {
 		else
 		{
 			$returnVal["messages"][] = 'The email \"' . $this->input->post("newEmail") . '\" is not valid.  Please re-check and try again.';
+		}
+		
+		echo JSONifyAssocArr($returnVal);
+	}
+	
+	// TODO:  This should be put somewhere else.
+	function changeFeedSize()
+	{
+		$userID = $this->session->userdata("userID");
+		$password = $this->input->post("password");
+		$feedSize = $this->input->post("feedSize");
+		
+		$returnVal = array(
+			"feedSizeChanged" => FALSE,
+			"messages" => array()
+		);
+		
+		if ($feedSize > 0 && $feedSize <= $this->MAX_FEED_PAGE_SIZE)
+		{
+			if ($this->UBP_DAL->setFeedSizeByUserID($userID, $feedSize))
+			{
+				$returnVal["feedSizeChanged"] = TRUE;
+				$returnVal["messages"][] = "Feed size changed!";
+				$this->session->set_userdata('feedPageSize', $feedSize);
+				
+			}
+			else
+			{
+				$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;
+			}
+		}
+		else
+		{
+			$returnVal["messages"][] = "Invalid input.  Feed size must be between 0 and " . $this->MAX_FEED_PAGE_SIZE . ".";
 		}
 		
 		echo JSONifyAssocArr($returnVal);
@@ -289,9 +323,14 @@ class UBP extends Controller {
 	}
 	
 	function settings()
-	{		
+	{			
+		$data = array(
+			"maxFeedSize" => $this->MAX_FEED_PAGE_SIZE,
+			"feedSizeIncrement" => $this->FEED_PAGE_SIZE_INCREMENT
+		);
+		
 		$this->load->view('templateBegin');
-		$this->load->view('settingsview');
+		$this->load->view('settingsview', $data);
 		$this->load->view('templateEnd');
 	}
 	
