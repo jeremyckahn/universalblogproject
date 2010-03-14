@@ -13,6 +13,8 @@
 		<meta name="author" content="Jeremy Kahn" />
 		
 		<link rel="SHORTCUT ICON" href="<?= base_url() . "/assets/images/favicon.ico" ?>" />
+		
+		<link rel="alternate" type="application/rss+xml" title="The Universal Blog Project" href="<?= base_url(); ?>index.php/ubp/atom" /> 
 
 
     	<title>the universal blog project</title>

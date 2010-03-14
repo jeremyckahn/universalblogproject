@@ -74,6 +74,14 @@
 	*	DB get/retrieval functions - BEGIN
 	****************************************/
 	
+	function getAtomData($feedSize)
+	{
+		$sql = "SELECT * FROM blogs WHERE isBlacklisted = 0 ORDER BY `blogID` DESC LIMIT " . $feedSize;
+		$query = $this->db->query($sql);
+		$results = $query->result_array();
+		return $results ? $results : FALSE;
+	}
+	
 	function getEmailByUserID($userID) // STRING
 	{
 		$sql = "SELECT email FROM users WHERE userID = \"" . $userID . "\"";
