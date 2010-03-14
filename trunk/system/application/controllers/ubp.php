@@ -16,6 +16,7 @@ class UBP extends Controller {
 		$this->MAX_FEED_PAGE_SIZE = 25;
 		$this->FEED_PAGE_SIZE_INCREMENT = 5;
 		$this->SERVER_ERROR_MESSAGE = "There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).";
+		$this->ATOM_FEED_SIZE = 20;
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
@@ -368,6 +369,15 @@ class UBP extends Controller {
 	/***************************************
 	*	Blog management functions - BEGIN
 	****************************************/
+	
+	function atom()
+	{
+		$data = array(
+			"blogData" => $this->UBP_DAL->getAtomData($this->ATOM_FEED_SIZE)
+		);
+		
+		$this->load->view("atomview", $data);
+	}
 	
 	function blacklistManager()
 	{

@@ -7,7 +7,7 @@
 		
 		<div id="footer" class="footer pageSizeConstrain">
 		
-			<!--<a href = "http://jerbils.com/universalblogproject/feed.atom" class="atomLink">Atom feed</a>-->
+			<a href = "<?php echo base_url(); ?>index.php/ubp/atom" class="atomLink">Atom feed</a>
 			
 			<p class="footerCredits">designed and developed by <a href = "http://www.jerbils.com/" target="_blank">Jeremy Kahn</a> &copy;</p>
 			
