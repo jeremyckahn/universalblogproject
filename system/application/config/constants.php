@@ -36,6 +36,19 @@ define('FOPEN_READ_WRITE_CREATE', 				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT', 			'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+/* Begin custom UBP constants */
+
+define("MIN_USERNAME_LENGTH",						3);
+define("MAX_USERNAME_LENGTH",						20);
+define("MIN_PASSWORD_LENGTH", 						5);
+define("MAX_PASSWORD_LENGTH",						25);
+define("MAX_TITLE_LENGTH",							150);
+define("MAX_POST_LENGTH",							5000);
+define("MAX_BLACKLIST_LIMIT",						20);
+define("MAX_FEED_PAGE_SIZE",						25);
+define("FEED_PAGE_SIZE_INCREMENT",					5);
+define("SERVER_ERROR_MESSAGE",						"There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).");
+define("ATOM_FEED_SIZE",							20);
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */
