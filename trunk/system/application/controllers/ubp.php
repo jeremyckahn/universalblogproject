@@ -5,18 +5,18 @@ class UBP extends Controller {
 	{
 		parent::Controller();
 		
-		$this->MIN_USERNAME_LENGTH = 3;
-		$this->MAX_USERNAME_LENGTH = 20;
-		$this->MIN_PASSWORD_LENGTH = 5;
-		$this->MAX_PASSWORD_LENGTH = 25;
-		$this->MAX_TITLE_LENGTH = 150;
-		$this->MAX_POST_LENGTH = 5000;
-		$this->MAX_BLACKLIST_LIMIT = 20;
-		$this->MAX_DEFAULT_FEED_PAGE_SIZE = 5;
-		$this->MAX_FEED_PAGE_SIZE = 25;
-		$this->FEED_PAGE_SIZE_INCREMENT = 5;
-		$this->SERVER_ERROR_MESSAGE = "There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).";
-		$this->ATOM_FEED_SIZE = 20;
+		/*MIN_USERNAME_LENGTH = 3;
+		MAX_USERNAME_LENGTH = 20;
+		MIN_PASSWORD_LENGTH = 5;
+		MAX_PASSWORD_LENGTH = 25;
+		MAX_TITLE_LENGTH = 150;
+		MAX_POST_LENGTH = 5000;
+		MAX_BLACKLIST_LIMIT = 20;
+
+		MAX_FEED_PAGE_SIZE = 25;
+		FEED_PAGE_SIZE_INCREMENT = 5;
+		SERVER_ERROR_MESSAGE = "There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).";
+		ATOM_FEED_SIZE = 20;*/
 		
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
@@ -162,7 +162,7 @@ class UBP extends Controller {
 		
 		if ($this->UBP_DAL->isValidPasswordUserIDCombo($userID, $currentPassword))
 		{	
-			if ((strlen($newPassword) >= $this->MIN_PASSWORD_LENGTH) && (strlen($newPassword) <= $this->MAX_PASSWORD_LENGTH))
+			if ((strlen($newPassword) >= MIN_PASSWORD_LENGTH) && (strlen($newPassword) <= MAX_PASSWORD_LENGTH))
 			{
 				if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
 				{
@@ -171,15 +171,15 @@ class UBP extends Controller {
 				}
 				else
 				{
-					$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;
+					$returnVal["messages"][] = SERVER_ERROR_MESSAGE;
 				}
-			}else if (strlen($newPassword) < $this->MIN_PASSWORD_LENGTH)
+			}else if (strlen($newPassword) < MIN_PASSWORD_LENGTH)
 			{
-				$returnVal["messages"][] = "Your password must be at least " . $this->MIN_PASSWORD_LENGTH . " characters long.";
+				$returnVal["messages"][] = "Your password must be at least " . MIN_PASSWORD_LENGTH . " characters long.";
 			}
-			else if (strlen($newPassword) > $this->MAX_PASSWORD_LENGTH)
+			else if (strlen($newPassword) > MAX_PASSWORD_LENGTH)
 			{
-				$returnVal["messages"][] = "Your password may be no longer than " . $this->MAX_PASSWORD_LENGTH . " characters long.";
+				$returnVal["messages"][] = "Your password may be no longer than " . MAX_PASSWORD_LENGTH . " characters long.";
 			}
 			
 		}
@@ -223,7 +223,7 @@ class UBP extends Controller {
 				}
 				else
 				{
-					$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;
+					$returnVal["messages"][] = SERVER_ERROR_MESSAGE;
 				}
 			}
 			else
@@ -251,7 +251,7 @@ class UBP extends Controller {
 			"messages" => array()
 		);
 		
-		if ($feedSize > 0 && $feedSize <= $this->MAX_FEED_PAGE_SIZE)
+		if ($feedSize > 0 && $feedSize <= MAX_FEED_PAGE_SIZE)
 		{
 			if ($this->UBP_DAL->setFeedSizeByUserID($userID, $feedSize))
 			{
@@ -262,12 +262,12 @@ class UBP extends Controller {
 			}
 			else
 			{
-				$returnVal["messages"][] = $this->SERVER_ERROR_MESSAGE;
+				$returnVal["messages"][] = SERVER_ERROR_MESSAGE;
 			}
 		}
 		else
 		{
-			$returnVal["messages"][] = "Invalid input.  Feed size must be between 0 and " . $this->MAX_FEED_PAGE_SIZE . ".";
+			$returnVal["messages"][] = "Invalid input.  Feed size must be between 0 and " . MAX_FEED_PAGE_SIZE . ".";
 		}
 		
 		echo JSONifyAssocArr($returnVal);
@@ -275,7 +275,7 @@ class UBP extends Controller {
 	
 	function resetPassword()
 	{
-		$this->form_validation->set_rules('password', 'password', 'requiredmin_length[' . $this->MIN_PASSWORD_LENGTH . ']|required|max_length[' . $this->MAX_PASSWORD_LENGTH . ']');
+		$this->form_validation->set_rules('password', 'password', 'requiredmin_length[' . MIN_PASSWORD_LENGTH . ']|required|max_length[' . MAX_PASSWORD_LENGTH . ']');
 		$this->form_validation->set_rules('confirmPassword', 'password confirmation', 'required|matches[password]');
 		
 		$data = array(
@@ -326,8 +326,8 @@ class UBP extends Controller {
 	function settings()
 	{			
 		$data = array(
-			"maxFeedSize" => $this->MAX_FEED_PAGE_SIZE,
-			"feedSizeIncrement" => $this->FEED_PAGE_SIZE_INCREMENT
+			"maxFeedSize" => MAX_FEED_PAGE_SIZE,
+			"feedSizeIncrement" => FEED_PAGE_SIZE_INCREMENT
 		);
 		
 		$this->load->view('templateBegin');
@@ -339,8 +339,8 @@ class UBP extends Controller {
 	{
 		$userWasSuccessfullyCreated = FALSE;
 		
-		$this->form_validation->set_rules('username', 'username', 'required|min_length[' . $this->MIN_USERNAME_LENGTH . ']|required|max_length[' . $this->MAX_USERNAME_LENGTH . ']');
-		$this->form_validation->set_rules('password', 'password', 'required|min_length[' . $this->MIN_PASSWORD_LENGTH . ']|required|max_length[' . $this->MAX_PASSWORD_LENGTH . ']');
+		$this->form_validation->set_rules('username', 'username', 'required|min_length[' . MIN_USERNAME_LENGTH . ']|required|max_length[' . MAX_USERNAME_LENGTH . ']');
+		$this->form_validation->set_rules('password', 'password', 'required|min_length[' . MIN_PASSWORD_LENGTH . ']|required|max_length[' . MAX_PASSWORD_LENGTH . ']');
 		$this->form_validation->set_rules('passwordConfirm', 'password confirmation', 'required|matches[password]');
 		$this->form_validation->set_rules('email', 'email', 'required|valid_email');
 		
@@ -373,7 +373,7 @@ class UBP extends Controller {
 	function atom()
 	{
 		$data = array(
-			"blogData" => $this->UBP_DAL->getAtomData($this->ATOM_FEED_SIZE)
+			"blogData" => $this->UBP_DAL->getAtomData(ATOM_FEED_SIZE)
 		);
 		
 		$this->load->view("atomview", $data);
@@ -384,7 +384,7 @@ class UBP extends Controller {
 		$userID = $this->input->post("userID");
 		$postID = $this->input->post("postID");
 		
-		echo $this->UBP_DAL->createBlacklist($userID, $postID, $this->MAX_BLACKLIST_LIMIT);
+		echo $this->UBP_DAL->createBlacklist($userID, $postID, MAX_BLACKLIST_LIMIT);
 	}
 
 	function blogLoader()
@@ -426,7 +426,7 @@ class UBP extends Controller {
 		);
 		$postSubmittedSuccessfully = FALSE;
 		
-		$postValidation = validatePostText($this, $title, $post);
+		$postValidation = validatePostText($title, $post);
 		
 		if ($postValidation["isValid"])
 		{
@@ -501,7 +501,7 @@ class UBP extends Controller {
 		$title = $this->input->post("title");
 		$post = $this->input->post("post");
 		
-		echo(JSONifyAssocArr(validatePostText($this, $title, $post)));
+		echo(JSONifyAssocArr(validatePostText($title, $post)));
 	}	
 	
 	/***************************************
