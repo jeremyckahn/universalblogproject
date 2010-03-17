@@ -17,7 +17,7 @@ class UBP extends Controller {
 	
 	function index()
 	{
-		$this->load->view("templateBegin");
+		$this->load->view("template_begin_view");
 		$data = array();
 		
 		if (isset($this->GET_ARRAY["blogID"]))
@@ -25,9 +25,9 @@ class UBP extends Controller {
 			$postArray = $this->UBP_DAL->getPosts(0, 1, $this->GET_ARRAY["blogID"] + 1);
 			$data["singlePost"] = $this->UBP_DAL_HELPER->formatBlogs($postArray, 0, "SINGLEVIEW");
 		}
-		$this->load->view("blogView", $data);
+		$this->load->view("blog_view", $data);
 			
-		$this->load->view("templateEnd");
+		$this->load->view("template_end_view");
 	}
 	
 	/***************************************
@@ -35,9 +35,9 @@ class UBP extends Controller {
 	****************************************/
 	function forgotPassword()
 	{
-		$this->load->view('templateBegin');
-		$this->load->view('forgotPassword');
-		$this->load->view('templateEnd');
+		$this->load->view('template_begin_view');
+		$this->load->view('forgot_password_view');
+		$this->load->view('template_end_view');
 	}
 	
 	function login()
@@ -68,9 +68,9 @@ class UBP extends Controller {
 			}
 		}
 		
-		$this->load->view('templateBegin');
-		$this->load->view('loginForm');
-		$this->load->view('templateEnd');
+		$this->load->view('template_begin_view');
+		$this->load->view('login_view');
+		$this->load->view('template_end_view');
 	}
 	
 	function logout()
@@ -79,9 +79,9 @@ class UBP extends Controller {
 		$this->session->unset_userdata('loggedIn');
 		$this->session->sess_destroy();
 		
-		$this->load->view('templateBegin');
-		$this->load->view('logout');
-		$this->load->view('templateEnd');
+		$this->load->view('template_begin_view');
+		$this->load->view('logout_view');
+		$this->load->view('template_end_view');
 	}
 			
 	function resetPassword()
@@ -129,9 +129,9 @@ class UBP extends Controller {
 			$data["uniqueIdentifier"] = $uniqueIdentifier;
 		}
 		
-		$this->load->view('templateBegin');
-		$this->load->view('passwordResetForm', $data);
-		$this->load->view('templateEnd');
+		$this->load->view('template_begin_view');
+		$this->load->view('password_reset_view', $data);
+		$this->load->view('template_end_view');
 	}
 	
 	function settings()
@@ -141,9 +141,9 @@ class UBP extends Controller {
 			"feedSizeIncrement" => FEED_PAGE_SIZE_INCREMENT
 		);
 		
-		$this->load->view('templateBegin');
-		$this->load->view('settingsview', $data);
-		$this->load->view('templateEnd');
+		$this->load->view('template_begin_view');
+		$this->load->view('settings_view', $data);
+		$this->load->view('template_end_view');
 	}
 	
 	function signup()
@@ -168,9 +168,9 @@ class UBP extends Controller {
 				$this->UBP_DAL_HELPER->logUserIn($this->input->post("username", TRUE), $this->input->post("password", TRUE));
 		}
 		
-		$this->load->view("templateBegin");
-		$this->load->view("signupForm");
-		$this->load->view("templateEnd");
+		$this->load->view("template_begin_view");
+		$this->load->view("signup_view");
+		$this->load->view("template_end_view");
 	}
 	
 	/***************************************
@@ -187,21 +187,21 @@ class UBP extends Controller {
 			"blogData" => $this->UBP_DAL->getAtomData(ATOM_FEED_SIZE)
 		);
 		
-		$this->load->view("atomview", $data);
+		$this->load->view("atom_view", $data);
 	}
 	
 	function info()
 	{
-		$this->load->view("templateBegin");
-		$this->load->view("info");
-		$this->load->view("templateEnd");	
+		$this->load->view("template_begin_view");
+		$this->load->view("info_view");
+		$this->load->view("template_end_view");	
 	}
 	
 	function post()
 	{
-		$this->load->view('templateBegin');
-		$this->load->view('postForm');
-		$this->load->view('templateEnd');
+		$this->load->view('template_begin_view');
+		$this->load->view('post_view');
+		$this->load->view('template_end_view');
 	}
 	
 	/***************************************

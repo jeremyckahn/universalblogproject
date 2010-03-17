@@ -261,7 +261,7 @@ class UBP_AJAX extends Controller {
 		
 		$data["postSubmittedSuccessfully"] = $postSubmittedSuccessfully;
 		
-		$this->load->view('postSubmissionResult', $data);
+		$this->load->view('post_result_view', $data);
 	}
 	
 	function validatePost()
