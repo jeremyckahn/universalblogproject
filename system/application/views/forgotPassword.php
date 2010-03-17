@@ -84,7 +84,7 @@
 		});
 		
 		manager.resetPasswordRequest(
-			"<?= base_url() . "index.php/ubp/createPasswordResetrequest"; ?>", // serverScriptURL
+			"<?= base_url() . "index.php/ubp_ajax/createPasswordResetrequest"; ?>", // serverScriptURL
 			username, // username
 			email // email
 		);

@@ -82,7 +82,7 @@
 		});
 		
 		manager.createPost(
-			"<?= base_url() . "index.php/ubp/createPost"; ?>", // serverScriptURL
+			"<?= base_url() . "index.php/ubp_ajax/createPost"; ?>", // serverScriptURL
 			titleText, // title
 			postText.replace(/\n/g, "<br/>") // post
 		);
@@ -125,7 +125,7 @@
 			});
 		
 			manager.validatePost(
-				"<?= base_url() . "index.php/ubp/validatePost"; ?>", // serverScriptURL
+				"<?= base_url() . "index.php/ubp_ajax/validatePost"; ?>", // serverScriptURL
 				titleText, // titleToValidate
 				postText //postBodyToValidate
 			);

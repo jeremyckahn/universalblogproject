@@ -33,7 +33,7 @@
 		});
 		
 		manager.loadMorePosts(
-			"<?= base_url() . "index.php/ubp/blogLoader"; ?>", // serverScriptURL
+			"<?= base_url() . "index.php/ubp_ajax/blogLoader"; ?>", // serverScriptURL
 			(requestSize ? requestSize : <?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5" ?>), // requestSize
 			manager.getLastPost(manager), // startFrom
 			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?>, // userID
@@ -53,7 +53,7 @@
 	
 			manager.blacklist(
 				manager, // managerObj
-				"<?= base_url() . "index.php/ubp/blacklistManager"; ?>", // serverScriptURL
+				"<?= base_url() . "index.php/ubp_ajax/blacklistManager"; ?>", // serverScriptURL
 				postID, // postID
 				<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?> // userID
 			);
