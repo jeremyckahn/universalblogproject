@@ -4,20 +4,7 @@ class UBP extends Controller {
 	function UBP()
 	{
 		parent::Controller();
-		
-		/*MIN_USERNAME_LENGTH = 3;
-		MAX_USERNAME_LENGTH = 20;
-		MIN_PASSWORD_LENGTH = 5;
-		MAX_PASSWORD_LENGTH = 25;
-		MAX_TITLE_LENGTH = 150;
-		MAX_POST_LENGTH = 5000;
-		MAX_BLACKLIST_LIMIT = 20;
-
-		MAX_FEED_PAGE_SIZE = 25;
-		FEED_PAGE_SIZE_INCREMENT = 5;
-		SERVER_ERROR_MESSAGE = "There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).";
-		ATOM_FEED_SIZE = 20;*/
-		
+				
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
 		$this->load->helper(array('form', 'url', 'ubpstring', 'json', 'validation', 'string'));
@@ -96,183 +83,7 @@ class UBP extends Controller {
 		$this->load->view('logout');
 		$this->load->view('templateEnd');
 	}
-	
-	function createPasswordResetrequest()
-	{		
-		$returnVal = array(
-			"requestComplete" => FALSE,
-			"responseMessage" => "",
-			"errorInfo" => array(
-				"invalidArg" => "",
-				"message" => ""
-			)
-		);
-		
-		$username = $this->input->post("username");
-		$email = $this->input->post("email");
-		
-		if (!$this->UBP_DAL->userExists($username))
-		{
-			$returnVal["errorInfo"]["invalidArg"] = "username";
-			$returnVal["errorInfo"]["message"] = "This is not a valid user.";
 			
-			exit(JSONifyAssocArr($returnVal));
-		}
-		
-		if (!$this->UBP_DAL->isValidUsernameEmailCombination($username, $email))
-		{
-			$returnVal["errorInfo"]["invalidArg"] = "email";
-			$returnVal["errorInfo"]["message"] = 'The email address specified does not match what is on record for \\"' . $username . '\\"';  // Mind the escape javascript quote escapes!
-			
-			exit(JSONifyAssocArr($returnVal));
-		}
-		
-		$userID = $this->UBP_DAL->getUserIDFromName($username);
-		$uniqueIdentifier = $this->session->userdata("session_id");
-		$this->UBP_DAL->createPasswordResetEntry($userID, $uniqueIdentifier);
-		
-		// Send the email here
-		// Email/username is valid, send the email
-		$to = $email;
-		$subject = "Your password reset link for the Universal Blog Project";
-		$message = "Hello, you requested a password reset for universalblogproject.com.  Please visit "
-		. base_url() . "index.php/ubp/resetPassword/resetID/" . $uniqueIdentifier
-		. " to reset your password.  This link will only remain active for 20 minutes.  Thanks for using the site!";
-		$from = "jeremyckahn@gmail.com";
-		$headers = "From: $from";
-		mail($to,$subject,$message,$headers);
-
-		$returnVal["requestComplete"] = TRUE;
-		$returnVal["requestMessage"] = '<p class=\"serverResponseOutput\">Instructions on how to reset the password for \\"' . $username . '\\" have been sent to \\"' . $email . '.\\"  Please note that this reset request will only be active for 20 minutes, after that you will have to make another request with this form.</p>';
-		
-		echo(JSONifyAssocArr($returnVal));
-	}
-	
-	function changePassword()
-	{
-		$userID = $this->session->userdata("userID");
-		$username = $this->session->userdata("username");
-		$currentPassword = $this->input->post("currentPassword");
-		$newPassword = $this->input->post("newPassword");
-		
-		$returnVal = array(
-			"passwordChanged" => FALSE,
-			"messages" => array()
-		);
-		
-		if ($this->UBP_DAL->isValidPasswordUserIDCombo($userID, $currentPassword))
-		{	
-			if ((strlen($newPassword) >= MIN_PASSWORD_LENGTH) && (strlen($newPassword) <= MAX_PASSWORD_LENGTH))
-			{
-				if ($this->UBP_DAL->setPasswordByUserID($userID, $newPassword))
-				{
-					$returnVal["passwordChanged"] = TRUE;
-					$returnVal["messages"][] = "Password successfully changed!";
-				}
-				else
-				{
-					$returnVal["messages"][] = SERVER_ERROR_MESSAGE;
-				}
-			}else if (strlen($newPassword) < MIN_PASSWORD_LENGTH)
-			{
-				$returnVal["messages"][] = "Your password must be at least " . MIN_PASSWORD_LENGTH . " characters long.";
-			}
-			else if (strlen($newPassword) > MAX_PASSWORD_LENGTH)
-			{
-				$returnVal["messages"][] = "Your password may be no longer than " . MAX_PASSWORD_LENGTH . " characters long.";
-			}
-			
-		}
-		else
-		{
-			$returnVal["messages"][] = 'The \"current password\" supplied is not the correct one for this account.  Please try again.';
-		}
-		
-		echo JSONifyAssocArr($returnVal);
-	}
-	
-	// TODO:  This should be put somewhere else.  Put here for ease of development.
-	function changeEmail() // AJAX
-	{
-		$userID = $this->session->userdata("userID");
-		$password = $this->input->post("password");
-		$newEmail = $this->input->post("newEmail");
-		
-		$returnVal = array(
-			"emailChanged" => FALSE,
-			"messages" => array(),
-			"currentEmail" => ""
-		);
-		
-		$this->form_validation->set_rules('newEmail', 'newEmail', 'required|valid_email');
-		
-		if ($this->form_validation->run())
-		{
-			if ($this->UBP_DAL->isValidPasswordUserIDCombo($userID, $password))
-			{
-				if ($this->UBP_DAL->setEmailByUserID($userID, $newEmail))
-				{
-					$returnVal["emailChanged"] = TRUE;
-					$returnVal["messages"][] = "Your email has been changed!";
-					
-					if ($currentEmail = $this->UBP_DAL->getEmailByUserID($userID))
-					{
-						$returnVal["currentEmail"] = $currentEmail;
-						$this->session->set_userdata('email', $currentEmail);
-					}
-				}
-				else
-				{
-					$returnVal["messages"][] = SERVER_ERROR_MESSAGE;
-				}
-			}
-			else
-			{
-				$returnVal["messages"][] = "The password was incorrect.  Please try again.";
-			}
-		}
-		else
-		{
-			$returnVal["messages"][] = 'The email \"' . $this->input->post("newEmail") . '\" is not valid.  Please re-check and try again.';
-		}
-		
-		echo JSONifyAssocArr($returnVal);
-	}
-	
-	// TODO:  This should be put somewhere else.
-	function changeFeedSize()
-	{
-		$userID = $this->session->userdata("userID");
-		$password = $this->input->post("password");
-		$feedSize = $this->input->post("feedSize");
-		
-		$returnVal = array(
-			"feedSizeChanged" => FALSE,
-			"messages" => array()
-		);
-		
-		if ($feedSize > 0 && $feedSize <= MAX_FEED_PAGE_SIZE)
-		{
-			if ($this->UBP_DAL->setFeedSizeByUserID($userID, $feedSize))
-			{
-				$returnVal["feedSizeChanged"] = TRUE;
-				$returnVal["messages"][] = "Feed size changed!";
-				$this->session->set_userdata('feedPageSize', $feedSize);
-				
-			}
-			else
-			{
-				$returnVal["messages"][] = SERVER_ERROR_MESSAGE;
-			}
-		}
-		else
-		{
-			$returnVal["messages"][] = "Invalid input.  Feed size must be between 0 and " . MAX_FEED_PAGE_SIZE . ".";
-		}
-		
-		echo JSONifyAssocArr($returnVal);
-	}
-	
 	function resetPassword()
 	{
 		$this->form_validation->set_rules('password', 'password', 'requiredmin_length[' . MIN_PASSWORD_LENGTH . ']|required|max_length[' . MAX_PASSWORD_LENGTH . ']');
@@ -379,27 +190,6 @@ class UBP extends Controller {
 		$this->load->view("atomview", $data);
 	}
 	
-	function blacklistManager()
-	{
-		$userID = $this->input->post("userID");
-		$postID = $this->input->post("postID");
-		
-		echo $this->UBP_DAL->createBlacklist($userID, $postID, MAX_BLACKLIST_LIMIT);
-	}
-
-	function blogLoader()
-	{	
-		$userID = $this->input->post("userID");
-		$requestSize = $this->input->post("requestSize");
-		$startFrom = $this->input->post("startFrom");
-		
-		// Get user-specific blogs
-		$postArray = $this->UBP_DAL->getPosts($userID, $requestSize, $startFrom);
-		
-		// Output the blogs.
-		echo $this->UBP_DAL_HELPER->formatBlogs($postArray, $userID);
-	}
-	
 	function info()
 	{
 		$this->load->view("templateBegin");
@@ -412,50 +202,6 @@ class UBP extends Controller {
 		$this->load->view('templateBegin');
 		$this->load->view('postForm');
 		$this->load->view('templateEnd');
-	}
-	
-	function createPost()
-	{
-		$title = $this->input->post("title");
-		$post = $this->input->post("post");
-		$data = array(
-			"postSubmittedSuccessfully" => FALSE,
-			"title" => "",
-			"post" => "",
-			"errorMessages" => array()
-		);
-		$postSubmittedSuccessfully = FALSE;
-		
-		$postValidation = validatePostText($title, $post);
-		
-		if ($postValidation["isValid"])
-		{
-			// strip_tags is called on the title and post to sanitize for DB entry.
-			$postSubmittedSuccessfully = $this->UBP_DAL->createPost(
-				strip_tags($title), 
-				strip_tags($post, "<br/>"), 
-				$this->session->userdata("userID")
-			);
-			
-			if (!$postSubmittedSuccessfully)
-			{
-				array_push($data["errorMessages"], "There was an error submitting your post to the database.  Please copy your blog post, refresh the page and try again.  We apologize for the inconvenience.");
-			}
-		}
-		else
-		{
-			array_push($data["errorMessages"], "The post you submitted was not valid.");
-		}
-		
-		if (!$postSubmittedSuccessfully)
-		{
-			$data["title"] = $title;
-			$data["post"] = $post;
-		}
-		
-		$data["postSubmittedSuccessfully"] = $postSubmittedSuccessfully;
-		
-		$this->load->view('postSubmissionResult', $data);
 	}
 	
 	/***************************************
@@ -488,23 +234,4 @@ class UBP extends Controller {
 		}
 	}
 	
-	/***************************************
-	*	Validation callbacks - END
-	****************************************/
-	//-------------------------------------------------------------------------------
-	/***************************************
-	*	Data validators - BEGIN
-	****************************************/
-
-	function validatePost()
-	{
-		$title = $this->input->post("title");
-		$post = $this->input->post("post");
-		
-		echo(JSONifyAssocArr(validatePostText($title, $post)));
-	}	
-	
-	/***************************************
-	*	Data validators - END
-	****************************************/
 }?>

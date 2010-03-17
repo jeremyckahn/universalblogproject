@@ -202,7 +202,7 @@
 				});
 				
 				user.resetPassword(
-					"<?= base_url() . "index.php/ubp/changePassword"; ?>", //serverScriptURL
+					"<?= base_url() . "index.php/ubp_ajax/changePassword"; ?>", //serverScriptURL
 					currentPassword, // currentPasssword
 					newPassword // newPassword
 				);
@@ -220,7 +220,7 @@
 				});
 				
 				user.changeEmail(
-					"<?= base_url() . "index.php/ubp/changeEmail"; ?>", //serverScriptURL
+					"<?= base_url() . "index.php/ubp_ajax/changeEmail"; ?>", //serverScriptURL
 					currentPassword, // passsword
 					newEmail // newEmail
 				);
@@ -237,7 +237,7 @@
 				});
 				
 				user.changeFeedSize(
-					"<?= base_url() . "index.php/ubp/changeFeedSize"; ?>", //serverScriptURL
+					"<?= base_url() . "index.php/ubp_ajax/changeFeedSize"; ?>", //serverScriptURL
 					currentPassword, // passsword
 					feedSize // newEmail
 				);
