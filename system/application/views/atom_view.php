@@ -1,5 +1,4 @@
-<?php /* Don't mind the silly short tag workaround.  Gotta disable that someday. */  ?>
-<?php echo "<?" ?>xml version="1.0" encoding="UTF-8" standalone="yes"<?php echo "?>" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.universalblogproject.com/</id>

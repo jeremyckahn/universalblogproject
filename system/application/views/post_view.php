@@ -1,4 +1,4 @@
-<? if($this->session->userdata("loggedIn")){ 
+<?php if($this->session->userdata("loggedIn")){ 
 	
 	$formAttributes = array(
 					"id" => "fieldContainer",
@@ -23,7 +23,7 @@
 	
 		<textarea id = "txtPost" class="txtPost" name="post" rows="10" cols="30" onfocus="resetErrorStyle(this, postError);"></textarea>
 	
-		<div style="color: #f00;"><?= validation_errors(); ?></div>
+		<div style="color: #f00;"><?php echo validation_errors(); ?></div>
 		
 	</div>
 	
@@ -45,7 +45,7 @@
 	
 </div>
 
-<script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . "js/blogManager.js"; ?>"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -82,7 +82,7 @@
 		});
 		
 		manager.createPost(
-			"<?= base_url() . "index.php/ubp_ajax/createPost"; ?>", // serverScriptURL
+			"<?php echo base_url() . "index.php/ubp_ajax/createPost"; ?>", // serverScriptURL
 			titleText, // title
 			postText.replace(/\n/g, "<br/>") // post
 		);
@@ -125,7 +125,7 @@
 			});
 		
 			manager.validatePost(
-				"<?= base_url() . "index.php/ubp_ajax/validatePost"; ?>", // serverScriptURL
+				"<?php echo base_url() . "index.php/ubp_ajax/validatePost"; ?>", // serverScriptURL
 				titleText, // titleToValidate
 				postText //postBodyToValidate
 			);
@@ -158,6 +158,6 @@
 /* ]]> */
 </script>
 
-<?} else {?>
+<?php } else {?>
 	<p>You need to be logged in to make a post.</p>
-<? } ?>
+<?php } ?>

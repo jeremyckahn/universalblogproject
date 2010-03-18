@@ -34,7 +34,7 @@
 
 <!-- JS includes -->
 
-<script type="text/javascript" src="<?= base_url() . "js/userManager.js" ?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . "js/userManager.js"; ?>"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -84,7 +84,7 @@
 		});
 		
 		manager.resetPasswordRequest(
-			"<?= base_url() . "index.php/ubp_ajax/createPasswordResetrequest"; ?>", // serverScriptURL
+			"<?php echo base_url() . "index.php/ubp_ajax/createPasswordResetrequest"; ?>", // serverScriptURL
 			username, // username
 			email // email
 		);

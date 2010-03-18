@@ -50,7 +50,7 @@
 	
 	<div class="label">Current email:</div>
 	
-	<h3 id="currentEmail"><?= $this->session->userdata("email"); ?></h3>
+	<h3 id="currentEmail"><?php echo $this->session->userdata("email"); ?></h3>
 	
 	<span id="emailChangeError" class="errorText hidden"></span>
 	
@@ -84,10 +84,10 @@
 	
 	<select id="ddlFeedSize" class="largeDropDown">
 	
-	<? for($i = 5; $i <= $maxFeedSize; $i += $feedSizeIncrement): ?>
-		<option value="<?= $i ?>" <? echo($this->session->userdata("feedPageSize") == $i ? "selected=\"selected\"" : "") ?>><?= $i ?></option> 
+	<?php for($i = 5; $i <= $maxFeedSize; $i += $feedSizeIncrement): ?>
+		<option value="<?php echo $i; ?>" <?php echo($this->session->userdata("feedPageSize") == $i ? "selected=\"selected\"" : "") ?>><?php echo $i; ?></option> 
 		
-	<?  endfor ?>
+	<?php  endfor ?>
 	</select>
 	
 	<div id="feedSizeRequestOutput" class="serverResponseOutput centerAlign successText hidden"></div>
@@ -129,8 +129,8 @@
 </div>
 
 
-<script type="text/javascript" src="<?= base_url() . "js/userManager.js" ?>"></script>
-<script type="text/javascript" src="<?= base_url() . "js/modalManager.js" ?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . "js/userManager.js"; ?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . "js/modalManager.js"; ?>"></script>
 
 <script type="text/javascript">
 	var txtNewPassword = document.getElementById("txtNewPassword");
@@ -202,7 +202,7 @@
 				});
 				
 				user.resetPassword(
-					"<?= base_url() . "index.php/ubp_ajax/changePassword"; ?>", //serverScriptURL
+					"<?php echo base_url() . "index.php/ubp_ajax/changePassword"; ?>", //serverScriptURL
 					currentPassword, // currentPasssword
 					newPassword // newPassword
 				);
@@ -220,7 +220,7 @@
 				});
 				
 				user.changeEmail(
-					"<?= base_url() . "index.php/ubp_ajax/changeEmail"; ?>", //serverScriptURL
+					"<?php echo base_url() . "index.php/ubp_ajax/changeEmail"; ?>", //serverScriptURL
 					currentPassword, // passsword
 					newEmail // newEmail
 				);
@@ -237,14 +237,14 @@
 				});
 				
 				user.changeFeedSize(
-					"<?= base_url() . "index.php/ubp_ajax/changeFeedSize"; ?>", //serverScriptURL
-					currentPassword, // passsword
+					"<?php echo base_url() . "index.php/ubp_ajax/changeFeedSize"; ?>", //serverScriptURL
 					feedSize // newEmail
 				);
 				break;
 		}
 		
-		modal.hideModal(modal);
+		if (modal.isVisible)
+			modal.hideModal(modal);
 	}
 	
 	function submitEmail(){
@@ -262,7 +262,9 @@
 	function submitFeedSize(){
 		feedSize = ddlFeedSize.value;
 		submitAction = changeSize;
-		promptForPassword();
+		
+		// No need to get user's password, just submit the data.
+		submit();
 	}
 	
 	function submitPassword(){

@@ -25,10 +25,9 @@ function userManager(){
 		this.adapter.send(this.adapter.xhr, this.eventHandler);	
 	}
 	
-	this.changeFeedSize = function(serverScriptURL, password, feedSize){
+	this.changeFeedSize = function(serverScriptURL, feedSize){
 		this.url = serverScriptURL;
-		this.parameters = "&password=" + encodeURIComponent(password.toString());
-		this.parameters += "&feedSize=" + encodeURIComponent(feedSize.toString());
+		this.parameters = "&feedSize=" + encodeURIComponent(feedSize.toString());
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
 		this.eventHandler = function(managerObj){

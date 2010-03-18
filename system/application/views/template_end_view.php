@@ -1,4 +1,4 @@
-<?= "\n    " ?>
+<?php echo "\n    "; ?>
 				<div class="clear"></div>
 			
 			</div> <!-- /content -->

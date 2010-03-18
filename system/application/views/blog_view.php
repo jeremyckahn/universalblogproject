@@ -1,10 +1,10 @@
-<? if(isset($singlePost)) { ?>
+<?php if(isset($singlePost)) { ?>
 
 <div id="mainFeed" class="mainFeed">
-	<?= $singlePost ?>
+	<?php echo $singlePost; ?>
 </div>
 	
-<? } else { ?>
+<?php } else { ?>
 
 <div id="mainFeed" class="mainFeed">
 
@@ -14,7 +14,7 @@
 	<span id="btnPageForward" class="paginationButtonMore rollover" onclick="loadMorePosts();">more</span>
 </div>
 
-<script type="text/javascript" src="<?= base_url() . "js/blogManager.js" ?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . "js/blogManager.js"; ?>"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -33,10 +33,10 @@
 		});
 		
 		manager.loadMorePosts(
-			"<?= base_url() . "index.php/ubp_ajax/blogLoader"; ?>", // serverScriptURL
-			(requestSize ? requestSize : <?= $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5" ?>), // requestSize
+			"<?php echo base_url() . "index.php/ubp_ajax/blogLoader"; ?>", // serverScriptURL
+			(requestSize ? requestSize : <?php echo $this->session->userdata("loggedIn") ? $this->session->userdata("feedPageSize") : "5"; ?>), // requestSize
 			manager.getLastPost(manager), // startFrom
-			<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?>, // userID
+			<?php echo $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0"; ?>, // userID
 			blogContainer // blogContainer
 		);
 	}
@@ -53,9 +53,9 @@
 	
 			manager.blacklist(
 				manager, // managerObj
-				"<?= base_url() . "index.php/ubp_ajax/blacklistManager"; ?>", // serverScriptURL
+				"<?php echo base_url() . "index.php/ubp_ajax/blacklistManager"; ?>", // serverScriptURL
 				postID, // postID
-				<?= $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0" ?> // userID
+				<?php echo $this->session->userdata("loggedIn") ? $this->session->userdata("userID") : "0"; ?> // userID
 			);
 		}
 	}
@@ -63,4 +63,4 @@
 	loadMorePosts();
 /* ]]> */
 </script>
-<? } ?>
+<?php } ?>
