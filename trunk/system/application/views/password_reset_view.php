@@ -1,10 +1,10 @@
-<? if ($passwordSuccessfullyChanged){ ?>
+<?php if ($passwordSuccessfullyChanged){ ?>
 
-<p class="serverResponseOutput">Your password has been changed!  You may now <?= anchor("ubp/login", "log in"); ?> with your new password.</p>
+<p class="serverResponseOutput">Your password has been changed!  You may now <?php echo anchor("ubp/login", "log in"); ?> with your new password.</p>
 
-<? }elseif (!$requestIsValid){ ?>
-	<div class="boxedErrorMessage">The "reset ID" you provided in the URL is either not valid, or has expired.  Please keep in mind that password reset requests expire after 20 minutes.  You may make another reset request <?= anchor("ubp/forgotPassword", "here"); ?>.</div>
-<? } else {
+<?php }elseif (!$requestIsValid){ ?>
+	<div class="boxedErrorMessage">The "reset ID" you provided in the URL is either not valid, or has expired.  Please keep in mind that password reset requests expire after 20 minutes.  You may make another reset request <?php echo anchor("ubp/forgotPassword", "here"); ?>.</div>
+<?php } else {
 	
 	$formAttributes = array(
 						"id" => "passworResetForm",
@@ -14,7 +14,7 @@
 
 <h2>Password reset form</h2>
 
-<?= form_open('ubp/resetPassword/resetID/' . $uniqueIdentifier, $formAttributes); ?>
+<?php echo form_open('ubp/resetPassword/resetID/' . $uniqueIdentifier, $formAttributes); ?>
 
 
 	<span class ="label">New password:</span>
@@ -27,9 +27,9 @@
 
 </form>
 
-<? if (validation_errors()) { ?>
-<div class="boxedErrorMessage"><?= validation_errors(); ?></div>
-<? } ?>
+<?php if (validation_errors()) { ?>
+<div class="boxedErrorMessage"><?php echo validation_errors(); ?></div>
+<?php } ?>
 
 <div class="customUIButtonFrame">
 	
@@ -40,8 +40,8 @@
 <script type="text/javascript">
 	function reset()
 	{
-		document.getElementById("<?= $formAttributes["id"] ?>").submit();
+		document.getElementById("<?php echo $formAttributes["id"]; ?>").submit();
 	}
 </script>
 	
-<? } ?>
+<?php } ?>

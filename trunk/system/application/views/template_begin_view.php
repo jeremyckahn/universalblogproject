@@ -12,24 +12,24 @@
 		
 		<meta name="author" content="Jeremy Kahn" />
 		
-		<link rel="SHORTCUT ICON" href="<?= base_url() . "/assets/images/favicon.ico" ?>" />
+		<link rel="SHORTCUT ICON" href="<?php echo base_url() . "/assets/images/favicon.ico"; ?>" />
 		
-		<link rel="alternate" type="application/rss+xml" title="The Universal Blog Project" href="<?= base_url(); ?>index.php/ubp/atom" /> 
+		<link rel="alternate" type="application/rss+xml" title="The Universal Blog Project" href="<?php echo base_url(); ?>index.php/ubp/atom" /> 
 
 
     	<title>the universal blog project</title>
     	
     	<!-- CSS includes -->
     	
-    	<link rel = "stylesheet" type = "text/css" href = "<?= base_url() . "css/style.css" ?>" />
+    	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url() . "css/style.css"; ?>" />
     	
     	<!-- JavaScript includes -->
     	
-    	<script type="text/javascript" src="<?= base_url() . "js/ajaxHelper.js" ?>"></script>
+    	<script type="text/javascript" src="<?php echo base_url() . "js/ajaxHelper.js"; ?>"></script>
     	
-    	<script type="text/javascript" src="<?= base_url() . "js/ubpHelper.js" ?>"></script>
+    	<script type="text/javascript" src="<?php echo base_url() . "js/ubpHelper.js"; ?>"></script>
     	
-    	<script type="text/javascript" src="<?= base_url() . "js/styleManager.js" ?>"></script>
+    	<script type="text/javascript" src="<?php echo base_url() . "js/styleManager.js"; ?>"></script>
     	
     </head>
     
@@ -44,7 +44,7 @@
 	    	<ul id ="navPanel" class="navPanel">
 
 		    	<li>
-			    	<?= anchor("ubp/index", "the blog", "class=\"navLink rollover\"") . "\n"; ?>
+			    	<?php echo anchor("ubp/index", "the blog", "class=\"navLink rollover\"") . "\n"; ?>
 			    </li>
 			    
 			    <?php
@@ -61,7 +61,7 @@
 			    ?>
 			    
 			    <li>
-			    	<?= anchor("ubp/info", "info", "class=\"navLink rollover\"") . "\n"; ?>
+			    	<?php echo anchor("ubp/info", "info", "class=\"navLink rollover\"") . "\n"; ?>
 			    </li>
 			    
 			    <?php

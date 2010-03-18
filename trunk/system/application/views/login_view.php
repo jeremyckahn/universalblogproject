@@ -1,4 +1,4 @@
-<? if(!$this->session->userdata("loggedIn")){ 
+<?php if(!$this->session->userdata("loggedIn")){ 
 	
 	 $formAttributes = array(
 						"id" => "loginForm",
@@ -7,19 +7,19 @@
 
 <h2 id="welcomeHeader">Hey again.  We just need a little info.</h2>
 
-<?= form_open('ubp/login', $formAttributes); ?>
+<?php echo form_open('ubp/login', $formAttributes); ?>
 
 	<span class ="label">Username:</span>
 	
-	<input id="txtUsername" class="txtStandard" type="text" name="username" value="<?= set_value('username'); ?>"/>
+	<input id="txtUsername" class="txtStandard" type="text" name="username" value="<?php echo set_value('username'); ?>"/>
 			
 	<span class ="label">Password:</span>
 	
-	<input id="txtPassword" class="txtStandard" type="password" name="password" value="<?= set_value('password'); ?>"/>
+	<input id="txtPassword" class="txtStandard" type="password" name="password" value="<?php echo set_value('password'); ?>"/>
 	
-	<? if (validation_errors()) { ?>
+	<?php if (validation_errors()) { ?>
 	<div class="boxedErrorMessage"><?= validation_errors(); ?></div>
-	<? } ?>
+	<?php } ?>
 
 	<div class="customUIButtonFrame">
 		
@@ -27,19 +27,19 @@
 	
 	</div>
 	
-	<?= anchor("ubp/forgotPassword", "I forgot my password", "class=\"forgotPassword rollover bracketize\""); ?>
+	<?php echo anchor("ubp/forgotPassword", "I forgot my password", "class=\"forgotPassword rollover bracketize\""); ?>
 
 </form>
 
 <script type="text/javascript">
 	function login()
 	{
-		document.getElementById("<?= $formAttributes["id"] ?>").submit();
+		document.getElementById("<?php echo $formAttributes["id"]; ?>").submit();
 	}
 </script>
 
-<?} else {?>
-	<h1>Welcome back, <?= $this->session->userdata("username") ?>.</h1>
+<?php } else {?>
+	<h1>Welcome back, <?php echo $this->session->userdata("username"); ?>.</h1>
 	
-	<p>Click <?= anchor("ubp/post", "here"); ?>  to make a post. You can also click your username under the navigation area to access your user control panel.</p>
-<? } ?>
+	<p>Click <?php echo anchor("ubp/post", "here"); ?>  to make a post. You can also click your username under the navigation area to access your user control panel.</p>
+<?php } ?>
