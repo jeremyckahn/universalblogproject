@@ -18,6 +18,7 @@
 <?php
 
 // Formats the date string and adds 5 hours so it displays correctly
+// This can probably be done better.  Look at single_blog_view.php to see how it handles dates.
 function formatDate($dateTime)
 {
 	$dateTime = explode(" ", $dateTime);

@@ -1,5 +1,6 @@
 function blogManager(){
 	this.blogArray;
+	this.blogTemplate
 	this.loadCompleteEventHandler;
 	this.blacklistCompleteEventHandler;
 	this.postValidationCompleteEventHandler;
@@ -82,18 +83,29 @@ function blogManager(){
 		this.eventHandler = function(managerObj){
 			if (managerObj.adapter.xhr.readyState == 4)
 			{
-				managerObj.content.innerHTML += (managerObj.adapter.xhr.responseText);
+				this.serverResponse = JSON.parse(managerObj.adapter.xhr.responseText);
+				this.postData = serverResponse.postData;
 				
-				// TODO:  This should be done with JSON.
-				var blogList = document.getElementById("blogList");
-				managerObj.blogArray = blogList.value.split("_");
-				managerObj.blogArray.pop();
-				managerObj.content.removeChild(blogList);
+				if (!managerObj.blogArray)
+					managerObj.blogArray = new Array();
 				
-				var blogsRemain = document.getElementById("blogsRemain");
-				managerObj.blogsRemain = (blogsRemain.value == "TRUE") ? true : false;
-				managerObj.content.removeChild(blogsRemain);
+				for (i = 0; i < postData.length; i++){
+					
+					// Swap out all of the placeholders with data
+					this.output = manager.blogTemplate.replace(/0postID0/g, this.postData[i].postID)
+					this.output = this.output.replace(/0postTitle0/g, this.postData[i].postTitle);
+					this.output = this.output.replace(/0postBody0/g, this.postData[i].postBody);
+					this.output = this.output.replace(/0postDate0/g, this.postData[i].postDate);
+					
+					// Spit out the data to the container
+					managerObj.content.innerHTML += this.output;
+					
+					// Update the blogArray
+					managerObj.blogArray.push(this.postData[i].postID);
+				}
 				
+				managerObj.blogsRemain = this.serverResponse.postsRemain;
+							
 				if (managerObj.loadCompleteEventHandler != null)
 				{
 					managerObj.loadCompleteEventHandler();
@@ -102,6 +114,14 @@ function blogManager(){
 		};
 		
 		this.adapter.send(this.adapter.xhr, this.eventHandler);
+	};
+	
+	this.formatPost = function(managerObj){
+		
+	};
+	
+	this.setPostTemplate = function(managerObj, template){
+		manager.blogTemplate = template.innerHTML;
 	};
 	
 	this.setloadCompleteEventHandler = function(managerObj, eventHandlerFunc){

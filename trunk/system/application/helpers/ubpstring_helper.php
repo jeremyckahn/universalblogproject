@@ -16,6 +16,12 @@ if ( ! function_exists('arrayToString'))
 	{
 		$returnVal = "[";
 		
+		// Not sure if this if is the best way to go, but it works.
+		if (is_assoc($array))
+		{
+			return JSONifyAssocArr($array);
+		}
+		
 		for ($i = 0; $i < count($array); $i++)
 		{
 			if (is_array($array[$i]))
@@ -39,7 +45,6 @@ if ( ! function_exists('quotify'))
 	{
 		return "\"" . $string . "\"";
 	}	
-}  
-
+}
 
 ?>

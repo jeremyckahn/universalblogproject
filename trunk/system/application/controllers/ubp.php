@@ -22,10 +22,18 @@ class UBP extends Controller {
 		
 		if (isset($this->GET_ARRAY["blogID"]))
 		{
-			$postArray = $this->UBP_DAL->getPosts(0, 1, $this->GET_ARRAY["blogID"] + 1);
-			$data["singlePost"] = $this->UBP_DAL_HELPER->formatBlogs($postArray, 0, "SINGLEVIEW");
+			$data["post"] = $this->UBP_DAL->getPosts(0, 1, $this->GET_ARRAY["blogID"] + 1);
+			$data["post"] = $data["post"][0];
+			//$data["singlePost"] = $this->UBP_DAL_HELPER->formatBlogs($postArray, 0, "SINGLEVIEW");
+			
+//			var_dump($data);
+			
+			$this->load->view("single_post_view", $data);
 		}
-		$this->load->view("blog_view", $data);
+		else
+		{
+			$this->load->view("blog_view", $data);
+		}
 			
 		$this->load->view("template_end_view");
 	}

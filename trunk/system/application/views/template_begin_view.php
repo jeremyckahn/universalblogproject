@@ -38,7 +38,7 @@
 	    <div id="titleAndContentContainer" class="titleAndContentContainer pageSizeConstrain">
 		    
 		    <div id ="mainTitleContainer" class="mainTitleContainer">
-				<span class = "title bracketize" onclick="linkTo('index');">the universal blog project</span>
+				<span class = "title bracketize" onclick="linkTo('<?php echo base_url() ?>');">the universal blog project</span>
 			</div>
 	
 	    	<ul id ="navPanel" class="navPanel">
