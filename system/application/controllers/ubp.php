@@ -24,9 +24,6 @@ class UBP extends Controller {
 		{
 			$data["post"] = $this->UBP_DAL->getPosts(0, 1, $this->GET_ARRAY["blogID"] + 1);
 			$data["post"] = $data["post"][0];
-			//$data["singlePost"] = $this->UBP_DAL_HELPER->formatBlogs($postArray, 0, "SINGLEVIEW");
-			
-//			var_dump($data);
 			
 			$this->load->view("single_post_view", $data);
 		}

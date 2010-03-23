@@ -18,7 +18,7 @@
 	<input id="txtPassword" class="txtStandard" type="password" name="password" value="<?php echo set_value('password'); ?>"/>
 	
 	<?php if (validation_errors()) { ?>
-	<div class="boxedErrorMessage"><?= validation_errors(); ?></div>
+	<div class="boxedErrorMessage"><?php echo validation_errors(); ?></div>
 	<?php } ?>
 
 	<div class="customUIButtonFrame">

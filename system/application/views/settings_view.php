@@ -26,7 +26,7 @@
 	
 	<span id="passwordConfirmError" class="errorText hidden"></span>
 	
-	<input id="txtConfirmNewPassword" class="txtStandard" type="password" name="txtConfirmNewPassword" value=""/>
+	<input id="txtConfirmNewPassword" class="txtStandard" type="password" name="txtConfirmNewPassword" value="" onfocus="attachEnterKeySubmitFunc(this, submitPassword);"/>
 	
 	<div id="passwordRequestOutput" class="serverResponseOutput centerAlign successText hidden"></div>
 
@@ -56,7 +56,7 @@
 	
 	<div class="label">New email:</div>
 	
-	<input id="txtNewEmail" class="txtStandard" type="text" name="txtNewEmail" value=""/>
+	<input id="txtNewEmail" class="txtStandard" type="text" name="txtNewEmail" value="" onfocus="attachEnterKeySubmitFunc(this, submitEmail);"/>
 	
 	<div id="emailRequestOutput" class="serverResponseOutput centerAlign successText hidden"></div>
 
@@ -82,7 +82,7 @@
 	
 	<div class="label">Posts per page:</div>
 	
-	<select id="ddlFeedSize" class="largeDropDown">
+	<select id="ddlFeedSize" class="largeDropDown" onfocus="attachEnterKeySubmitFunc(this, submitFeedSize);">
 	
 	<?php for($i = 5; $i <= $maxFeedSize; $i += $feedSizeIncrement): ?>
 		<option value="<?php echo $i; ?>" <?php echo($this->session->userdata("feedPageSize") == $i ? "selected=\"selected\"" : "") ?>><?php echo $i; ?></option> 
@@ -114,7 +114,7 @@
 	
 		<div class ="label">Current password:</div>
 
-		<input id="txtCurrentPassword" class="txtStandard" type="password" name="txtCurrentPassword" value=""/>
+		<input id="txtCurrentPassword" class="txtStandard" type="password" name="txtCurrentPassword" value="" onfocus="attachEnterKeySubmitFunc(this, submit);"/>
 		
 	</div>
 	

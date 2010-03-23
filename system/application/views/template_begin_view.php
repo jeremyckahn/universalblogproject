@@ -30,6 +30,12 @@
     	<script type="text/javascript" src="<?php echo base_url() . "js/ubpHelper.js"; ?>"></script>
     	
     	<script type="text/javascript" src="<?php echo base_url() . "js/styleManager.js"; ?>"></script>
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				ubpInit();
+			}
+		</script>
     	
     </head>
     
