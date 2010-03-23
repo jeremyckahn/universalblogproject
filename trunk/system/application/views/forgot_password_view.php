@@ -16,7 +16,7 @@
 		
 		<span id="emailError" class="errorText"></span>
 		
-		<input id="txtEmail" class="txtStandard" type="text" name="email" value="" onfocus="resetErrorStyle(this, emailError);"/>
+		<input id="txtEmail" class="txtStandard" type="text" name="email" value="" onfocus="resetErrorStyle(this, emailError); attachEnterKeySubmitFunc(this, requestReminder);"/>
 	
 	</div>
 	
