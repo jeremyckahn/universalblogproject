@@ -40,6 +40,16 @@
     </head>
     
     <body class="main">
+	
+		<noscript>
+		
+			<div class="noScriptCallout">
+			
+				The Universal Blog Project requires JavaScript to function.  Please enable it or use a browser that supports it, such as <a href="http://www.google.com/chrome" class="rollover">Google Chrome</a> or <a href="http://www.getfirefox.com/" class="rollover">Mozilla Firefox</a>.
+			
+			</div>
+			
+		</noscript>
     
 	    <div id="titleAndContentContainer" class="titleAndContentContainer pageSizeConstrain">
 		    

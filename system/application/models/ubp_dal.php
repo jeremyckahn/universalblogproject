@@ -91,6 +91,30 @@
 		return $results ? $results[0]["email"] : FALSE;
 	}
     
+	// An example of usage:  $this->UBP_DAL->getMaxFieldSize("blogs", "post")
+	function getMaxFieldSize($table, $column) // INT
+	{
+		$sql = "DESCRIBE " . $table;
+		$query = $this->db->query($sql);
+		
+		$columns = $query->result_array();
+		
+		foreach ($columns as $item)
+		{
+			if (strtolower($item["Field"]) == strtolower($column))
+			{
+				$resultString = explode("(", $item["Type"]);
+				$resultString = explode(")", $resultString[1]);
+				$resultString = $resultString[0];
+				
+				return (int)$resultString;
+			}
+		}
+		
+		return FALSE;
+	
+	}
+	
     function getPosts($userID, $requestSize, $startFrom) // ARRAY
     {
     	if ($userID)
