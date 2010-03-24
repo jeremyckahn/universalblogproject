@@ -24,6 +24,19 @@ a:link, a:visited, a:active{
 	text-decoration: 	none;
 }
 
+.noScriptCallout{
+	background:			#000;
+	color:				#fff;
+	font-size:			140%;
+	height:				100%;
+	left:				0px;
+	text-align:			center;
+	padding:			200px 0px 0px 0px;
+	position:			fixed;
+	top:				0px;
+	width:				100%;
+}
+
 
 /* Main - this is basically the body and all standard elements.
 Placed at the top of the file for convenience.*/

@@ -16,7 +16,7 @@ class UBP extends Controller {
 	}
 	
 	function index()
-	{
+	{	
 		$this->load->view("template_begin_view");
 		$data = array();
 		
