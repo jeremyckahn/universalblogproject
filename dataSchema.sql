@@ -69,7 +69,7 @@ CREATE TABLE `users` (
   `userID` int(11) NOT NULL auto_increment,
   `username` varchar(60) character set ascii collate ascii_bin NOT NULL,
   `password` varchar(150) character set ascii collate ascii_bin NOT NULL,
-  `email` varchar(30) character set ascii collate ascii_bin default NULL,
+  `email` varchar(150) character set ascii collate ascii_bin default NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `feedPageSize` int(11) NOT NULL default '5',
   PRIMARY KEY  (`userID`)
