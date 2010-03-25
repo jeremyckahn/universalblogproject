@@ -2,6 +2,20 @@
     function Ubp_dal()
     {
         parent::Model();
+		
+		// Define DB constants
+		
+		/* 	COMPRESSION_AMOUNT refers to the potential space taken up by urlencode.
+		*	As it concerns max field lengths and raw text storage, all text is urlencoded.
+		*	This means it potentially takes up 3 times the characters as actually inputted from the user.
+		*	Setting this to 3 and dividing raw text max field lengths by COMPRESSION_AMOUNT
+		*	ensures there will not be an overflow.
+		*/
+		define("COMPRESSION_AMOUNT", 3);
+		define("MAX_POST_LENGTH", (int)($this->getMaxFieldSize("blogs", "post") / COMPRESSION_AMOUNT));
+		define("MAX_USERNAME_LENGTH", (int)($this->getMaxFieldSize("users", "username") / COMPRESSION_AMOUNT));
+		define("MAX_PASSWORD_LENGTH", (int)($this->getMaxFieldSize("users", "password") / COMPRESSION_AMOUNT));
+		define("MAX_TITLE_LENGTH", (int)($this->getMaxFieldSize("blogs", "title") / COMPRESSION_AMOUNT));
     }
         
     /***************************************
@@ -112,7 +126,6 @@
 		}
 		
 		return FALSE;
-	
 	}
 	
     function getPosts($userID, $requestSize, $startFrom) // ARRAY

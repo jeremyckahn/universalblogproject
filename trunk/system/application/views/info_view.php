@@ -21,7 +21,7 @@
 		<li>
 			<h3>Posts have size limits.</h3>
 			<p>
-				Please keep in mind that your space is limited for blog posts.  Titles are limited at 150 characters, and the blog content is limited to 5000 characters.
+				Please keep in mind that your space is limited for blog posts.  Titles are limited at <?php echo MAX_TITLE_LENGTH; ?> characters, and the blog content is limited to <?php echo MAX_POST_LENGTH; ?> characters.
 			</p>
 
 		</li>
@@ -31,6 +31,9 @@
 		</li>
 	</ul>
 	<p>There are filters in place to make sure that the content rules are being respected.  Please keep in mind that users have the ability to &quot;blacklist&quot; posts, so if they find your blog post objectionable, they will be able to hide it from their view.</p>
+	
+	<h2>This project is open source.</h2>
+	<p>This application being developed under the Please Pirate software license (<a href="http://pleasepirate.org/" target="_blank">http://pleasepirate.org/</a>).  You are encouraged to view, use and enjoy the source code in its entirety however you please.  To access the source code, or become involved with the project, please see the <a href="http://code.google.com/p/universalblogproject/source/browse/" target="_blank">Google Code</a> repository.</p>
 
 	<h2>Oh, and an important note...</h2>
-	<p>The Universal Blog Project is still very much in the early stages of development.  It is not yet feature-complete, and there may be some bugs or other issues.  If you find a bug, please do not hesitate to <a href="mailto:jeremyckahn@gmail.com">email the webmaster</a>.  Your help is greatly appreciated!</p>
+	<p>The Universal Blog Project is still being actively developed.  It is not yet feature-complete, and there may be some bugs or other issues.  If you find a bug, please do not hesitate to <a href="mailto:jeremyckahn@gmail.com">email the webmaster</a>.  Your help is greatly appreciated!</p>

@@ -39,11 +39,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 /* Begin custom UBP constants */
 
 define("MIN_USERNAME_LENGTH",						3);
-define("MAX_USERNAME_LENGTH",						20);
 define("MIN_PASSWORD_LENGTH", 						5);
-define("MAX_PASSWORD_LENGTH",						25);
-define("MAX_TITLE_LENGTH",							150);
-define("MAX_POST_LENGTH",							5000);
 define("MAX_BLACKLIST_LIMIT",						20);
 define("MAX_FEED_PAGE_SIZE",						25);
 define("FEED_PAGE_SIZE_INCREMENT",					5);
