@@ -83,6 +83,12 @@ function blogManager(){
 		this.eventHandler = function(managerObj){
 			if (managerObj.adapter.xhr.readyState == 4)
 			{
+				// If no blogs are returned, set the managerObj accordingly.
+				if (managerObj.adapter.xhr.responseText.toString().toLowerCase() == "false"){
+					managerObj.blogsRemain = false;
+					return;
+				}
+				
 				this.serverResponse = JSON.parse(managerObj.adapter.xhr.responseText);
 				this.postData = serverResponse.postData;
 				

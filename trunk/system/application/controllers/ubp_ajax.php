@@ -33,8 +33,8 @@ class UBP_AJAX extends Controller {
 		// Get user-specific blogs
 		$postArray = $this->UBP_DAL->getPosts($userID, $requestSize, $startFrom);
 		
-		// Output the blogs.
-		echo $this->UBP_DAL_HELPER->formatBlogs($postArray, $userID);
+		// Output the blogs.  If the DAL found none, output FALSE.
+		echo $postArray ? $this->UBP_DAL_HELPER->formatBlogs($postArray, $userID) : FALSE;
 	}
 	
 	function changeEmail()

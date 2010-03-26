@@ -49,6 +49,36 @@ if ( ! function_exists('JSONifyAssocArr'))
 	}
 }
 
+if ( ! function_exists('arrayToString'))
+{
+	// TODO:  Incomplete.  This will convert everything into a string and should be changed to allow for different types.  Also may not work for associative works, not tested.
+	function arrayToString($array)
+	{
+		$returnVal = "[";
+		
+		// Not sure if this if is the best way to go, but it works.
+		if (is_assoc($array))
+		{
+			return JSONifyAssocArr($array);
+		}
+		
+		for ($i = 0; $i < count($array); $i++)
+		{
+			if (is_array($array[$i]))
+				$returnVal .= arrayToString($array[$i]);
+			else
+				$returnVal .= quotify($array[$i]);
+			
+			if ($i < count($array) - 1)
+				$returnVal .= ", ";
+		}
+		
+		$returnVal .= "]";
+		
+		return $returnVal;
+	}	
+}
+
 // Function by an anonymous user on php.net:  http://php.net/manual/en/function.is-array.php
 function is_assoc($array) 
 {

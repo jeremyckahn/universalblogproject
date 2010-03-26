@@ -75,7 +75,9 @@
 			manager.setBlacklistCompleteEventHandler(manager, function(){
 				divToCut = document.getElementById("postID_" + postID);
 				blogContainer.removeChild(divToCut);
-				loadMorePosts(1);
+				
+				if (manager.blogsRemain)
+					loadMorePosts(1);
 			});
 	
 			manager.blacklist(
