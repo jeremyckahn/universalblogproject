@@ -165,6 +165,7 @@
 			else
 				$sql = "SELECT * FROM blogs WHERE (blogID < " . $startFrom . ") AND isBlacklisted = 0 ORDER BY `blogID` DESC LIMIT ". ($requestSize);
 		}
+		
 		$query = $this->db->query($sql);
 		$results = $query->result_array();
 		return $results ? $results : FALSE;
@@ -309,9 +310,43 @@
 		return $query->result_array() ? TRUE : FALSE;
 	}
 	
-    function postsRemain($lastPostIDLoaded) // BOOLEAN
+    function postsRemain($lastPostIDLoaded, $userID) // BOOLEAN
     {
-    	$query = $this->db->query("SELECT * FROM `blogs` WHERE blogs.blogID < " . $lastPostIDLoaded . " LIMIT 1");
+		if ($userID)
+		{
+			if ($lastPostIDLoaded == 0)
+			{   
+				// These queries are very similar to those found in getPosts().  It's not Déjà vu.	
+		        $sql = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
+			   . ' LEFT JOIN '
+			   . ' (SELECT innerBlogs.blogID FROM blogs AS innerBlogs'
+			   . ' RIGHT JOIN blacklists ON innerBlogs.blogID = blacklists.blogID'
+			   . ' WHERE blacklists.userID = ' . $userID . ') AS blacklistedBlogs'
+			   . ' ON bigList.blogID = blacklistedBlogs.blogID'
+			   . ' WHERE blacklistedBlogs.blogID IS NULL'
+			   . ' AND bigList.isBlacklisted = 0'
+			   . ' ORDER BY bigList.blogID DESC LIMIT 1)';
+			}
+			else
+			{
+			    $sql = '(SELECT bigList.blogID, bigList.title, bigList.post, bigList.userID, bigList.blacklistCount, bigList.isBlacklisted, bigList.cannotBeBlacklisted, bigList.datePosted from blogs AS bigList'
+			   . ' LEFT JOIN '
+			   . ' (SELECT innerBlogs.blogID FROM blogs AS innerBlogs'
+			   . ' RIGHT JOIN blacklists ON innerBlogs.blogID = blacklists.blogID'
+			   . ' WHERE blacklists.userID = ' . $userID . ') AS blacklistedBlogs'
+			   . ' ON bigList.blogID = blacklistedBlogs.blogID'
+			   . ' WHERE blacklistedBlogs.blogID IS NULL'
+			   . ' AND bigList.blogID < ' . $lastPostIDLoaded
+			   . ' AND bigList.isBlacklisted = 0'
+			   . ' ORDER BY bigList.blogID DESC LIMIT 1)';
+			}
+		}
+		else
+		{
+			$sql = "SELECT * FROM `blogs` WHERE blogs.blogID < " . $lastPostIDLoaded . " LIMIT 1";
+		}
+		
+    	$query = $this->db->query($sql);
     	$results = $query->result_array();
 		return count($results) == 1 ? TRUE : FALSE;
     }

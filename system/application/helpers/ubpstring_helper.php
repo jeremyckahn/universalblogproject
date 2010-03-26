@@ -9,7 +9,8 @@ if ( ! function_exists('strContains'))
 	}	
 }
 
-if ( ! function_exists('arrayToString'))
+// Moved to json_helper.php
+/*if ( ! function_exists('arrayToString'))
 {
 	// TODO:  Incomplete.  This will convert everything into a string and should be changed to allow for different types.  Also may not work for associative works, not tested.
 	function arrayToString($array)
@@ -37,7 +38,7 @@ if ( ! function_exists('arrayToString'))
 		
 		return $returnVal;
 	}	
-}
+}*/
 
 if ( ! function_exists('quotify'))
 {

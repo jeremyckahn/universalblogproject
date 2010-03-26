@@ -29,7 +29,7 @@
 			$returnValue["postData"][] = $postData;
 		}
 		
-		$returnValue["postsRemain"] = $this->UBP_DAL->postsRemain($lastPostIDLoaded);
+		$returnValue["postsRemain"] = $this->UBP_DAL->postsRemain($lastPostIDLoaded, $userID);
 		
 		return JSONifyAssocArr($returnValue);
 	}
