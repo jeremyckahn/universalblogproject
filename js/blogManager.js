@@ -3,6 +3,7 @@ function blogManager(){
 	this.blogTemplate
 	this.loadCompleteEventHandler;
 	this.blacklistCompleteEventHandler;
+	this.loadWaitEventHandler;
 	this.postValidationCompleteEventHandler;
 	this.postSubmitCompleteEventHandler;
 	this.blogsRemain;
@@ -81,6 +82,14 @@ function blogManager(){
 		this.adapter = new ajaxAdapter(this.url, this.parameters, this);
 		
 		this.eventHandler = function(managerObj){
+			if (managerObj.adapter.xhr.readyState == 1)
+			{
+				if (managerObj.loadWaitEventHandler != null)
+				{
+					managerObj.loadWaitEventHandler();
+				}
+			}
+		
 			if (managerObj.adapter.xhr.readyState == 4)
 			{
 				// If no blogs are returned, set the managerObj accordingly.
@@ -136,6 +145,10 @@ function blogManager(){
 	
 	this.setBlacklistCompleteEventHandler = function(managerObj, eventHandlerFunc){
 		managerObj.blacklistCompleteEventHandler = eventHandlerFunc;
+	};
+	
+	this.setLoadWaitEventHandler = function(managerObj, eventHandlerFunc){
+		managerObj.loadWaitEventHandler = eventHandlerFunc;
 	};
 	
 	this.setPostSubmitCompleteEventHandler = function(managerObj, eventHandlerFunc){

@@ -2,43 +2,11 @@
 
 if ( ! function_exists('strContains'))
 {
-	function strContains($string, $subStr)
+	function strContains($haystack, $needle)
 	{
-		//return (stripos($string, $subStr) === FALSE);
-		return ((stripos($string, $subStr) === FALSE) == 1) ? TRUE : FALSE;
+		return ((stripos($haystack, $needle) === FALSE) == 1) ? TRUE : FALSE;
 	}	
 }
-
-// Moved to json_helper.php
-/*if ( ! function_exists('arrayToString'))
-{
-	// TODO:  Incomplete.  This will convert everything into a string and should be changed to allow for different types.  Also may not work for associative works, not tested.
-	function arrayToString($array)
-	{
-		$returnVal = "[";
-		
-		// Not sure if this if is the best way to go, but it works.
-		if (is_assoc($array))
-		{
-			return JSONifyAssocArr($array);
-		}
-		
-		for ($i = 0; $i < count($array); $i++)
-		{
-			if (is_array($array[$i]))
-				$returnVal .= arrayToString($array[$i]);
-			else
-				$returnVal .= quotify($array[$i]);
-			
-			if ($i < count($array) - 1)
-				$returnVal .= ", ";
-		}
-		
-		$returnVal .= "]";
-		
-		return $returnVal;
-	}	
-}*/
 
 if ( ! function_exists('quotify'))
 {

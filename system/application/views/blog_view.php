@@ -10,6 +10,10 @@
 
 </div>
 
+<div id="loadingIndicator" class="hidden">
+	<h2>Loading...</h2>
+</div>
+
 <div id="paginationButton" class="paginationButton">
 	<span id="btnPageForward" class="paginationButtonMore rollover" onclick="loadMorePosts();">more</span>
 </div>
@@ -45,16 +49,23 @@
 	var manager = new blogManager();
 	var blogContainer = document.getElementById("mainFeed");
 	var blogTemplate = document.getElementById("blogTemplate");
+	var loadingIndicator = document.getElementById("loadingIndicator");
 	
 	manager.setPostTemplate(manager, blogTemplate);
 	
 	function loadMorePosts(requestSize)
 	{
+		manager.setLoadWaitEventHandler(manager, function(){
+			removeClass(loadingIndicator, "hidden");
+		});
+	
 		manager.setloadCompleteEventHandler(manager, function(){
+			addClass(loadingIndicator, "hidden");
+			
 			if (!manager.blogsRemain)
 			{
 				var moreButton = document.getElementById("btnPageForward");
-				moreButton.className += " disabled";
+				addClass(moreButton, "disabled");
 				moreButton.onclick = "";
 			}
 		});
