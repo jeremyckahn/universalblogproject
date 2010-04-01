@@ -12,7 +12,17 @@
 			<p class="footerCredits">designed and developed by <a href = "http://www.jerbils.com/" target="_blank">Jeremy Kahn</a> &copy;</p>
 			
 		</div> <!-- /footer -->
-		
+		<script type="text/javascript"> 
+			try 
+			{
+				var pageTracker = _gat._getTracker("UA-10592695-1");
+				pageTracker._trackPageview();
+			} 
+			catch(err) 
+			{
+				
+			}
+		</script>
 	</body>
 	
 </html>

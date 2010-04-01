@@ -7,8 +7,7 @@
         $this->load->model('UBP_DAL', '', TRUE);
     }
     
-	function formatBlogs($postArray, $userID) // ARRAY
-	{		
+	function formatBlogs($postArray, $userID){ // ARRAY
 		$returnValue = array();
 		$returnValue["postData"] = array();
 		$lastPostIDLoaded;
@@ -34,8 +33,7 @@
 		return JSONifyAssocArr($returnValue);
 	}
     
-    function logUserIn($username, $password) // BOOLEAN
-    {
+    function logUserIn($username, $password){ // BOOLEAN
     	$user = $this->UBP_DAL->getUserDataArray($username, $password);
     	
     	if ($user)
@@ -54,4 +52,19 @@
 		else
 			return FALSE;
    }
+   
+   function convertFromOldBlogFormatToPlainText($text){
+		$string = str_replace("", "!!!DELIM!!!", $string);
+   
+		$string = str_replace("###COMMENTBEGIN###", "/*", $string);
+		$string = str_replace("###COMMENTEND###", "*/", $string);
+		$string = str_replace("###SINGLEQUOTE###", "'", $string);
+		
+		$string = str_replace("&#60;", "<", $string);
+		$string = str_replace("&#62;", ">", $string);
+		$string = str_replace("&quot;", "\"", $string);
+		
+		$string = str_replace("&amp;", "&", $string);
+		$string = str_replace("###LINEBREAK###", "<br/>", $string);
+	}
 }?>
