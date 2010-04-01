@@ -7,7 +7,7 @@ class UBP extends Controller {
 				
 		$this->GET_ARRAY = $this->uri->uri_to_assoc();
 		
-		$this->load->helper(array('form', 'url', 'ubpstring', 'json', 'validation', 'string'));
+		$this->load->helper(array('form', 'url', 'ubpstring', 'json', 'validation', 'string', 'file'));
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		
@@ -237,6 +237,18 @@ class UBP extends Controller {
 			$this->form_validation->set_message("canCreateUser", "Uh oh, this user already exists.  Please try a different username.");
 			return FALSE;
 		}
+	}
+	
+	function convert(){
+	
+		/*$data = $this->UBP_DAL->getOldData("users");
+		$this->UBP_DAL->convertUserTable($data);  /**/
+		
+		/*$data = $this->UBP_DAL->getOldData("blogs");
+		$this->UBP_DAL->convertBlogTable($data); /**/
+		
+		echo "Done.";
+		
 	}
 	
 }?>

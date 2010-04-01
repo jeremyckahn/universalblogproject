@@ -46,5 +46,11 @@ define("FEED_PAGE_SIZE_INCREMENT",					5);
 define("SERVER_ERROR_MESSAGE",						"There was a server error.  Please try again later, or contact the webmaster (jeremyckahn@gmail.com).");
 define("ATOM_FEED_SIZE",							20);
 
+// DB values
+define("DATABASE_NAME", "ubp");
+define("DATABASE_HOSTNAME", "localhost");
+define("DATABASE_USERNAME", "root");
+define("DATABASE_PASSWORD", "");
+
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */

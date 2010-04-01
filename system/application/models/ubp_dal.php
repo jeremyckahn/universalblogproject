@@ -374,4 +374,64 @@
     {
     	return urldecode($string);
     }
+	
+	// TEMPORARY!  DELETE ME!!!
+	function getOldData($table){
+		$sql = "USE ubp_old";
+		$this->db->query($sql);
+		$sql = "SELECT * FROM " . $table;
+		$result = $this->db->query($sql);
+		
+		return $result->result_array();
+	}
+	
+	function convertUserTable($userData){
+		$this->db->query("USE ubp");
+		
+		// Turn off auto incrementing
+		$this->db->query("ALTER TABLE  `users` CHANGE  `userID`  `userID` INT( 11 ) NOT NULL");
+		
+		// Turn off timestamping
+		$this->db->query("ALTER TABLE  `users` CHANGE  `timestamp`  `timestamp` TIMESTAMP NULL");
+		
+		foreach ($userData as $user){
+			$sql = "INSERT INTO users(userID, username, password, email, timestamp, feedPageSize) 
+			VALUES(" 
+			. $user["userID"] . ", '" 
+			. $this->sanitizeString($user["username"]) . "', '"
+			. $user["password"] . "', '" 
+			. $this->sanitizeString($user["email"]) . "', '" 
+			. $user["timestamp"] . "', " 
+			. $user["feedPageSize"] . ")";
+			
+			$this->db->query($sql);
+		}
+		
+		// Turn on auto incrementing
+		$this->db->query("ALTER TABLE  `users` CHANGE  `userID`  `userID` INT( 11 ) NOT NULL AUTO_INCREMENT");
+		
+		// Turn on timestamping
+		$this->db->query("ALTER TABLE  `users` CHANGE  `timestamp`  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+		
+		// We're good!
+	}
+	
+	function convertBlogTable($userData){
+		$this->db->query("USE ubp");
+		
+		// Turn off auto incrementing
+		$this->db->query("ALTER TABLE  `blogs` CHANGE  `blogID`  `blogID` INT( 11 ) NOT NULL");
+		
+		// Turn off timestamping
+		$this->db->query("ALTER TABLE  `blogs` CHANGE  `datePosted`  `datePosted` TIMESTAMP NULL");
+		
+		
+		
+		
+		// Turn off auto incrementing
+		$this->db->query("ALTER TABLE  `blogs` CHANGE  `blogID`  `blogID` INT( 11 ) NOT NULL AUTO_INCREMENT");
+		
+		// Turn off timestamping
+		$this->db->query("ALTER TABLE  `blogs` CHANGE  `datePosted`  `datePosted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+	}
 }?>
