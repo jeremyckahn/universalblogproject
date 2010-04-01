@@ -20,10 +20,9 @@
 			
 			$postData["postTitle"] = htmlentities(urldecode($post['title']));
 			$postData["postBody"] = htmlentities(urldecode($post['post']));
-			
+						
 			$datePosted = explode(" ", $post['datePosted']);
-			$datePosted = explode("-", $datePosted[0]);
-			$postData["datePosted"] = $datePosted[1];
+			$postData["datePosted"] = $datePosted[0];
 			
 			$returnValue["postData"][] = $postData;
 		}
