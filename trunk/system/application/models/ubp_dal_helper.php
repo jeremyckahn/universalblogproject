@@ -52,7 +52,7 @@
 			return FALSE;
    }
    
-   function convertFromOldBlogFormatToPlainText($text){
+   function convertFromOldBlogFormatToPlainText($string){
 		$string = str_replace("", "!!!DELIM!!!", $string);
    
 		$string = str_replace("###COMMENTBEGIN###", "/*", $string);
@@ -65,5 +65,7 @@
 		
 		$string = str_replace("&amp;", "&", $string);
 		$string = str_replace("###LINEBREAK###", "<br/>", $string);
+		
+		return $string;
 	}
 }?>

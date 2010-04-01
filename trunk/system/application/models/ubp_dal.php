@@ -385,8 +385,8 @@
 		return $result->result_array();
 	}
 	
-	function convertUserTable($userData){
-		$this->db->query("USE ubp");
+	function convertUserTable($userData, $newDB = "ubp"){
+		$this->db->query("USE " . $newDB);
 		
 		// Turn off auto incrementing
 		$this->db->query("ALTER TABLE  `users` CHANGE  `userID`  `userID` INT( 11 ) NOT NULL");
@@ -416,8 +416,8 @@
 		// We're good!
 	}
 	
-	function convertBlogTable($userData){
-		$this->db->query("USE ubp");
+	function convertBlogTable($blogData, $newDB = "ubp", $helper){
+		$this->db->query("USE " . $newDB);
 		
 		// Turn off auto incrementing
 		$this->db->query("ALTER TABLE  `blogs` CHANGE  `blogID`  `blogID` INT( 11 ) NOT NULL");
@@ -425,7 +425,20 @@
 		// Turn off timestamping
 		$this->db->query("ALTER TABLE  `blogs` CHANGE  `datePosted`  `datePosted` TIMESTAMP NULL");
 		
-		
+		foreach ($blogData as $blog){
+			$sql = "INSERT INTO blogs(blogID, title, post, userID, blacklistCount, isBlacklisted, cannotBeBlacklisted, datePosted)
+			VALUES("
+			. $blog["blogID"] . ", '"
+			. $helper->convertFromOldBlogFormatToPlainText($this->sanitizeString($blog["title"])) . "', '"
+			. $helper->convertFromOldBlogFormatToPlainText($this->sanitizeString($blog["post"])) . "', "
+			. $blog["userID"] . ", "
+			. $blog["blacklistCount"] . ", "
+			. $blog["isBlacklisted"] . ", "
+			. $blog["cannotBeBlacklisted"] . ", '"
+			. $blog["datePosted"] . "')";
+			
+			$this->db->query($sql);
+		}
 		
 		
 		// Turn off auto incrementing
