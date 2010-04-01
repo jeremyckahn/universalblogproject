@@ -240,12 +240,13 @@ class UBP extends Controller {
 	}
 	
 	function convert(){
+		$db = "ubp";
 	
 		/*$data = $this->UBP_DAL->getOldData("users");
-		$this->UBP_DAL->convertUserTable($data, "ubp2");  /**/
+		$this->UBP_DAL->convertUserTable($data, $db);  /**/
 		
-		/*$data = $this->UBP_DAL->getOldData("blogs");
-		$this->UBP_DAL->convertBlogTable($data, "ubp2", $this->UBP_DAL_HELPER); /**/
+		$data = $this->UBP_DAL->getOldData("blogs");
+		$this->UBP_DAL->convertBlogTable($data, $db, $this->UBP_DAL_HELPER); /**/
 		
 		echo "Done.";
 		
