@@ -429,8 +429,8 @@
 			$sql = "INSERT INTO blogs(blogID, title, post, userID, blacklistCount, isBlacklisted, cannotBeBlacklisted, datePosted)
 			VALUES("
 			. $blog["blogID"] . ", '"
-			. $helper->convertFromOldBlogFormatToPlainText($this->sanitizeString($blog["title"])) . "', '"
-			. $helper->convertFromOldBlogFormatToPlainText($this->sanitizeString($blog["post"])) . "', "
+			. $this->sanitizeString($helper->convertFromOldBlogFormatToPlainText($blog["title"])) . "', '"
+			. $this->sanitizeString($helper->convertFromOldBlogFormatToPlainText($blog["post"])) . "', "
 			. $blog["userID"] . ", "
 			. $blog["blacklistCount"] . ", "
 			. $blog["isBlacklisted"] . ", "
