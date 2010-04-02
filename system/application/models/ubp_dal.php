@@ -168,6 +168,10 @@
 		
 		$query = $this->db->query($sql);
 		$results = $query->result_array();
+		
+		// EXPERIMENTAL CODE.  COMMENTED OUT UNTIL NEEDED.
+		//$results[0]["post"] = str_replace("%3Cbr%2F%3E", " <br/> ", $results[0]["post"]);
+		
 		return $results ? $results : FALSE;
     }
     
@@ -436,7 +440,7 @@
 			. $blog["isBlacklisted"] . ", "
 			. $blog["cannotBeBlacklisted"] . ", '"
 			. $blog["datePosted"] . "')";
-			
+			echo $this->sanitizeString($helper->convertFromOldBlogFormatToPlainText($blog["post"]));
 			$this->db->query($sql);
 		}
 		
