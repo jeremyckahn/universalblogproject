@@ -19,7 +19,7 @@
 			$lastPostIDLoaded = $post['blogID'];
 			
 			$postData["postTitle"] = htmlentities(urldecode($post['title']));
-			$postData["postBody"] = htmlentities(urldecode($post['post']));
+			$postData["postBody"] = preserveBRs(htmlentities(urldecode($post['post'])));
 						
 			$datePosted = explode(" ", $post['datePosted']);
 			$postData["datePosted"] = $datePosted[0];

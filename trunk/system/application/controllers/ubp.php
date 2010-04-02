@@ -88,7 +88,7 @@ class UBP extends Controller {
 		$this->load->view('logout_view');
 		$this->load->view('template_end_view');
 	}
-			
+		
 	function resetPassword()
 	{
 		$this->form_validation->set_rules('password', 'password', 'requiredmin_length[' . MIN_PASSWORD_LENGTH . ']|required|max_length[' . MAX_PASSWORD_LENGTH . ']');
