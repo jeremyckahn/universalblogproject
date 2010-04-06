@@ -64,8 +64,6 @@
 		$string = str_replace("&quot;", "\"", $string);
 		
 		$string = str_replace("&amp;", "&", $string);
-		//$string = str_replace("###LINEBREAK###", "&lt;br/&gt;", $string);
-		//$string = str_replace("<br/>", urldecode("<br/>"), $string);
 		
 		return $string;
 	}
