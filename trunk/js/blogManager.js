@@ -97,15 +97,6 @@ function blogManager(){
 					managerObj.blogsRemain = false;
 					return;
 				}
-	
-				// Using this to try to debug a bizarre Chrome bug.
-				/*try {
-					JSON.parse(managerObj.adapter.xhr.responseText)
-				}
-				catch (ex){
-					alert(ex);
-					document.write(managerObj.adapter.xhr.responseText);				
-				}/**/
 				
 				this.serverResponse = JSON.parse(managerObj.adapter.xhr.responseText);
 				this.postData = serverResponse.postData;

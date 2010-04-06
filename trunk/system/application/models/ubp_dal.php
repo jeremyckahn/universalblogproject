@@ -371,7 +371,9 @@
     
     function sanitizeString($string) // STRING
     {
-    	return urlencode($string);
+    	$string = urlencode($string);
+		$string = str_replace("%0D", "", $string);
+		return $string;
     }
     
     function unsanitizeString($string) // STRING
@@ -379,7 +381,10 @@
     	return urldecode($string);
     }
 	
-	// TEMPORARY!  DELETE ME!!!
+	/***************************************
+	*	Data migration functions - BEGIN
+	****************************************/
+	/*
 	function getOldData($table){
 		$sql = "USE ubp_old";
 		$this->db->query($sql);
@@ -440,7 +445,6 @@
 			. $blog["isBlacklisted"] . ", "
 			. $blog["cannotBeBlacklisted"] . ", '"
 			. $blog["datePosted"] . "')";
-			echo $this->sanitizeString($helper->convertFromOldBlogFormatToPlainText($blog["post"]));
 			$this->db->query($sql);
 		}
 		
@@ -451,4 +455,27 @@
 		// Turn off timestamping
 		$this->db->query("ALTER TABLE  `blogs` CHANGE  `datePosted`  `datePosted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
 	}
+	
+	function convertBlacklistTable($blacklistData, $newDB = "ubp", $helper){
+		$this->db->query("USE " . $newDB);
+		
+		// Turn off auto incrementing
+		$this->db->query("ALTER TABLE  `blacklists` CHANGE  `blacklistID`  `blacklistID` INT( 11 ) NOT NULL");
+		
+		foreach ($blacklistData as $blacklist){
+			$sql = "INSERT INTO blacklists(blacklistID, userID, blogID) 
+			VALUES(" 
+			. $blacklist["blacklistID"] . ", " 
+			. $blacklist["userID"] . ", "
+			. $blacklist["blogID"] . ")"; 
+			
+			$this->db->query($sql);
+		}
+		
+		// Turn on auto incrementing
+		$this->db->query("ALTER TABLE  `blacklists` CHANGE  `blacklistID`  `blacklistID` INT( 11 ) NOT NULL AUTO_INCREMENT");
+	}*/
+	/***************************************
+	*	Data migration functions - END
+	****************************************/
 }?>
