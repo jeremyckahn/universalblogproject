@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?php /* Redundant tag echoing done to prevent silly server short-tag interperetations. */ ?>
+<?php echo "<?"; ?>xml version="1.0" encoding="UTF-8" standalone="yes"<?php echo "?>"; ?>
 
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.universalblogproject.com/</id>
@@ -7,6 +8,7 @@
 	<?php foreach ($blogData as $blog): ?>
 	<entry>
 		<title><?php echo urldecode($blog["title"]); ?></title>
+		<link href="<?php echo(base_url() . "index.php/ubp/index/blogID/" . $blog["blogID"]) ?>"/>
 		<published><?php echo formatDate($blog["datePosted"]); ?></published>
 		<updated><?php echo formatDate($blog["datePosted"]); ?></updated>
 		<author><name></name></author>
