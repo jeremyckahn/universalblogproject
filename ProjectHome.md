@@ -1,0 +1,1 @@
+The Universal Blog Project is a blogging site that users can post to, regardless of the subject of their post.  Posts are presented as a collective blog, with the ability to intelligently manage and organize the data.
